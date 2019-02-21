@@ -17,7 +17,7 @@ def main():
 
     # Game initialization
     hero_image = pygame.image.load('numbers/1_background_transparent.png').convert_alpha()
-    
+    pencil_image = pygame.image.load('numbers/2_pencil.png').convert_alpha()
     stop_game = False
 
     while not stop_game:
@@ -34,6 +34,7 @@ def main():
         # Game display
 
         screen.blit(hero_image, (250, 250))
+        screen.blit(pencil_image, (600,600))
 
         pygame.display.update()
 
