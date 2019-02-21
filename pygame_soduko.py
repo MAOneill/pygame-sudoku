@@ -11,7 +11,7 @@ class Cell():
         # self.anser = 
         self.row = row
         self.col = col
-        self.inner = 0  #compute thie
+        #  self.inner = 0  #compute thie
         self.pencils = {}  #{} will object create this and set here
         self.x_position = 0
         self.y_position = 0
@@ -22,6 +22,21 @@ class Cell():
         self.answer = answer    #if loaded in answers, used for hints
 
         self.name = "r%dc%d" % (row,col)
+
+        rowbox = int((row-1)//3) * 3
+        colbox = int((col-1)//3)
+        self.inner = rowbox + colbox+ 1
+
+    for i in range(9):  #rows
+        rows = []
+        box = int(i//3) * 3 #rows 0,1,2 = 0; 3,4,5 = 3; 6,7,8 = 6
+        for j in range(9):
+            box2 = int(j//3)   #cols 0,1,2 = 0; 3,4,5= 1; 6,7,8 = 2
+            inner_cube = box + box2   #results in 0 - 8 for the 9 inside 3x3 cubes
+
+
+
+
         
 class Known_cell(Cell):
     def __init__(self,row,col,value,answer):
@@ -85,16 +100,18 @@ def print_grid(cube,what):
     #function for printing my grid in python terminal
     #used for testing
     #default print is the initial values, unless you specifically ask for "answer"
-
+    #can all print the inner cube values with "inner"
     #print first line:
     print("----"*9 + "-")      #top border  
     for i in range(9):
         print ("|",end='')  #first left border
         for each in cube[i]:
             if what == "answer":
-                print ((" %s |" % (each['data'].answer,)), end='') #it is a string right now
+                print ((" %s |" % (each['data'].answer,)), end='') 
+            elif what == "inner":
+                print ((" %s |" % (each['data'].inner,)), end='') 
             else:
-                print ((" %s |" % (each['data'].value,)), end='') #it is a string right now
+                print ((" %s |" % (each['data'].value,)), end='') 
 
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
@@ -146,7 +163,7 @@ def main():
     board = create_board(rawboard)
 #test prints
     print_grid(board,"value")
-    print_grid(board,"answer")
+    print_grid(board,"inner")
 
 
     while not stop_game:
