@@ -41,16 +41,18 @@ for eachrow in rawboard:
         exec('r%dc%d = newcell'% (row,col)) #create unique name for each object
         rowarray.append(newcell)   #append my object into the row array
     allcells.append(rowarray)       #append row array of cells into the big one
-    return allcells
+    #need to delete newcell at sometime
 
-
-print(r5c8)
 print(len(allcells))  #should be 9
 print(allcells[3][5].answer) # <-- this works
 # print(allcells)
-# print("row5 col8 is %d" % r5c8.answer)
-# print("row 9 col 6 initial value is %d" % r9c6.value)
+print("row5 col8 is %d" % r5c8.answer)
+print("row 9 col 6 initial value is %d" % r9c6.value)
 
+
+#function for printing my grid in python terminal
+#used for testing
+#default print is the initial values, unless you specifically ask for "answer"
 def print_grid(cube,what):
     #print first line:
     print("----"*9 + "-")      #top border  
@@ -65,5 +67,5 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
-# print_grid(allcells,"value")
-# print_grid(allcells,"answer")
+print_grid(allcells,"value")
+print_grid(allcells,"answer")
