@@ -28,7 +28,9 @@ class Cell():
         self.y_position = (col-1) * 81       
 
     def change_cell_image(self,value):
+        #not tested yet
         self.image = pygame.image.load('numbers/%d_background_transparent.png' % value).convert_alpha()
+        # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
 
         
 class Known_cell(Cell):
@@ -38,7 +40,8 @@ class Known_cell(Cell):
         #known cells don't need pencils or possibles
         self.possibles = {}  #empty    
         self.image = pygame.image.load('numbers/%d_background_transparent.png' % answer).convert_alpha()
-             
+        # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
+    
 
 class Unknown_cell(Cell):
     def __init__(self,row,col,value,answer=None):
@@ -49,9 +52,6 @@ class Unknown_cell(Cell):
         self.possibles = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
         #change this to a null image
         self.image = None
-             
-             
-
 
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -95,7 +95,6 @@ def create_board(input_board):
         allcells.append(rowarray)       #append row array of cells into the big one
     return allcells
 
-
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
@@ -128,6 +127,7 @@ def main():
     width = 780
     height = 780
     blue_color = (97, 159, 182)  #background color
+    red_color = (255,0,0)
 
     pygame.init()
     screen = pygame.display.set_mode((width, height))
@@ -186,11 +186,19 @@ def main():
                 if cells['data'].image != None:
                     screen.blit(cells['data'].image, (cells['data'].x_position,cells['data'].y_position))
 
-
-
-
         # screen.blit(image6, (250, 250))
         # screen.blit(pencil_image9, (600,600))
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print('mouse down at %d, %d' % event.pos)
+
+        font = pygame.font.Font(None, 25)
+        text = font.render('Click or type and see events in the terminal', True, (red_color))
+        screen.blit(text, (80, 230))
+
+
+        pygame.display.update()
+
 
         pygame.display.update()
 
