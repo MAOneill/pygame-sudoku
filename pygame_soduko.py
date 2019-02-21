@@ -48,7 +48,7 @@ class Unknown_cell(Cell):
         self.pencil = {1:False,2:False,3:False,4:False,5:False,6:False,7:False,8:False,9:False}
         self.possibles = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
         #change this to a null image
-        self.image = pygame.image.load("numbers/5_transparent_number.png").convert_alpha()
+        self.image = None
              
              
 
@@ -145,9 +145,8 @@ def main():
     image7 = pygame.image.load('numbers/7_background_transparent.png').convert_alpha()
     image8 = pygame.image.load('numbers/8_background_transparent.png').convert_alpha()
     image9 = pygame.image.load('numbers/9_background_transparent.png').convert_alpha()
-    # hero_image = pygame.image.load('numbers/1_background_transparent.png').convert_alpha()
+   
     pencil_image1 = pygame.image.load('numbers/1_pencil.png').convert_alpha()
-    # pencil_image = pygame.image.load('numbers/1_pencil.png').convert_alpha()
     pencil_image2 = pygame.image.load('numbers/2_pencil.png').convert_alpha()
     pencil_image3 = pygame.image.load('numbers/3_pencil.png').convert_alpha()
     pencil_image4 = pygame.image.load('numbers/4_pencil.png').convert_alpha()
@@ -184,14 +183,14 @@ def main():
 
         for rows in board:
             for cells in rows:
-                if cells['name'] == 'r1c1':
+                if cells['data'].image != None:
                     screen.blit(cells['data'].image, (cells['data'].x_position,cells['data'].y_position))
 
 
 
 
-        screen.blit(image6, (250, 250))
-        screen.blit(pencil_image9, (600,600))
+        # screen.blit(image6, (250, 250))
+        # screen.blit(pencil_image9, (600,600))
 
         pygame.display.update()
 
