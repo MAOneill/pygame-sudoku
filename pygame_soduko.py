@@ -142,6 +142,8 @@ def main():
     red_color = (255,0,0)
     pitch_blue_color = (83,94,126)
     red_color = (255,0,0)
+    green_color = (89,162,134)
+    orange_color = (26,139,79)
 
     pygame.init()
     screen = pygame.display.set_mode((width, height))
@@ -150,25 +152,25 @@ def main():
     clock = pygame.time.Clock()
 
     # Game initialization
-    image1 = pygame.image.load('numbers/1_background_transparent.png').convert_alpha()
-    image2 = pygame.image.load('numbers/2_background_transparent.png').convert_alpha()
-    image3 = pygame.image.load('numbers/3_background_transparent.png').convert_alpha()
-    image4 = pygame.image.load('numbers/4_background_transparent.png').convert_alpha()
-    image5 = pygame.image.load('numbers/5_background_transparent.png').convert_alpha()
-    image6 = pygame.image.load('numbers/6_background_transparent.png').convert_alpha()
-    image7 = pygame.image.load('numbers/7_background_transparent.png').convert_alpha()
-    image8 = pygame.image.load('numbers/8_background_transparent.png').convert_alpha()
-    image9 = pygame.image.load('numbers/9_background_transparent.png').convert_alpha()
+    # image1 = pygame.image.load('numbers/1_background_transparent.png').convert_alpha()
+    # image2 = pygame.image.load('numbers/2_background_transparent.png').convert_alpha()
+    # image3 = pygame.image.load('numbers/3_background_transparent.png').convert_alpha()
+    # image4 = pygame.image.load('numbers/4_background_transparent.png').convert_alpha()
+    # image5 = pygame.image.load('numbers/5_background_transparent.png').convert_alpha()
+    # image6 = pygame.image.load('numbers/6_background_transparent.png').convert_alpha()
+    # image7 = pygame.image.load('numbers/7_background_transparent.png').convert_alpha()
+    # image8 = pygame.image.load('numbers/8_background_transparent.png').convert_alpha()
+    # image9 = pygame.image.load('numbers/9_background_transparent.png').convert_alpha()
    
-    pencil_image1 = pygame.image.load('numbers/1_pencil.png').convert_alpha()
-    pencil_image2 = pygame.image.load('numbers/2_pencil.png').convert_alpha()
-    pencil_image3 = pygame.image.load('numbers/3_pencil.png').convert_alpha()
-    pencil_image4 = pygame.image.load('numbers/4_pencil.png').convert_alpha()
-    pencil_image5 = pygame.image.load('numbers/5_pencil.png').convert_alpha()
-    pencil_image6 = pygame.image.load('numbers/6_pencil.png').convert_alpha()
-    pencil_image7 = pygame.image.load('numbers/7_pencil.png').convert_alpha()
-    pencil_image8 = pygame.image.load('numbers/8_pencil.png').convert_alpha()
-    pencil_image9 = pygame.image.load('numbers/9_pencil.png').convert_alpha()
+    # pencil_image1 = pygame.image.load('numbers/1_pencil.png').convert_alpha()
+    # pencil_image2 = pygame.image.load('numbers/2_pencil.png').convert_alpha()
+    # pencil_image3 = pygame.image.load('numbers/3_pencil.png').convert_alpha()
+    # pencil_image4 = pygame.image.load('numbers/4_pencil.png').convert_alpha()
+    # pencil_image5 = pygame.image.load('numbers/5_pencil.png').convert_alpha()
+    # pencil_image6 = pygame.image.load('numbers/6_pencil.png').convert_alpha()
+    # pencil_image7 = pygame.image.load('numbers/7_pencil.png').convert_alpha()
+    # pencil_image8 = pygame.image.load('numbers/8_pencil.png').convert_alpha()
+    # pencil_image9 = pygame.image.load('numbers/9_pencil.png').convert_alpha()
     
     stop_game = False
 
@@ -184,7 +186,7 @@ def main():
     #message text
     red_color = (255,255,0)
     font = pygame.font.Font(None, 25)
-    message_text = font.render('', True, (red_color))            
+    message_text = font.render('', True, (orange_color))            
 
     while not stop_game:
         for event in pygame.event.get():
