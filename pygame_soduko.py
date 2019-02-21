@@ -143,7 +143,7 @@ def main():
     pitch_blue_color = (83,94,126)
     red_color = (255,0,0)
     green_color = (89,162,134)
-    orange_color = (26,139,79)
+    orange_color = (224,95,20)
 
     pygame.init()
     screen = pygame.display.set_mode((width, height))
@@ -152,6 +152,7 @@ def main():
     clock = pygame.time.Clock()
 
     # Game initialization
+    grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     # image1 = pygame.image.load('numbers/1_background_transparent.png').convert_alpha()
     # image2 = pygame.image.load('numbers/2_background_transparent.png').convert_alpha()
     # image3 = pygame.image.load('numbers/3_background_transparent.png').convert_alpha()
@@ -184,7 +185,6 @@ def main():
     # print_grid(board,"inner")
 
     #message text
-    red_color = (255,255,0)
     font = pygame.font.Font(None, 25)
     message_text = font.render('', True, (orange_color))            
 
@@ -197,7 +197,7 @@ def main():
                 print('mouse down at %d, %d' % event.pos)  #to terminal
                 # red_color = (255,255,0)
                 # font = pygame.font.Font(None, 25)
-                message_text = font.render('Enter a number from 1 t0 9', True, (red_color))
+                message_text = font.render('Enter a number from 1 t0 9', True, (orange_color))
                 # screen.blit(text, (event.pos[0], event.pos[1]))
                 #change the text if they press in a spot
                 #tell them what to do
@@ -221,6 +221,7 @@ def main():
                     
                     screen.blit(board[cell].image, (board[cell].x_position,board[cell].y_position))
 
+        screen.blit(grid_image, (0,0))
         # screen.blit(image6, (250, 250))
         # screen.blit(pencil_image9, (600,600))
 
