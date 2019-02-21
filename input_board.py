@@ -1,3 +1,6 @@
+## all of this code was moved into "pygame_soduko"
+
+
 #this is the functiont that can read in the raw board settings
 from board1_raw import rawboard
 #raw board is an array of 9 arrays with 9 tuples each
