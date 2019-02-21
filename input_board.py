@@ -17,8 +17,17 @@ class Cell():
         self.image = 'png'
         self.value = value
 
+class Known_cell(Cell):
+    pass
+class Unknown_cell(Cell):
+    pass
+
+#process to create all 81 objects AND load them into an array
+#I didn't not put this inside a function because I need the individual
+#objects accessable by their name
+
 allcells = []
-       
+    
 row = 0
 for eachrow in rawboard:
     row += 1    #increment the row counter
@@ -32,14 +41,15 @@ for eachrow in rawboard:
         exec('r%dc%d = newcell'% (row,col)) #create unique name for each object
         rowarray.append(newcell)   #append my object into the row array
     allcells.append(rowarray)       #append row array of cells into the big one
-#need to delete newcell
+    return allcells
 
+
+print(r5c8)
 print(len(allcells))  #should be 9
 print(allcells[3][5].answer) # <-- this works
 # print(allcells)
-print(newcell.answer)
-print("row5 col8 is %d" % r5c8.answer)
-print("row 9 col 6 initial value is %d" % r9c6.value)
+# print("row5 col8 is %d" % r5c8.answer)
+# print("row 9 col 6 initial value is %d" % r9c6.value)
 
 def print_grid(cube,what):
     #print first line:
@@ -55,5 +65,5 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
-print_grid(allcells,"value")
-print_grid(allcells,"answer")
+# print_grid(allcells,"value")
+# print_grid(allcells,"answer")
