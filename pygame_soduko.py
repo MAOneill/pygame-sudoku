@@ -13,9 +13,6 @@ class Cell():
         self.col = col
         #  self.inner = 0  #compute thie
         self.pencils = {}  #{} will object create this and set here
-        self.x_position = 0
-        self.y_position = 0
-        self.image = 'png'
 
         self.guess = None       #blank to start
         self.value = value      #given in start cube
@@ -23,16 +20,21 @@ class Cell():
 
         self.name = "r%dc%d" % (row,col)
 
-        rowbox = int((row-1)//3) * 3
+        rowbox = int((row-1)//3)
         colbox = int((col-1)//3)
-        self.inner = rowbox + colbox+ 1
+        self.inner = (rowbox *3 )+ colbox+ 1
 
-    for i in range(9):  #rows
-        rows = []
-        box = int(i//3) * 3 #rows 0,1,2 = 0; 3,4,5 = 3; 6,7,8 = 6
-        for j in range(9):
-            box2 = int(j//3)   #cols 0,1,2 = 0; 3,4,5= 1; 6,7,8 = 2
-            inner_cube = box + box2   #results in 0 - 8 for the 9 inside 3x3 cubes
+        self.x_position = (row-1) * 81
+        self.y_position = (col-1) * 81
+
+        
+
+    def change_cell_image(self,value):
+        self.png = pygame.image.load('numbers/%d_background_transparent.png' % value).convert_alpha()
+
+
+            # if cells['name'] == 'r3c2':
+            #     screen.blit(cells['data'].png, (cells['data'].x_position,cells['data'].y_position))
 
 
 
@@ -43,7 +45,9 @@ class Known_cell(Cell):
         super().__init__(row,col,value,answer)
         self.answer = answer  
         #known cells don't need pencils or possibles
-        self.possibles = {}  #empty                 
+        self.possibles = {}  #empty    
+        self.image = pygame.image.load('numbers/%d_background_transparent.png' % answer).convert_alpha()
+             
 
 class Unknown_cell(Cell):
     def __init__(self,row,col,value,answer=None):
@@ -52,6 +56,11 @@ class Unknown_cell(Cell):
         self.value = 0
         self.pencil = {1:False,2:False,3:False,4:False,5:False,6:False,7:False,8:False,9:False}
         self.possibles = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
+        #change this to a null image
+        self.image = pygame.image.load("numbers/5_transparent_number.png").convert_alpha()
+             
+             
+
 
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -156,14 +165,15 @@ def main():
     pencil_image7 = pygame.image.load('numbers/7_pencil.png').convert_alpha()
     pencil_image8 = pygame.image.load('numbers/8_pencil.png').convert_alpha()
     pencil_image9 = pygame.image.load('numbers/9_pencil.png').convert_alpha()
+    
     stop_game = False
 
     #create data
     #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
-#test prints
-    print_grid(board,"value")
-    print_grid(board,"inner")
+    #test prints
+    # print_grid(board,"value")
+    # print_grid(board,"inner")
 
 
     while not stop_game:
@@ -178,6 +188,8 @@ def main():
         screen.fill(blue_color)
 
         # Game display
+
+        # cell.set_cell_image()
 
         screen.blit(image6, (250, 250))
         screen.blit(pencil_image9, (600,600))
