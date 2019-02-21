@@ -209,6 +209,7 @@ def main():
                 cell = "r%dc%d" % (i,j)
                 if board[cell].image != None:
                     #need to add a test for GUESS...
+                    
                     screen.blit(board[cell].image, (board[cell].x_position,board[cell].y_position))
 
         # screen.blit(image6, (250, 250))
