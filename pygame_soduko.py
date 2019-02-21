@@ -57,16 +57,12 @@ def create_cell(row,col,tuple,known):
     #I didn't not put this inside a function because I need the individual
     #objects accessable by their name
 
-    cell = {}
+    newcell = {}
     if known:       #known is true
         newcell = Known_cell(row,col,tuple[0],tuple[1]) #all named 'newcell'
     else:
         newcell = Unknown_cell(row,col,tuple[0],tuple[1]) #all named 'newcell'
-        
-    # cell[cellname] = cellname
-    # cell['data'] = newcell  
-    # print(cell['data'].answer)
-    return cell     #this points to entirely new spot each time
+    return newcell     #this points to entirely new spot each time
 
 def create_board(input_board):
     # returns an array of all 81 cells, NOT IN ROWS
@@ -88,9 +84,8 @@ def create_board(input_board):
                 known = True
             
             cellname = "r%dc%d" % (row,col)
-
+            # print(cellname)
             allcells[cellname] = create_cell(row,col,eachtuple,known)
-
             # print(cell['data'].value)
             # allcells.append(cell)   #append my object into the row array
     return allcells
@@ -102,15 +97,19 @@ def print_grid(cube,what):
     #can all print the inner cube values with "inner"
     #print first line:
     print("----"*9 + "-")      #top border  
-    for i in range(9):
+    for i in range(1,10):
         print ("|",end='')  #first left border
-        for each in cube[i]:
+        for j in range(1,10):
             if what == "answer":
-                print ((" %s |" % (each['data'].answer,)), end='') 
+                
+                # print ((" %s |" % (each['data'].answer,)), end='') 
+                print ((" %s |" % (cube['r%dc%d' % (i,j)].answer,)), end='') 
             elif what == "inner":
-                print ((" %s |" % (each['data'].inner,)), end='') 
+                # print ((" %s |" % (each['data'].inner,)), end='') 
+                print ((" %s |" % (cube['r%dc%d' % (i,j)].inner,)), end='') 
             else:
-                print ((" %s |" % (each['data'].value,)), end='') 
+                # print ((" %s |" % (each['data'].value,)), end='') 
+                print ((" %s |" % (cube['r%dc%d' % (i,j)].value,)), end='') 
 
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
@@ -161,8 +160,12 @@ def main():
     #create data
     #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
-    #test prints
+    # print("hello")
+    # print(board["r4c6"].image)
+    # print(board['r4c8'].value)
+    
     print_grid(board,"value")
+    print_grid(board,"answer")
     print_grid(board,"inner")
 
 
@@ -179,14 +182,13 @@ def main():
 
         # Game display
 
-        # cell.set_cell_image()
 
-        for cells in board:
-                if cells['data'].image != None:
-                    screen.blit(cells['data'].image, (cells['data'].x_position,cells['data'].y_position))
+        # for cells in board:
+        #         if cells.image != None:
+        #             screen.blit(cells.image, (cells.x_position,cells.y_position))
 
-        # screen.blit(image6, (250, 250))
-        # screen.blit(pencil_image9, (600,600))
+        screen.blit(image6, (250, 250))
+        screen.blit(pencil_image9, (600,600))
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             print('mouse down at %d, %d' % event.pos)
