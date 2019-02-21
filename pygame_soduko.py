@@ -32,7 +32,6 @@ class Cell():
         self.image = pygame.image.load('numbers/%d_background_transparent.png' % value).convert_alpha()
         # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
 
-        
 class Known_cell(Cell):
     def __init__(self,row,col,value,answer):
         super().__init__(row,col,value,answer)
@@ -59,20 +58,19 @@ def create_cell(row,col,tuple,known):
     #objects accessable by their name
 
     cell = {}
-    cellname = "r%dc%d" % (row,col)
     if known:       #known is true
         newcell = Known_cell(row,col,tuple[0],tuple[1]) #all named 'newcell'
     else:
         newcell = Unknown_cell(row,col,tuple[0],tuple[1]) #all named 'newcell'
         
-    cell['name'] = cellname
-    cell['data'] = newcell  
+    # cell[cellname] = cellname
+    # cell['data'] = newcell  
     # print(cell['data'].answer)
     return cell     #this points to entirely new spot each time
 
 def create_board(input_board):
-    # returns an array of all 81 cells, organized in 9 rows (arrays)
-    allcells = []
+    # returns an array of all 81 cells, NOT IN ROWS
+    allcells = {}  #dictionary not array
     cell = {}    
     row = 0
     for eachrow in input_board:
@@ -88,11 +86,13 @@ def create_board(input_board):
                 known = False  
             else:
                 known = True
-            cell = create_cell(row,col,eachtuple,known)
+            
+            cellname = "r%dc%d" % (row,col)
+
+            allcells[cellname] = create_cell(row,col,eachtuple,known)
 
             # print(cell['data'].value)
-            rowarray.append(cell)   #append my object into the row array
-        allcells.append(rowarray)       #append row array of cells into the big one
+            # allcells.append(cell)   #append my object into the row array
     return allcells
 
 def print_grid(cube,what):  
@@ -162,8 +162,8 @@ def main():
     #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
     #test prints
-    # print_grid(board,"value")
-    # print_grid(board,"inner")
+    print_grid(board,"value")
+    print_grid(board,"inner")
 
 
     while not stop_game:
@@ -181,8 +181,7 @@ def main():
 
         # cell.set_cell_image()
 
-        for rows in board:
-            for cells in rows:
+        for cells in board:
                 if cells['data'].image != None:
                     screen.blit(cells['data'].image, (cells['data'].x_position,cells['data'].y_position))
 
