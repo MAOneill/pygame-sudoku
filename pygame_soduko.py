@@ -114,8 +114,19 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
+def pygame_popup_window():
+    # background_color = (100,100,100)
+    # width = 200
+    # height = 200
+    blue_color = (97, 159, 182)  #background color
+    red_color = (255,0,0)
+    # small_screen = pygame.display.set_mode((width, height))
 
+    # pygame.display.set_caption('Number entry')
 
+    font = pygame.font.Font(None, 25)
+    text = font.render('Enter a number from 1 t0 9', True, (red_color))
+    return screen.blit(text, (20, 20))
 
 #copied ball1.py from examples to begin
 #copied draw_image from examples too
@@ -160,14 +171,15 @@ def main():
     #create data
     #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
-    # print("hello")
-    # print(board["r4c6"].image)
-    # print(board['r4c8'].value)
     
+    #these print to the terminalo
     print_grid(board,"value")
     print_grid(board,"answer")
     print_grid(board,"inner")
 
+    red_color = (255,255,0)
+    font = pygame.font.Font(None, 25)
+    text_new = font.render('', True, (red_color))            
 
     while not stop_game:
         for event in pygame.event.get():
@@ -182,23 +194,38 @@ def main():
 
         # Game display
 
+        #set the blits for all known numbers
+        for i in range(1,10):
+            for j in range(1,10):
+                cell = "r%dc%d" % (i,j)
+                if board[cell].image != None:
+                    #need to add a test for GUESS...
+                    screen.blit(board[cell].image, (board[cell].x_position,board[cell].y_position))
 
-        # for cells in board:
-        #         if cells.image != None:
-        #             screen.blit(cells.image, (cells.x_position,cells.y_position))
-
-        screen.blit(image6, (250, 250))
-        screen.blit(pencil_image9, (600,600))
+        # screen.blit(image6, (250, 250))
+        # screen.blit(pencil_image9, (600,600))
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print('mouse down at %d, %d' % event.pos)
+            print('mouse down at %d, %d' % event.pos)  #to terminal
+            red_color = (255,255,0)
+            # font = pygame.font.Font(None, 25)
+            text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
+            # screen.blit(text, (event.pos[0], event.pos[1]))
+
+        # font = pygame.font.Font(None, 25)
+        # text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
+        screen.blit(text_new, (50,50))
+           
+            # pygame_popup_window()
+            # value = input()
+            # print(value)
 
         font = pygame.font.Font(None, 25)
         text = font.render('Click or type and see events in the terminal', True, (red_color))
-        screen.blit(text, (80, 230))
+        screen.blit(text, (0, 730))
 
 
-        pygame.display.update()
+        # pygame.display.update()
 
 
         pygame.display.update()
