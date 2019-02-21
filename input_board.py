@@ -30,13 +30,29 @@ class Unknown_cell(Cell):
     def __init__(self,row,col,value,answer=None):
         super().__init__(row,col,value,answer)
         self.answer = answer
-        self.value = None
+        self.value = 0
 
 
 
 #process to create all 81 objects AND load them into an array
 #I didn't not put this inside a function because I need the individual
 #objects accessable by their name
+
+def create_cell(row,col,tuple,known):
+    cell = {}
+    cellname = "r%dc%d" % (row,col)
+    if known:       #known is true
+        print("known is executing %s" % cellname)
+        newcell = Known_cell(row,col,tuple[0],tuple[1]) #all named 'newcell'
+    else:
+        print ("unknown is execuiting %s" % cellname)
+        newcell = Unknown_cell(row,col,tuple[0],tuple[1]) #all named 'newcell'
+        
+    cell['name'] = cellname
+    cell['data'] = newcell  
+    print(cell['data'].answer)
+    return cell     #this points to entirely new spot each time
+
 
 allcells = []
 cell = {}    
@@ -50,15 +66,15 @@ for eachrow in rawboard:
         
         #if the first value is KNOWN, then create a Known_cell class
         #otherwise create an Unknown_cell class
+        
         if eachtuple[0] == 0:  #unknown
-            newcell = Unknown_cell(row,col,eachtuple[0],eachtuple[1]) #all named 'newcell'
+            known = False  
+            print("I set known to false")
         else:
-            newcell = Known_cell(row,col,eachtuple[0],eachtuple[1]) #all named 'newcell'
-        cellname = "r%dc%d" % (row,col)
-        cell['name'] = cellname
-        cell['data'] = newcell      #'data' dictionary key pair has the object
+            known = True
+            print("known is true")
+        cell = create_cell(row,col,eachtuple,known)
 
-        # exec('r%dc%d = newcell'% (row,col)) #create unique name for each object
         # print(cell['data'].value)
         rowarray.append(cell)   #append my object into the row array
     print(rowarray)
