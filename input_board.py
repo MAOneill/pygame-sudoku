@@ -53,38 +53,33 @@ def create_cell(row,col,tuple,known):
     print(cell['data'].answer)
     return cell     #this points to entirely new spot each time
 
+# returns an array of all 81 cells, organized in 9 rows (arrays)
+def create_board(input_board):
+    allcells = []
+    cell = {}    
+    row = 0
+    for eachrow in input_board:
+        row += 1    #increment the row counter
+        rowarray = []   #create a new instance here
+        col = 0 
+        for eachtuple in eachrow:
+            col += 1
+            
+            #if the first value is KNOWN, then create a Known_cell class
+            #otherwise create an Unknown_cell class        
+            if eachtuple[0] == 0:  #unknown
+                known = False  
+                print("I set known to false")
+            else:
+                known = True
+                print("known is true")
+            cell = create_cell(row,col,eachtuple,known)
 
-allcells = []
-cell = {}    
-row = 0
-for eachrow in rawboard:
-    row += 1    #increment the row counter
-    rowarray = []   #create a new instance here
-    col = 0 
-    for eachtuple in eachrow:
-        col += 1
-        
-        #if the first value is KNOWN, then create a Known_cell class
-        #otherwise create an Unknown_cell class
-        
-        if eachtuple[0] == 0:  #unknown
-            known = False  
-            print("I set known to false")
-        else:
-            known = True
-            print("known is true")
-        cell = create_cell(row,col,eachtuple,known)
-
-        # print(cell['data'].value)
-        rowarray.append(cell)   #append my object into the row array
-    print(rowarray)
-    allcells.append(rowarray)       #append row array of cells into the big one
-    #need to delete newcell at sometime
-
-# print(len(allcells))  #should be 9
-# print(allcells[3][5].answer) # <-- this works
-# print(allcells)
-
+            # print(cell['data'].value)
+            rowarray.append(cell)   #append my object into the row array
+        print(rowarray)
+        allcells.append(rowarray)       #append row array of cells into the big one
+    return allcells
 
 #function for printing my grid in python terminal
 #used for testing
@@ -103,5 +98,7 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
-print_grid(allcells,"value")
-print_grid(allcells,"answer")
+board = create_board(rawboard)
+
+print_grid(board,"value")
+print_grid(board,"answer")
