@@ -186,6 +186,15 @@ def main():
             # Event handling
             if event.type == pygame.QUIT:
                 stop_game = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                print('mouse down at %d, %d' % event.pos)  #to terminal
+                red_color = (255,255,0)
+                # font = pygame.font.Font(None, 25)
+                text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
+                # screen.blit(text, (event.pos[0], event.pos[1]))
+
+            if event.type == pygame.KEYDOWN:
+                print('key down %r' % event.key)
 
         # Game logic
 
@@ -205,12 +214,6 @@ def main():
         # screen.blit(image6, (250, 250))
         # screen.blit(pencil_image9, (600,600))
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            print('mouse down at %d, %d' % event.pos)  #to terminal
-            red_color = (255,255,0)
-            # font = pygame.font.Font(None, 25)
-            text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
-            # screen.blit(text, (event.pos[0], event.pos[1]))
 
         # font = pygame.font.Font(None, 25)
         # text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
