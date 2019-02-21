@@ -25,19 +25,10 @@ class Cell():
         self.inner = (rowbox *3 )+ colbox+ 1
 
         self.x_position = (row-1) * 81
-        self.y_position = (col-1) * 81
-
-        
+        self.y_position = (col-1) * 81       
 
     def change_cell_image(self,value):
-        self.png = pygame.image.load('numbers/%d_background_transparent.png' % value).convert_alpha()
-
-
-            # if cells['name'] == 'r3c2':
-            #     screen.blit(cells['data'].png, (cells['data'].x_position,cells['data'].y_position))
-
-
-
+        self.image = pygame.image.load('numbers/%d_background_transparent.png' % value).convert_alpha()
 
         
 class Known_cell(Cell):
@@ -190,6 +181,14 @@ def main():
         # Game display
 
         # cell.set_cell_image()
+
+        for rows in board:
+            for cells in rows:
+                if cells['name'] == 'r1c1':
+                    screen.blit(cells['data'].image, (cells['data'].x_position,cells['data'].y_position))
+
+
+
 
         screen.blit(image6, (250, 250))
         screen.blit(pencil_image9, (600,600))
