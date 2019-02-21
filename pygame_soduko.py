@@ -114,19 +114,18 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
-def pygame_popup_window():
-    # background_color = (100,100,100)
-    # width = 200
-    # height = 200
-    blue_color = (97, 159, 182)  #background color
-    red_color = (255,0,0)
-    # small_screen = pygame.display.set_mode((width, height))
+# def pygame_popup_window():
+#     background_color = (244,237,221)
+#     blue_color = (97, 159, 182)  #sky_blue
+#     red_color = (255,0,0)
+#     pitch_blue_color = (83,94,126)
+#     # small_screen = pygame.display.set_mode((width, height))
 
-    # pygame.display.set_caption('Number entry')
+#     # pygame.display.set_caption('Number entry')
 
-    font = pygame.font.Font(None, 25)
-    text = font.render('Enter a number from 1 t0 9', True, (red_color))
-    return screen.blit(text, (20, 20))
+#     font = pygame.font.Font(None, 25)
+#     text = font.render('Enter a number from 1 t0 9', True, (red_color))
+#     return screen.blit(text, (20, 20))
 
 #copied ball1.py from examples to begin
 #copied draw_image from examples too
@@ -136,7 +135,12 @@ def main():
     # declare the size of the canvas
     width = 780
     height = 780
+
     blue_color = (97, 159, 182)  #background color
+    background_color = (244,237,221)
+    blue_color = (97, 159, 182)  #sky_blue
+    red_color = (255,0,0)
+    pitch_blue_color = (83,94,126)
     red_color = (255,0,0)
 
     pygame.init()
@@ -173,13 +177,14 @@ def main():
     board = create_board(rawboard)
     
     #these print to the terminalo
-    print_grid(board,"value")
-    print_grid(board,"answer")
-    print_grid(board,"inner")
+    # print_grid(board,"value")
+    # print_grid(board,"answer")
+    # print_grid(board,"inner")
 
+    #message text
     red_color = (255,255,0)
     font = pygame.font.Font(None, 25)
-    text_new = font.render('', True, (red_color))            
+    message_text = font.render('', True, (red_color))            
 
     while not stop_game:
         for event in pygame.event.get():
@@ -188,10 +193,12 @@ def main():
                 stop_game = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print('mouse down at %d, %d' % event.pos)  #to terminal
-                red_color = (255,255,0)
+                # red_color = (255,255,0)
                 # font = pygame.font.Font(None, 25)
-                text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
+                message_text = font.render('Enter a number from 1 t0 9', True, (red_color))
                 # screen.blit(text, (event.pos[0], event.pos[1]))
+                #change the text if they press in a spot
+                #tell them what to do
 
             if event.type == pygame.KEYDOWN:
                 print('key down %r' % event.key)
@@ -199,7 +206,7 @@ def main():
         # Game logic
 
         # Draw background
-        screen.fill(blue_color)
+        screen.fill(background_color)
 
         # Game display
 
@@ -218,15 +225,16 @@ def main():
 
         # font = pygame.font.Font(None, 25)
         # text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
-        screen.blit(text_new, (50,50))
+        # update the message_text
+        screen.blit(message_text, (3,731))
            
             # pygame_popup_window()
             # value = input()
             # print(value)
 
         font = pygame.font.Font(None, 25)
-        text = font.render('Click or type and see events in the terminal', True, (red_color))
-        screen.blit(text, (0, 730))
+        gen_text = font.render('Click or type and see events in the terminal', True, (pitch_blue_color))
+        screen.blit(gen_text, (3, 750))
 
 
         # pygame.display.update()
