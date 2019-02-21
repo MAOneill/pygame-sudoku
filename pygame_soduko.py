@@ -114,21 +114,6 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
-# def pygame_popup_window():
-#     background_color = (244,237,221)
-#     blue_color = (97, 159, 182)  #sky_blue
-#     red_color = (255,0,0)
-#     pitch_blue_color = (83,94,126)
-#     # small_screen = pygame.display.set_mode((width, height))
-
-#     # pygame.display.set_caption('Number entry')
-
-#     font = pygame.font.Font(None, 25)
-#     text = font.render('Enter a number from 1 t0 9', True, (red_color))
-#     return screen.blit(text, (20, 20))
-
-#copied ball1.py from examples to begin
-#copied draw_image from examples too
 
 def main():
 
@@ -136,6 +121,7 @@ def main():
     width = 780
     height = 780
 
+    # define some colors
     blue_color = (97, 159, 182)  #background color
     background_color = (244,237,221)
     blue_color = (97, 159, 182)  #sky_blue
@@ -153,15 +139,6 @@ def main():
 
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
-    # image1 = pygame.image.load('numbers/1_background_transparent.png').convert_alpha()
-    # image2 = pygame.image.load('numbers/2_background_transparent.png').convert_alpha()
-    # image3 = pygame.image.load('numbers/3_background_transparent.png').convert_alpha()
-    # image4 = pygame.image.load('numbers/4_background_transparent.png').convert_alpha()
-    # image5 = pygame.image.load('numbers/5_background_transparent.png').convert_alpha()
-    # image6 = pygame.image.load('numbers/6_background_transparent.png').convert_alpha()
-    # image7 = pygame.image.load('numbers/7_background_transparent.png').convert_alpha()
-    # image8 = pygame.image.load('numbers/8_background_transparent.png').convert_alpha()
-    # image9 = pygame.image.load('numbers/9_background_transparent.png').convert_alpha()
    
     # pencil_image1 = pygame.image.load('numbers/1_pencil.png').convert_alpha()
     # pencil_image2 = pygame.image.load('numbers/2_pencil.png').convert_alpha()
@@ -179,12 +156,16 @@ def main():
     #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
     
+    for each in board.values():
+        print(each.answer)
+        
     #these print to the terminalo
     # print_grid(board,"value")
     # print_grid(board,"answer")
     # print_grid(board,"inner")
 
     #message text
+    #this is for when a user does something - the message changes
     font = pygame.font.Font(None, 25)
     message_text = font.render('', True, (orange_color))            
 
@@ -195,10 +176,8 @@ def main():
                 stop_game = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print('mouse down at %d, %d' % event.pos)  #to terminal
-                # red_color = (255,255,0)
-                # font = pygame.font.Font(None, 25)
+                #change the value of the message text
                 message_text = font.render('Enter a number from 1 t0 9', True, (orange_color))
-                # screen.blit(text, (event.pos[0], event.pos[1]))
                 #change the text if they press in a spot
                 #tell them what to do
 
@@ -218,7 +197,6 @@ def main():
                 cell = "r%dc%d" % (i,j)
                 if board[cell].image != None:
                     #need to add a test for GUESS...
-                    
                     screen.blit(board[cell].image, (board[cell].x_position,board[cell].y_position))
 
         screen.blit(grid_image, (0,0))
