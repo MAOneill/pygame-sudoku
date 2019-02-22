@@ -16,7 +16,7 @@ class Tcell():
         self.number = tinycell
     def update_pencil_image(self):
         if self.set == True:
-            print("the pencil cell is %d" % self.number)
+            # print("the pencil cell is %d" % self.number)
             self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % self.number).convert_alpha()
         else:  #use blank
             self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
@@ -68,7 +68,7 @@ class Unknown_cell(Cell):
         #change this to a null image
         self.image = None
     def change_cell_image(self):
-        print(self.guess)
+        # print(self.guess)
         #changes the display image based on the GUESS value
         if self.guess == None or self.guess == 0:
             self.image = None       #undo can set it back to zero
@@ -214,8 +214,6 @@ def main():
     # font = pygame.font.Font(None, 25)                           #set sytem font.  (filename, size)
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           #set sytem font.  (filename, size)
     # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           #set sytem font.  (filename, size)
-    print("getting pygame fonts")
-    print(pygame.font.get_fonts())
     message_text = font.render('', True, (orange_color))        #initial value
     #set initial values to be used throughout        
     row = 0
@@ -243,7 +241,7 @@ def main():
                 # if in game board return coordinates. 
                 # print('mouse down at %d, %d' % event.pos)  #to terminal
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
-
+                print("my cell is  working here:")
                 print(board[cell].guess)
                 print(cell)
                 #change the value of the message text
@@ -253,9 +251,9 @@ def main():
                     if type(board[cell]) == Known_cell:    #if known:
                         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
                         board_clicked = False  #change this b/c its not a valid square
-                        entry = 0
+                        # entry = 0
                     else:       #Unknown value, changeable
-                        entry = 0  #clear out entry values
+                        # entry = 0  #clear out entry values
                         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
             
             if event.type == pygame.KEYDOWN:            #get game_state
@@ -299,16 +297,24 @@ def main():
                     undo_array.append(undo_pair)
 
                     #if user enters 0, blank out the value
+                    print ("cell key blowing up:")
+                    print(cell)
+                    print(row, col)
+                    # print(entry)
+                    # if number == 0:
+                    #     board[cell].guess = None
+                    # else:
+                    #     board[cell].guess = number
                     if number == 0:
                         board['r%dc%d' % (row,col)].guess = None
                     else:
                         board['r%dc%d' % (row,col)].guess = number
                     
-                    print(undo_array)
+                    # print(undo_array)
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
-                    entry = 0  #reset entry
+                    # entry = 0  #reset entry
                     #change message
                     message_text = font.render("", True, (orange_color))  
 
@@ -331,7 +337,7 @@ def main():
                 
                 if len(undo_array) > 0:
                     to_remove = undo_array.pop()
-                    print (to_remove)
+                    # print (to_remove)
                     #the cell is changed back to its old value
                     board[to_remove[0]].guess = to_remove[1]
                     #update the image for the cell
@@ -348,7 +354,7 @@ def main():
                 message_text = font.render('Select the cell you want the answer to', True, (orange_color))
                 
                 if board_clicked == True:
-                    print("my cell is ")
+                    print("my cell is within hint")
                     print(cell)
                     #its not selecting the cell correctly - i get a key error
                     #what is my cell value
@@ -358,10 +364,10 @@ def main():
                         
                         board[cell].guess = board[cell].answer
                         print("the answer better not be blank:")
-                        print(board[cell].answer)
+                        # print(board[cell].answer)
                         board[cell].change_cell_image()
                 
-                    entry = 0        
+                    # entry = 0        
                     game_state = "Normal"  #set back to "Normal"
                     print(game_state)
                     board_clicked = False
@@ -372,22 +378,22 @@ def main():
         # Game display
 
         #set the blits for all known numbers
-        for cell in board.values():
+        for thecell in board.values():
             # if pencil == False:     #fill images based only on values
             if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
-                if cell.image != None :
-                    screen.blit(cell.image, (cell.x_position,cell.y_position))
+                if thecell.image != None :
+                    screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
                 if game_state == "Error":  #overlay the x if guess is wrong
-                    if type(cell) == Unknown_cell and cell.guess != cell.answer and cell.guess != None:
-                        screen.blit(big_x_image, (cell.x_position,cell.y_position))
+                    if type(thecell) == Unknown_cell and thecell.guess != thecell.answer and thecell.guess != None:
+                        screen.blit(big_x_image, (thecell.x_position,thecell.y_position))
 
             elif game_state == "Pencil":               #in pencil mode
-                if type(cell) == Known_cell:    #use cell value
-                    screen.blit(cell.image, (cell.x_position,cell.y_position))
+                if type(thecell) == Known_cell:    #use cell value
+                    screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
                 else:       #unknown cells
                     for z in range(1,10):
-                        screen.blit(cell.pencils[z].image, (cell.pencils[z].xpos,cell.pencils[z].ypos))
-                        screen.blit(pencil_grid_image, (cell.x_position,cell.y_position))
+                        screen.blit(thecell.pencils[z].image, (thecell.pencils[z].xpos,thecell.pencils[z].ypos))
+                        screen.blit(pencil_grid_image, (thecell.x_position,thecell.y_position))
                     
 
         #while we are in pencil mode,
