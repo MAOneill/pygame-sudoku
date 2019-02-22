@@ -245,6 +245,8 @@ def main():
                 if board_clicked == True:
                     if type(board[cell]) == Known_cell:    #if known:
                         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
+                        board_clicked = False  #change this b/c its not a valid square
+                        entry = 0
                     else:       #Unknown value, changeable
                         entry = 0  #clear out entry values
                         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
@@ -270,9 +272,13 @@ def main():
                 if number != None:      #it got a value number
                     #update cell value
                     # print(board['r%dc%d' % (row,col)].inner)
+                    #add the current cell and its CURRENT vaue to the undo_array
+                    undo_pair = ('r%dc%d' % (row,col),board['r%dc%d' % (row,col)].guess)
+                    undo_array.append(undo_pair)
+
                     board['r%dc%d' % (row,col)].guess = number
-                    undo_array.append('r%dc%d' % (row,col))
-                    print(undo_array)
+                    
+                    print(undo_array, "\n")
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
