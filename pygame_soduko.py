@@ -290,19 +290,16 @@ def main():
                     # print(board['r%dc%d' % (row,col)].inner)
                     #add the current cell and its CURRENT vaue to the undo_array
                     
-                    undo_pair = ('r%dc%d' % (row,col),board['r%dc%d' % (row,col)].guess)
+                    # undo_pair = ('r%dc%d' % (row,col),board['r%dc%d' % (row,col)].guess)
+                    undo_pair = (cell,board[cell].guess)
                     undo_array.append(undo_pair)
 
                     #if user enters 0, blank out the value
-                    print ("cell key blowing up:")
-                    print(cell)
-                    print(row, col)
-
                     if number == 0:
                         board[cell].guess = None
                     else:
                         board[cell].guess = number
-                    # print(undo_array)
+                    print(undo_array)
                     board[cell].change_cell_image()
                     # board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
