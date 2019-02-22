@@ -134,8 +134,8 @@ def print_grid(cube,what):
 def main():
 
     # declare the size of the canvas
-    width = 780
-    height = 780
+    width = 790
+    height = 790
 
     blue_color = (97, 159, 182)  #background color
     background_color = (244,237,221)
@@ -204,7 +204,6 @@ def main():
                 col = int (x // 81) + 1
                 cell = 'r%dc%d' % (row,col)
                 print(board[cell].answer)
-                # print(board[cell].pencils[4].image)
                 #change the value of the message text
                 if type(board[cell]) == Known_cell:    #if known:
                     message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
@@ -214,11 +213,13 @@ def main():
             # Game logic
                
             if event.type == pygame.KEYDOWN:
-                # print('key down %r' % event.key)
+                print('key down %r' % event.key)
                 entry = event.key
 
+                #pressing P toggles between pencil mode or not
                 if entry == 112:     #this is for P for pencil
-                    pencil = True
+                    pencil = not pencil
+                # if entry ==
                 
                 if screen_clicked == True:      #we are in the solving state and a key has been pressed
                     choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,59:9}
@@ -282,7 +283,9 @@ def main():
         #general message...add press P for pencil??
         font = pygame.font.Font(None, 25)
         gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
+        gen_text2 = font.render('Press P to toggle between pencil values or Solving', True, (pitch_blue_color))
         screen.blit(gen_text, (3, 750))
+        screen.blit(gen_text2, (3, 765))
 
 
         # pygame.display.update()
