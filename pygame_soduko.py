@@ -128,12 +128,31 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
+def set_coordinates_from_click(event):
+    x = event.pos[0]
+    y = event.pos[1]
+    if y in range(730) and x in range(730):
+        board_clicked = True
+        # use math to figure out what square they are in:
+        row =  int(y // 81) + 1
+        col = int (x // 81) + 1
+        cell = 'r%dc%d' % (row,col)
+        # calculate the pencil_cell
+    else:
+        board_clicked = False
+        row = 0
+        col = 0
+        cell = ""
+    return row,col,cell,board_clicked
+
+
 def main():
 
     # declare the size of the canvas
     width = 850
     height = 790
 
+    #set some colores
     blue_color = (97, 159, 182)  #background color
     background_color = (244,237,221)
     background_color = (159,209,204)
@@ -145,10 +164,11 @@ def main():
     orange_color = (224,95,20)
     sea_foam_color = (159,209,204)
 
+    #set some fonts
 
+    #initalize pygame and playing window
     pygame.init()
     screen = pygame.display.set_mode((width, height))
-
     pygame.display.set_caption('Soduko')
     clock = pygame.time.Clock()
 
@@ -165,7 +185,6 @@ def main():
     error_button_image = pygame.image.load('numbers/error_but.png').convert_alpha()
 
     #create data
-    #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
     
     # for each in board.values():
@@ -183,12 +202,13 @@ def main():
     row = 0
     col = 0
     cell = 0
+    
 
     stop_game = False
 
     pencil = False  #state at which to enter pencil values
     solving = True   #state at which to enter value.  You havce to click to get to that state   
-    screen_clicked = False
+    board_clicked = False
 
 
     while not stop_game:
@@ -200,15 +220,20 @@ def main():
             # print("no event type")
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # print('mouse down at %d, %d' % event.pos)  #to terminal
-                screen_clicked = True
-                x = event.pos[0]
-                y = event.pos[1]
+                
+                row,col,cell,board_clicked = set_coordinates_from_click(event)
+                
+                # screen_clicked = True
+                # x = event.pos[0]
+                # y = event.pos[1]
+                # # use math to figure out what square they are in:
+                # row =  int(y // 81) + 1
+                # col = int (x // 81) + 1
+                # cell = 'r%dc%d' % (row,col)
 
-                # use math to figure out what square they are in:
-                row =  int(y // 81) + 1
-                col = int (x // 81) + 1
-                cell = 'r%dc%d' % (row,col)
-                print(board[cell].answer)
+
+
+                # print(board[cell].answer)
                 #change the value of the message text
                 if type(board[cell]) == Known_cell:    #if known:
                     message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
@@ -227,7 +252,7 @@ def main():
                 
                 #if
                  #we are in the solving state and a key has been pressed
-                if screen_clicked == True and pencil == False:     
+                if board_clicked == True and pencil == False:     
                     choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9}
                     number = choices.get(entry, None) 
                     if number != None:      #it got a value number
@@ -236,7 +261,7 @@ def main():
                         board['r%dc%d' % (row,col)].guess = number
                         board['r%dc%d' % (row,col)].change_cell_image()
                         #flip switches:
-                        screen_clicked = False
+                        board_clicked = False
                         #change message
                         message_text = font.render("", True, (orange_color))  
 
