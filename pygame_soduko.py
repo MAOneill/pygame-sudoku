@@ -207,7 +207,10 @@ def main():
 
     #message text
     #this is for when a user does something - the message changes
-    font = pygame.font.Font(None, 25)                           #set sytem font.  (filename, size)
+    # font = pygame.font.Font(None, 25)                           #set sytem font.  (filename, size)
+    font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           #set sytem font.  (filename, size)
+    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           #set sytem font.  (filename, size)
+    print("getting pygame fonts")
     print(pygame.font.get_fonts())
     message_text = font.render('', True, (orange_color))        #initial value
     #set initial values to be used throughout        
