@@ -219,8 +219,9 @@ def main():
     cell = ""
     pencil_box = 0
 
-    stop_game = False
+    undo_array = []     #this holds the cells that have had value changed.  in order.  it can hold duplicates
 
+    stop_game = False
     pencil = False  #state at which to enter pencil values
     game_state = "Normal"  #default mode
     entry = 0
@@ -270,6 +271,8 @@ def main():
                     #update cell value
                     # print(board['r%dc%d' % (row,col)].inner)
                     board['r%dc%d' % (row,col)].guess = number
+                    undo_array.append('r%dc%d' % (row,col))
+                    print(undo_array)
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
