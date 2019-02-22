@@ -2,7 +2,9 @@ import pygame
 
 #this is the functiont that can read in the raw board settings
 #raw board is an array of 9 arrays with 9 tuples each
-from board1_raw import rawboard
+
+# from board1_raw import rawboard
+from board2_raw import rawboard
 
 class Tcell():
     def __init__(self,tinycell,x,y):
