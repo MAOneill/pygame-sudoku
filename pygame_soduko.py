@@ -25,13 +25,13 @@ class Cell():
         self.inner = (rowbox *3 )+ colbox+ 1
 
         self.x_position = (row-1) * 81
-        self.y_position = (col-1) * 81       
+        self.y_position = (col-1) * 81    
 
+        #you can only change the image for an unknown cell:
     def change_cell_image(self):
-        #changes the display image based on the GUESS value
-        #not tested yet
-        self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
-        # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
+        pass
+
+
 
 class Known_cell(Cell):
     def __init__(self,row,col,value,answer):
@@ -52,6 +52,14 @@ class Unknown_cell(Cell):
         self.possibles = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
         #change this to a null image
         self.image = None
+    def change_cell_image(self):
+        #changes the display image based on the GUESS value
+        #not tested yet
+        self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
+        # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
+
+
+
 
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -175,6 +183,7 @@ def main():
     #set initial values to be used throughout        
     row = 0
     col = 0
+    cell = 0
     stop_game = False
     pencil = False  #state at which to enter pencil values
     solving = True   #state at which to enter value.  You havce to click to get to that state   
@@ -199,18 +208,20 @@ def main():
                 # use math to figure out what square they are in:
                 row =  int(x // 81) + 1
                 col = int (y // 81) + 1
+                # cell = 'r%dc%d' % (row,col)
+                # print(cell)
 
             if event.type == pygame.KEYDOWN:
                 # print('key down %r' % event.key)
                 entry = event.key
                 if entry == 112: pass    #this is for P for pencil
                 
-                
                 if solving == True:      #we are in the solving state and a key has been pressed
                     choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,59:9}
                     number = choices.get(entry, None) 
                     if number != None:      #it got a value number
                         #update cell value
+                        # print(board['r%dc%d' % (row,col)].inner)
                         board['r%dc%d' % (row,col)].guess = number
                         board['r%dc%d' % (row,col)].change_cell_image()
                         #flip switches:
