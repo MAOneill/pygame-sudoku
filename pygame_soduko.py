@@ -154,9 +154,6 @@ def main():
     # pencil_image8 = pygame.image.load('numbers/8_pencil.png').convert_alpha()
     # pencil_image9 = pygame.image.load('numbers/9_pencil.png').convert_alpha()
     
-    stop_game = False
-    pencil = False  #state at which to enter pencil values
-    solving = True   #state at which to enter value.  You havce to click to get to that state   
 
     #create data
     #do this after you set images, although I guess this could be done inside..
@@ -173,7 +170,15 @@ def main():
     #message text
     #this is for when a user does something - the message changes
     font = pygame.font.Font(None, 25)
-    message_text = font.render('', True, (orange_color))            
+    message_text = font.render('', True, (orange_color))    
+    #set initial values to be used throughout        
+    row = 0
+    col = 0
+    stop_game = False
+    pencil = False  #state at which to enter pencil values
+    solving = True   #state at which to enter value.  You havce to click to get to that state   
+    screen_clicked = False
+
 
     while not stop_game:
         for event in pygame.event.get():
@@ -181,9 +186,10 @@ def main():
             if event.type == pygame.QUIT:
                 stop_game = True
             
+            # print("no event type")
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print('mouse down at %d, %d' % event.pos)  #to terminal
-
+                screen_clicked = True
                 x = event.pos[0]
                 y = event.pos[1]
                 #change the value of the message text
@@ -191,13 +197,25 @@ def main():
                 
                 # use math to figure out what square they are in:
                 row =  int(x // 81) + 1
-                cow = int (y // 81) + 1
-            
-                
-
+                col = int (y // 81) + 1
 
             if event.type == pygame.KEYDOWN:
-                print('key down %r' % event.key)
+                # print('key down %r' % event.key)
+                entry = event.key
+                if entry == 112: pass    #this is for P for pencil
+                
+                
+                if solving == True:      #we are in the solving state and a key has been pressed
+                    choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,59:9}
+                    number = choices.get(entry, None) 
+                    if number != None:      #it got a value number
+                        #update cell value
+                        board['r%dc%d' % (row,col)].guess = number
+                        #flip switches:
+                        screen_clicked = False
+
+                    else:
+                        message_text = font.render('You can only enter numbers', True, (orange_color))  
 
         # Game logic
 
