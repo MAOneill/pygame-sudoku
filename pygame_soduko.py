@@ -4,6 +4,14 @@ import pygame
 #raw board is an array of 9 arrays with 9 tuples each
 from board1_raw import rawboard
 
+class Tcell():
+    def __init__(self,tinycell):
+        self.set = False
+        # self.image = None
+        self.image = pygame.image.load('numbers/%d_pencil.png' % tinycell).convert_alpha()
+
+        
+
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
     def __init__(self,row,col,value,answer=None):
@@ -45,8 +53,9 @@ class Unknown_cell(Cell):
         super().__init__(row,col,value,answer)
         self.answer = answer
         self.value = 0
-        self.pencil = {1:False,2:False,3:False,4:False,5:False,6:False,7:False,8:False,9:False}
-        self.possibles = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
+        self.pencils ={}
+        for tinycell in range(1,10):
+            self.pencils[tinycell] = Tcell(tinycell)
         #change this to a null image
         self.image = None
     def change_cell_image(self):
@@ -189,7 +198,7 @@ def main():
                 col = int (x // 81) + 1
                 cell = 'r%dc%d' % (row,col)
                 print(board[cell].answer)
-
+                print(board[cell].pencils[4].image)
                 #change the value of the message text
                 if type(board[cell]) == Known_cell:    #if known:
                     message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
@@ -229,8 +238,14 @@ def main():
 
         #set the blits for all known numbers
         for cell in board.values():
-            if cell.image != None and pencil == False:
-                screen.blit(cell.image, (cell.x_position,cell.y_position))
+            if pencil == False:     #fill images based only on values
+                if cell.image != None :
+                    screen.blit(cell.image, (cell.x_position,cell.y_position))
+            else:               #in pencil mode
+                if type(cell) == Known_cell:
+                    screen.blit(cell.image, (cell.x_position,cell.y_position))
+                else:       #unknown cells
+                    screen.blit(cell.pencils[1].image, (cell.x_position, cell.y_position))
 
         #while we are in pencil mode,
         # the cells that are blank (guess = None and value = None)  
