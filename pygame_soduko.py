@@ -24,8 +24,8 @@ class Cell():
         colbox = int((col-1)//3)
         self.inner = (rowbox *3 )+ colbox+ 1
 
-        self.x_position = (row-1) * 81
-        self.y_position = (col-1) * 81    
+        self.x_position = (col-1) * 81
+        self.y_position = (row-1) * 81    
 
         #you can only change the image for an unknown cell:
     def change_cell_image(self):
@@ -202,14 +202,16 @@ def main():
                 screen_clicked = True
                 x = event.pos[0]
                 y = event.pos[1]
-                #change the value of the message text
-                message_text = font.render('Enter a number from 1 t0 9', True, (orange_color))
-                
+
                 # use math to figure out what square they are in:
-                row =  int(x // 81) + 1
-                col = int (y // 81) + 1
-                # cell = 'r%dc%d' % (row,col)
-                # print(cell)
+                row =  int(y // 81) + 1
+                col = int (x // 81) + 1
+                cell = 'r%dc%d' % (row,col)
+                print(board['r%dc%d' % (row,col)].answer)
+
+                #change the value of the message text
+                message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+                
 
             if event.type == pygame.KEYDOWN:
                 # print('key down %r' % event.key)
