@@ -157,7 +157,8 @@ def main():
 
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
-       
+    pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
+    
 
     #create data
     #do this after you set images, although I guess this could be done inside..
@@ -249,12 +250,13 @@ def main():
                 if cell.image != None :
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
             else:               #in pencil mode
-                if type(cell) == Known_cell:
+                if type(cell) == Known_cell:    #use cell value
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
                 else:       #unknown cells
                     for z in range(1,10):
                         # screen.blit(cell.pencils[z].image, (cell.x_position, cell.y_position))
                         screen.blit(cell.pencils[z].image, (cell.pencils[z].xpos,cell.pencils[z].ypos))
+                        screen.blit(pencil_grid_image, (cell.x_position,cell.y_position))
                     
 
         #while we are in pencil mode,
