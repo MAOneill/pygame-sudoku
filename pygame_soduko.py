@@ -27,9 +27,10 @@ class Cell():
         self.x_position = (row-1) * 81
         self.y_position = (col-1) * 81       
 
-    def change_cell_image(self,value):
+    def change_cell_image(self):
+        #changes the display image based on the GUESS value
         #not tested yet
-        self.image = pygame.image.load('numbers/%d_background_transparent.png' % value).convert_alpha()
+        self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
         # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
 
 class Known_cell(Cell):
@@ -211,6 +212,7 @@ def main():
                     if number != None:      #it got a value number
                         #update cell value
                         board['r%dc%d' % (row,col)].guess = number
+                        board['r%dc%d' % (row,col)].change_cell_image()
                         #flip switches:
                         screen_clicked = False
 
