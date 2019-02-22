@@ -280,7 +280,7 @@ def main():
                 else:
                     message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
             if game_state == "Pencil":
-                message_text = font.render("click on the tiny cell to pencil in your possible options" , True, (orange_color))
+                message_text = font.render("click on the tiny cell to toggle-in your possible options" , True, (orange_color))
 
                 if board_clicked == True : 
                         #update  pencil cell value (true/false) - flip its value
@@ -330,7 +330,7 @@ def main():
 
         #general message...add press P for pencil??
         gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
-        gen_text2 = font.render('Press P to toggle between pencil values or Solving', True, (pitch_blue_color))
+        gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
         
         screen.blit(gen_text, (3, 750))
         screen.blit(gen_text2, (3, 765))
