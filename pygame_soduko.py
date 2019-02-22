@@ -9,6 +9,8 @@ class Tcell():
         self.set = False
         # self.image = None
         self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
+        #default blank
+        self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
 
         
 
@@ -135,12 +137,14 @@ def main():
 
     blue_color = (97, 159, 182)  #background color
     background_color = (244,237,221)
+    background_color = (159,209,204)
     blue_color = (97, 159, 182)  #sky_blue
     red_color = (255,0,0)
     pitch_blue_color = (83,94,126)
     red_color = (255,0,0)
     green_color = (89,162,134)
     orange_color = (224,95,20)
+    sea_foam_color = (159,209,204)
 
 
     pygame.init()
@@ -245,7 +249,9 @@ def main():
                 if type(cell) == Known_cell:
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
                 else:       #unknown cells
-                    screen.blit(cell.pencils[1].image, (cell.x_position, cell.y_position))
+                    for z in range(1,10):
+                        screen.blit(cell.pencils[z].image, (cell.x_position, cell.y_position))
+                    
 
         #while we are in pencil mode,
         # the cells that are blank (guess = None and value = None)  
