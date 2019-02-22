@@ -228,7 +228,7 @@ def main():
                         screen_clicked = False
 
                     else:
-                        message_text = font.render('You can only enter numbers', True, (orange_color))  
+                        message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
 
         # Game logic
 
@@ -239,8 +239,17 @@ def main():
 
         #set the blits for all known numbers
         for cell in board.values():
-            if cell.image != None:
+            if cell.image != None and pencil == False:
                 screen.blit(cell.image, (cell.x_position,cell.y_position))
+
+        #while we are in pencil mode,
+        # the cells that are blank (guess = None and value = None)  
+        # have their image updated with their possible values
+        # this requires 9 blit values and a grid
+        #       
+        while pencil == True:
+            pass
+
 
         screen.blit(grid_image, (0,0))
         # screen.blit(image6, (250, 250))
