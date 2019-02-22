@@ -31,8 +31,6 @@ class Cell():
     def change_cell_image(self):
         pass
 
-
-
 class Known_cell(Cell):
     def __init__(self,row,col,value,answer):
         super().__init__(row,col,value,answer)
@@ -42,7 +40,6 @@ class Known_cell(Cell):
         self.image = pygame.image.load('numbers/%d_background_transparent.png' % answer).convert_alpha()
         # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
     
-
 class Unknown_cell(Cell):
     def __init__(self,row,col,value,answer=None):
         super().__init__(row,col,value,answer)
@@ -57,9 +54,6 @@ class Unknown_cell(Cell):
         #not tested yet
         self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
         # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
-
-
-
 
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -124,10 +118,6 @@ def print_grid(cube,what):
         print("----"*9 + "-") #separator lines and bottom border
 
 
-
-
-
-
 def main():
 
     # declare the size of the canvas
@@ -152,25 +142,14 @@ def main():
 
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
-   
-    # pencil_image1 = pygame.image.load('numbers/1_pencil.png').convert_alpha()
-    # pencil_image2 = pygame.image.load('numbers/2_pencil.png').convert_alpha()
-    # pencil_image3 = pygame.image.load('numbers/3_pencil.png').convert_alpha()
-    # pencil_image4 = pygame.image.load('numbers/4_pencil.png').convert_alpha()
-    # pencil_image5 = pygame.image.load('numbers/5_pencil.png').convert_alpha()
-    # pencil_image6 = pygame.image.load('numbers/6_pencil.png').convert_alpha()
-    # pencil_image7 = pygame.image.load('numbers/7_pencil.png').convert_alpha()
-    # pencil_image8 = pygame.image.load('numbers/8_pencil.png').convert_alpha()
-    # pencil_image9 = pygame.image.load('numbers/9_pencil.png').convert_alpha()
-    
+       
 
     #create data
     #do this after you set images, although I guess this could be done inside..
     board = create_board(rawboard)
     
-    for each in board.values():
-        print(each.answer)
-
+    # for each in board.values():
+    #     print(each.answer)
     #these print to the terminalo
     # print_grid(board,"value")
     # print_grid(board,"answer")
@@ -184,7 +163,9 @@ def main():
     row = 0
     col = 0
     cell = 0
+
     stop_game = False
+
     pencil = False  #state at which to enter pencil values
     solving = True   #state at which to enter value.  You havce to click to get to that state   
     screen_clicked = False
@@ -198,7 +179,7 @@ def main():
             
             # print("no event type")
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print('mouse down at %d, %d' % event.pos)  #to terminal
+                # print('mouse down at %d, %d' % event.pos)  #to terminal
                 screen_clicked = True
                 x = event.pos[0]
                 y = event.pos[1]
@@ -207,18 +188,24 @@ def main():
                 row =  int(y // 81) + 1
                 col = int (x // 81) + 1
                 cell = 'r%dc%d' % (row,col)
-                print(board['r%dc%d' % (row,col)].answer)
+                print(board[cell].answer)
 
                 #change the value of the message text
-                message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
-                
-
+                if type(board[cell]) == Known_cell:    #if known:
+                    message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
+                else:       #Unknown value, changeable
+                    message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+            
+            # Game logic
+               
             if event.type == pygame.KEYDOWN:
                 # print('key down %r' % event.key)
                 entry = event.key
-                if entry == 112: pass    #this is for P for pencil
+
+                if entry == 112:     #this is for P for pencil
+                    pencil = True
                 
-                if solving == True:      #we are in the solving state and a key has been pressed
+                if screen_clicked == True:      #we are in the solving state and a key has been pressed
                     choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,59:9}
                     number = choices.get(entry, None) 
                     if number != None:      #it got a value number
@@ -228,11 +215,12 @@ def main():
                         board['r%dc%d' % (row,col)].change_cell_image()
                         #flip switches:
                         screen_clicked = False
+                        #change message
+                        message_text = font.render("", True, (orange_color))  
 
                     else:
                         message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
 
-        # Game logic
 
         # Draw background
         screen.fill(background_color)
@@ -249,8 +237,8 @@ def main():
         # have their image updated with their possible values
         # this requires 9 blit values and a grid
         #       
-        while pencil == True:
-            pass
+        # while pencil == True:
+        #     pass
 
 
         screen.blit(grid_image, (0,0))
