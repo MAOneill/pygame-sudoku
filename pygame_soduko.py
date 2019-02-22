@@ -241,11 +241,8 @@ def main():
                 # if in game board return coordinates. 
                 # print('mouse down at %d, %d' % event.pos)  #to terminal
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
-                print("my cell is  working here:")
-                print(board[cell].guess)
-                print(cell)
+                
                 #change the value of the message text
-                print(board[cell].value)
 
                 if board_clicked == True:
                     if type(board[cell]) == Known_cell:    #if known:
