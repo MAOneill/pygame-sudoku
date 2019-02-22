@@ -302,11 +302,6 @@ def main():
                         board[cell].guess = None
                     else:
                         board[cell].guess = number
-                    # if number == 0:
-                    #     board['r%dc%d' % (row,col)].guess = None
-                    # else:
-                    #     board['r%dc%d' % (row,col)].guess = number
-                    
                     # print(undo_array)
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
