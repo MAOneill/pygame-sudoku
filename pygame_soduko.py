@@ -141,14 +141,14 @@ def set_coordinates_from_click(event):
         tempcol = (x % 81) // 27
         temprow = (y % 81) // 27
         pencilplacement = temprow * 3 + tempcol + 1
-        print("the pencil cell is %d" % pencilplacement)
+        # print("the pencil cell is %d" % pencilplacement)
     else:
         board_clicked = False
         row = 0
         col = 0
         cell = ""
+        pencilplacement = 0
     return row,col,cell,board_clicked,pencilplacement
-
 
 def main():
 
@@ -211,7 +211,7 @@ def main():
     stop_game = False
 
     pencil = False  #state at which to enter pencil values
-    solving = True   #state at which to enter value.  You havce to click to get to that state   
+    # solving = True   #state at which to enter value.  You havce to click to get to that state   
 
     board_clicked = False
 
