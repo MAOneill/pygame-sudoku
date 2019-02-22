@@ -243,8 +243,11 @@ def main():
                 # print('mouse down at %d, %d' % event.pos)  #to terminal
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
 
-                # print(board[cell].answer)
+                print(board[cell].guess)
+                print(cell)
                 #change the value of the message text
+                print(board[cell].value)
+
                 if board_clicked == True:
                     if type(board[cell]) == Known_cell:    #if known:
                         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
@@ -261,8 +264,8 @@ def main():
                 
 
 
-                # letter_choices = {104:"Hint",121:"Y",101:"Error",115:"Solved",110:"Normal",112:"Pencil",98:"Blank",103:"Newgame"}
-                letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo"}
+                # letter_choices = {121:"Y",101:"Error",115:"Solved",98:"Blank",103:"Newgame"}
+                letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint"}
                 # game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
                 game_state = letter_choices.get(entry,game_state)  #don't change the state unless a valid state
                 if game_state == "Esc":  #this will end the game
@@ -275,6 +278,9 @@ def main():
 
 
             #state evaluations
+            if game_state == "Normal":
+                message_text =  font.render('Click on a blank square to enter value', True, (orange_color))
+
             #we are in the "Normal" state and a key has been pressed
             # if board_clicked == True and pencil == False:    
             if board_clicked == True and game_state == "Normal":  
@@ -335,6 +341,28 @@ def main():
                 #revert screen display to Normal
                 game_state = "Normal"
  
+            if game_state == "Hint":
+                message_text = font.render('Select the cell you want the answer to', True, (orange_color))
+                
+                if board_clicked == True:
+                    print("my cell is ")
+                    print(cell)
+                    #its not selecting the cell correctly - i get a key error
+                    #what is my cell value
+                    if board[cell].answer == 0:
+                        message_text = font.render("No Hint available", True, (orange_color))
+                    else :
+                        
+                        board[cell].guess = board[cell].answer
+                        print("the answer better not be blank:")
+                        print(board[cell].answer)
+                        board[cell].change_cell_image()
+                
+                    entry = 0        
+                    game_state = "Normal"  #set back to "Normal"
+                    print(game_state)
+                    board_clicked = False
+
         # Draw background
         screen.fill(background_color)
 
@@ -343,7 +371,7 @@ def main():
         #set the blits for all known numbers
         for cell in board.values():
             # if pencil == False:     #fill images based only on values
-            if game_state == "Normal":
+            if game_state == "Normal" or game_state == "Hint":
                 if cell.image != None :
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
             elif game_state == "Pencil":               #in pencil mode
