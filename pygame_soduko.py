@@ -115,13 +115,16 @@ def print_grid(cube,what):
         print("----"*9 + "-") #separator lines and bottom border
 
 
+
+
+
+
 def main():
 
     # declare the size of the canvas
     width = 780
     height = 780
 
-    # define some colors
     blue_color = (97, 159, 182)  #background color
     background_color = (244,237,221)
     blue_color = (97, 159, 182)  #sky_blue
@@ -130,6 +133,7 @@ def main():
     red_color = (255,0,0)
     green_color = (89,162,134)
     orange_color = (224,95,20)
+
 
     pygame.init()
     screen = pygame.display.set_mode((width, height))
@@ -151,6 +155,8 @@ def main():
     # pencil_image9 = pygame.image.load('numbers/9_pencil.png').convert_alpha()
     
     stop_game = False
+    pencil = False  #state at which to enter pencil values
+    solving = True   #state at which to enter value.  You havce to click to get to that state   
 
     #create data
     #do this after you set images, although I guess this could be done inside..
@@ -158,7 +164,7 @@ def main():
     
     for each in board.values():
         print(each.answer)
-        
+
     #these print to the terminalo
     # print_grid(board,"value")
     # print_grid(board,"answer")
@@ -174,12 +180,21 @@ def main():
             # Event handling
             if event.type == pygame.QUIT:
                 stop_game = True
+            
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print('mouse down at %d, %d' % event.pos)  #to terminal
+
+                x = event.pos[0]
+                y = event.pos[1]
                 #change the value of the message text
                 message_text = font.render('Enter a number from 1 t0 9', True, (orange_color))
-                #change the text if they press in a spot
-                #tell them what to do
+                
+                # use math to figure out what square they are in:
+                row =  int(x // 81) + 1
+                cow = int (y // 81) + 1
+            
+                
+
 
             if event.type == pygame.KEYDOWN:
                 print('key down %r' % event.key)
@@ -192,12 +207,9 @@ def main():
         # Game display
 
         #set the blits for all known numbers
-        for i in range(1,10):
-            for j in range(1,10):
-                cell = "r%dc%d" % (i,j)
-                if board[cell].image != None:
-                    #need to add a test for GUESS...
-                    screen.blit(board[cell].image, (board[cell].x_position,board[cell].y_position))
+        for cell in board.values():
+            if cell.image != None:
+                screen.blit(cell.image, (cell.x_position,cell.y_position))
 
         screen.blit(grid_image, (0,0))
         # screen.blit(image6, (250, 250))
@@ -213,8 +225,9 @@ def main():
             # value = input()
             # print(value)
 
+        #general message...add press P for pencil??
         font = pygame.font.Font(None, 25)
-        gen_text = font.render('Click or type and see events in the terminal', True, (pitch_blue_color))
+        gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
         screen.blit(gen_text, (3, 750))
 
 
