@@ -319,9 +319,11 @@ def main():
 
                 if board_clicked == True : 
                         #update  pencil cell value (true/false) - flip its value
-                        board['r%dc%d' % (row,col)].pencils[pencil_box].set = not board['r%dc%d' % (row,col)].pencils[pencil_box].set
+                        # board['r%dc%d' % (row,col)].pencils[pencil_box].set = not board['r%dc%d' % (row,col)].pencils[pencil_box].set
+                        board[cell].pencils[pencil_box].set = not board[cell].pencils[pencil_box].set
                         #updae pencil cell image
-                        board['r%dc%d' % (row,col)].pencils[pencil_box].update_pencil_image()  #self.value work?
+                        # board['r%dc%d' % (row,col)].pencils[pencil_box].update_pencil_image()  #self.value work?
+                        board[cell].pencils[pencil_box].update_pencil_image()  #self.value work?
                         #board_clicked goes back to false till a new click happens
                         board_clicked = False
 
