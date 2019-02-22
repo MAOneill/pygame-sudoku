@@ -204,7 +204,7 @@ def main():
                 col = int (x // 81) + 1
                 cell = 'r%dc%d' % (row,col)
                 print(board[cell].answer)
-                print(board[cell].pencils[4].image)
+                # print(board[cell].pencils[4].image)
                 #change the value of the message text
                 if type(board[cell]) == Known_cell:    #if known:
                     message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
@@ -252,7 +252,8 @@ def main():
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
                 else:       #unknown cells
                     for z in range(1,10):
-                        screen.blit(cell.pencils[z].image, (cell.x_position, cell.y_position))
+                        # screen.blit(cell.pencils[z].image, (cell.x_position, cell.y_position))
+                        screen.blit(cell.pencils[z].image, (cell.pencils[z].xpos,cell.pencils[z].ypos))
                     
 
         #while we are in pencil mode,
