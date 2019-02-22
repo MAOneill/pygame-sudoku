@@ -303,7 +303,8 @@ def main():
                     else:
                         board[cell].guess = number
                     # print(undo_array)
-                    board['r%dc%d' % (row,col)].change_cell_image()
+                    board[cell].change_cell_image()
+                    # board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
                     entry = 0  #reset entry
