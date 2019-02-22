@@ -10,9 +10,9 @@ class Tcell():
         # self.image = None
         self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
         #default blank
-        self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
-        self.xpos = x + ((tinycell-1) //3) * 27
-        self.ypos = y + ((tinycell-1) % 3) * 27
+        # self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
+        self.xpos = x + ((tinycell-1) % 3) * 27
+        self.ypos = y + ((tinycell-1) // 3) * 27
 
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
