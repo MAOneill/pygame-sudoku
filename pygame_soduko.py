@@ -248,9 +248,9 @@ def main():
                     if type(board[cell]) == Known_cell:    #if known:
                         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
                         board_clicked = False  #change this b/c its not a valid square
-                        # entry = 0
+                        entry = 0
                     else:       #Unknown value, changeable
-                        # entry = 0  #clear out entry values
+                        entry = 0  #clear out entry values
                         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
             
             if event.type == pygame.KEYDOWN:            #get game_state
@@ -297,21 +297,21 @@ def main():
                     print ("cell key blowing up:")
                     print(cell)
                     print(row, col)
-                    # print(entry)
-                    # if number == 0:
-                    #     board[cell].guess = None
-                    # else:
-                    #     board[cell].guess = number
+
                     if number == 0:
-                        board['r%dc%d' % (row,col)].guess = None
+                        board[cell].guess = None
                     else:
-                        board['r%dc%d' % (row,col)].guess = number
+                        board[cell].guess = number
+                    # if number == 0:
+                    #     board['r%dc%d' % (row,col)].guess = None
+                    # else:
+                    #     board['r%dc%d' % (row,col)].guess = number
                     
                     # print(undo_array)
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
-                    # entry = 0  #reset entry
+                    entry = 0  #reset entry
                     #change message
                     message_text = font.render("", True, (orange_color))  
 
@@ -364,7 +364,7 @@ def main():
                         # print(board[cell].answer)
                         board[cell].change_cell_image()
                 
-                    # entry = 0        
+                    entry = 0        
                     game_state = "Normal"  #set back to "Normal"
                     print(game_state)
                     board_clicked = False
