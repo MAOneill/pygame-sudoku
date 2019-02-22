@@ -8,11 +8,18 @@ class Tcell():
     def __init__(self,tinycell,x,y):
         self.set = False
         # self.image = None
-        self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
+        # self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
         #default blank
-        # self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
+        self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
         self.xpos = x + ((tinycell-1) % 3) * 27
         self.ypos = y + ((tinycell-1) // 3) * 27
+        self.number = tinycell
+    def update_pencil_image(self):
+        if self.set == True:
+            print("the pencil cell is %d" % self.number)
+            self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % self.number).convert_alpha()
+        else:  #use blank
+            self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
 
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
@@ -212,6 +219,7 @@ def main():
 
     pencil = False  #state at which to enter pencil values
     game_state = "Normal"  #default mode
+    entry = 0
     board_clicked = False
 
 
@@ -220,15 +228,12 @@ def main():
             # Event handling
             if event.type == pygame.QUIT:
                 stop_game = True
-            
-            # print("no event type")
-            if event.type == pygame.MOUSEBUTTONDOWN:
+
+            # Game logic
+            if event.type == pygame.MOUSEBUTTONDOWN:            #get board_coordinates
+                # if in game board return coordinates. 
                 # print('mouse down at %d, %d' % event.pos)  #to terminal
-                
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
-                
-
-
 
                 # print(board[cell].answer)
                 #change the value of the message text
@@ -238,16 +243,9 @@ def main():
                     else:       #Unknown value, changeable
                         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
             
-            # Game logic
-               
-            if event.type == pygame.KEYDOWN:
-                print('key down %r' % event.key)
+            if event.type == pygame.KEYDOWN:            #get game_state
+                print('key down %r. game state is %s' % (event.key,game_state))
                 entry = event.key
-
-                #pressing P toggles between pencil mode or not
-                # if entry == 112:     #this is for P for pencil
-                #     pencil = not pencil
-                    
                 
                 # if entry in range():
                 # letter_choices = {104:"Hint",101:"Error",115:"Solved",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame",27:"Esc"}
@@ -256,30 +254,35 @@ def main():
                 #
                 game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
                 print("game state is %s" % game_state)
-                # if game_state == "Normal":
-                #     game_state == "Pencil"
-                # elif game_state == "Pencil":
-                #     game_state == "Normal"
 
-                 #we are in the "Normal" state and a key has been pressed
-                # if board_clicked == True and pencil == False:    
-                if board_clicked == True and game_state == "Normal":  
-                 
-                    choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9}
-                    number = choices.get(entry, None) 
-                    if number != None:      #it got a value number
-                        #update cell value
-                        # print(board['r%dc%d' % (row,col)].inner)
-                        board['r%dc%d' % (row,col)].guess = number
-                        board['r%dc%d' % (row,col)].change_cell_image()
-                        #flip switches:
+            #we are in the "Normal" state and a key has been pressed
+            # if board_clicked == True and pencil == False:    
+            if board_clicked == True and game_state == "Normal":  
+                
+                choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9}
+                number = choices.get(entry, None) 
+                if number != None:      #it got a value number
+                    #update cell value
+                    # print(board['r%dc%d' % (row,col)].inner)
+                    board['r%dc%d' % (row,col)].guess = number
+                    board['r%dc%d' % (row,col)].change_cell_image()
+                    #flip switches:
+                    board_clicked = False
+                    #change message
+                    message_text = font.render("", True, (orange_color))  
+
+                else:
+                    message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
+            if game_state == "Pencil":
+                message_text = font.render("click on the tiny cell to pencil in your possible options" , True, (orange_color))
+
+                if board_clicked == True : 
+                        #update  pencil cell value (true/false) - flip its value
+                        board['r%dc%d' % (row,col)].pencils[pencil_box].set = not board['r%dc%d' % (row,col)].pencils[pencil_box].set
+                        #updae pencil cell image
+                        board['r%dc%d' % (row,col)].pencils[pencil_box].update_pencil_image()  #self.value work?
+                        #board_clicked goes back to false till a new click happens
                         board_clicked = False
-                        #change message
-                        message_text = font.render("", True, (orange_color))  
-
-                    else:
-                        message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
-
 
         # Draw background
         screen.fill(background_color)
