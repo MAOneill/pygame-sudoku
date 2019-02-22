@@ -156,12 +156,13 @@ def main():
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
     #buttons
-    other_button_image = pygame.image.load('numbers/other_button.png').convert_alpha()
-    pencil_button_image = pygame.image.load('numbers/pencil_button.png').convert_alpha()
-    solve_button_image = pygame.image.load('numbers/solve_button.png').convert_alpha()
-    new_button_image = pygame.image.load('numbers/new_button.png').convert_alpha()
-    undo_button_image = pygame.image.load('numbers/undo_button.png').convert_alpha()
-    hint_button_image = pygame.image.load('numbers/hint_button.png').convert_alpha()
+    other_button_image = pygame.image.load('numbers/other_but.png').convert_alpha()
+    pencil_button_image = pygame.image.load('numbers/pencil_but.png').convert_alpha()
+    solve_button_image = pygame.image.load('numbers/solve_but.png').convert_alpha()
+    new_button_image = pygame.image.load('numbers/new_but.png').convert_alpha()
+    undo_button_image = pygame.image.load('numbers/undo_but.png').convert_alpha()
+    hint_button_image = pygame.image.load('numbers/hint_but.png').convert_alpha()
+    error_button_image = pygame.image.load('numbers/error_but.png').convert_alpha()
 
     #create data
     #do this after you set images, although I guess this could be done inside..
@@ -289,12 +290,13 @@ def main():
         screen.blit(gen_text2, (3, 765))
 
         #display menu buttons
-        screen.blit(new_button_image, (795,20))
-        screen.blit(hint_button_image, (795,70))
-        screen.blit(pencil_button_image, (795,120))
-        screen.blit(undo_button_image, (795,170))
-        screen.blit(other_button_image, (795,220))
-        screen.blit(solve_button_image, (795,270))
+        screen.blit(new_button_image, (740,20))
+        screen.blit(hint_button_image, (740,70))
+        screen.blit(pencil_button_image, (740,120))
+        screen.blit(undo_button_image, (740,170))
+        screen.blit(other_button_image, (740,220))
+        screen.blit(solve_button_image, (740,270))
+        screen.blit(error_button_image, (740,270))
 
         pygame.display.update()     #internal function
 
