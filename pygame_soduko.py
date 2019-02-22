@@ -223,22 +223,16 @@ def main():
                 
                 row,col,cell,board_clicked = set_coordinates_from_click(event)
                 
-                # screen_clicked = True
-                # x = event.pos[0]
-                # y = event.pos[1]
-                # # use math to figure out what square they are in:
-                # row =  int(y // 81) + 1
-                # col = int (x // 81) + 1
-                # cell = 'r%dc%d' % (row,col)
 
 
 
                 # print(board[cell].answer)
                 #change the value of the message text
-                if type(board[cell]) == Known_cell:    #if known:
-                    message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
-                else:       #Unknown value, changeable
-                    message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+                if board_clicked == True:
+                    if type(board[cell]) == Known_cell:    #if known:
+                        message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
+                    else:       #Unknown value, changeable
+                        message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
             
             # Game logic
                
