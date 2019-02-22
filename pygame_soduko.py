@@ -189,6 +189,7 @@ def main():
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
+    big_x_image = pygame.image.load('numbers/x.png').convert_alpha()
     #buttons
     other_button_image = pygame.image.load('numbers/other_but.png').convert_alpha()
     pencil_button_image = pygame.image.load('numbers/pencil_but.png').convert_alpha()
@@ -264,9 +265,8 @@ def main():
                 
 
 
-                # letter_choices = {121:"Y",101:"Error",115:"Solved",98:"Blank",103:"Newgame"}
-                letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint"}
-                # game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
+                # letter_choices = {121:"Y",115:"Solved",98:"Blank",103:"Newgame"}
+                letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint",101:"Error"}
                 game_state = letter_choices.get(entry,game_state)  #don't change the state unless a valid state
                 if game_state == "Esc":  #this will end the game
                     stop_game = True
@@ -280,6 +280,9 @@ def main():
             #state evaluations
             if game_state == "Normal":
                 message_text =  font.render('Click on a blank square to enter value', True, (orange_color))
+            if game_state == "Error":
+                message_text =  font.render('These are your mistakes', True, (orange_color))
+
 
             #we are in the "Normal" state and a key has been pressed
             # if board_clicked == True and pencil == False:    
@@ -371,9 +374,13 @@ def main():
         #set the blits for all known numbers
         for cell in board.values():
             # if pencil == False:     #fill images based only on values
-            if game_state == "Normal" or game_state == "Hint":
+            if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
                 if cell.image != None :
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
+                if game_state == "Error":  #overlay the x if guess is wrong
+                    if type(cell) == Unknown_cell and cell.guess != cell.answer and cell.guess != None:
+                        screen.blit(big_x_image, (cell.x_position,cell.y_position))
+
             elif game_state == "Pencil":               #in pencil mode
                 if type(cell) == Known_cell:    #use cell value
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
