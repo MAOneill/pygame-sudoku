@@ -138,12 +138,16 @@ def set_coordinates_from_click(event):
         col = int (x // 81) + 1
         cell = 'r%dc%d' % (row,col)
         # calculate the pencil_cell
+        tempcol = (x % 81) // 27
+        temprow = (y % 81) // 27
+        pencilplacement = temprow * 3 + tempcol + 1
+        print("the pencil cell is %d" % pencilplacement)
     else:
         board_clicked = False
         row = 0
         col = 0
         cell = ""
-    return row,col,cell,board_clicked
+    return row,col,cell,board_clicked,pencilplacement
 
 
 def main():
@@ -201,13 +205,14 @@ def main():
     #set initial values to be used throughout        
     row = 0
     col = 0
-    cell = 0
-    
+    cell = ""
+    pencil_box = 0
 
     stop_game = False
 
     pencil = False  #state at which to enter pencil values
     solving = True   #state at which to enter value.  You havce to click to get to that state   
+
     board_clicked = False
 
 
@@ -221,7 +226,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # print('mouse down at %d, %d' % event.pos)  #to terminal
                 
-                row,col,cell,board_clicked = set_coordinates_from_click(event)
+                row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
                 
 
 
