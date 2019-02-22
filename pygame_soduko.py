@@ -250,8 +250,10 @@ def main():
                     
                 
                 # if entry in range():
-                letter_choices = {104:"Hint",101:"Error",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame",27:"Esc"}
-                # Y is 121, ESC is 27  115:"Solved"
+                # letter_choices = {104:"Hint",101:"Error",115:"Solved",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame",27:"Esc"}
+                letter_choices = {110:"Normal",112:"Pencil"}
+                # Y is 121, ESC is 27  
+                #
                 game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
                 print("game state is %s" % game_state)
                 # if game_state == "Normal":
