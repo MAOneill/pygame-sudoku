@@ -227,7 +227,7 @@ def main():
                 #if
                  #we are in the solving state and a key has been pressed
                 if screen_clicked == True and pencil == False:     
-                    choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,59:9}
+                    choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9}
                     number = choices.get(entry, None) 
                     if number != None:      #it got a value number
                         #update cell value
@@ -298,7 +298,7 @@ def main():
 
         pygame.display.update()     #internal function
 
-        clock.tick(600)  #this was 50
+        clock.tick(60)  #600 makes the fan go crazy
 
     pygame.quit()
 
