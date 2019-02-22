@@ -14,8 +14,6 @@ class Tcell():
         self.xpos = x + ((tinycell-1) //3) * 27
         self.ypos = y + ((tinycell-1) % 3) * 27
 
-        
-
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
     def __init__(self,row,col,value,answer=None):
@@ -130,11 +128,10 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
-
 def main():
 
     # declare the size of the canvas
-    width = 790
+    width = 850
     height = 790
 
     blue_color = (97, 159, 182)  #background color
@@ -158,7 +155,13 @@ def main():
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
-    
+    #buttons
+    other_button_image = pygame.image.load('numbers/other_button.png').convert_alpha()
+    pencil_button_image = pygame.image.load('numbers/pencil_button.png').convert_alpha()
+    solve_button_image = pygame.image.load('numbers/solve_button.png').convert_alpha()
+    new_button_image = pygame.image.load('numbers/new_button.png').convert_alpha()
+    undo_button_image = pygame.image.load('numbers/undo_button.png').convert_alpha()
+    hint_button_image = pygame.image.load('numbers/hint_button.png').convert_alpha()
 
     #create data
     #do this after you set images, although I guess this could be done inside..
@@ -220,9 +223,10 @@ def main():
                 #pressing P toggles between pencil mode or not
                 if entry == 112:     #this is for P for pencil
                     pencil = not pencil
-                # if entry ==
                 
-                if screen_clicked == True:      #we are in the solving state and a key has been pressed
+                #if
+                 #we are in the solving state and a key has been pressed
+                if screen_clicked == True and pencil == False:     
                     choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,59:9}
                     number = choices.get(entry, None) 
                     if number != None:      #it got a value number
@@ -273,14 +277,9 @@ def main():
         # screen.blit(pencil_image9, (600,600))
 
 
-        # font = pygame.font.Font(None, 25)
-        # text_new = font.render('Enter a number from 1 t0 9', True, (red_color))
         # update the message_text
         screen.blit(message_text, (3,731))
            
-            # pygame_popup_window()
-            # value = input()
-            # print(value)
 
         #general message...add press P for pencil??
         font = pygame.font.Font(None, 25)
@@ -289,13 +288,17 @@ def main():
         screen.blit(gen_text, (3, 750))
         screen.blit(gen_text2, (3, 765))
 
+        #display menu buttons
+        screen.blit(new_button_image, (795,20))
+        screen.blit(hint_button_image, (795,70))
+        screen.blit(pencil_button_image, (795,120))
+        screen.blit(undo_button_image, (795,170))
+        screen.blit(other_button_image, (795,220))
+        screen.blit(solve_button_image, (795,270))
 
-        # pygame.display.update()
+        pygame.display.update()     #internal function
 
-
-        pygame.display.update()
-
-        clock.tick(60)
+        clock.tick(600)  #this was 50
 
     pygame.quit()
 
