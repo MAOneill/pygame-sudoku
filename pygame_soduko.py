@@ -253,11 +253,11 @@ def main():
                 entry = event.key
                 
                 # if entry in range():
-                # letter_choices = {104:"Hint",101:"Error",115:"Solved",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame",27:"Esc"}
-                letter_choices = {110:"Normal",112:"Pencil"}
-                # Y is 121, ESC is 27  
-                #
+                # letter_choices = {104:"Hint",121:"Y",101:"Error",115:"Solved",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame"}
+                letter_choices = {110:"Normal",112:"Pencil",27:"Esc"}
                 game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
+                if game_state == "Esc":  #this will end the game
+                    stop_game = True
                 print("game state is %s" % game_state)
 
             #we are in the "Normal" state and a key has been pressed
@@ -329,9 +329,9 @@ def main():
            
 
         #general message...add press P for pencil??
-        # font = pygame.font.Font(None, 25)       #(filename, size)
         gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
         gen_text2 = font.render('Press P to toggle between pencil values or Solving', True, (pitch_blue_color))
+        
         screen.blit(gen_text, (3, 750))
         screen.blit(gen_text2, (3, 765))
 
