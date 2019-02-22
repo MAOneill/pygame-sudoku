@@ -279,16 +279,21 @@ def main():
             # if board_clicked == True and pencil == False:    
             if board_clicked == True and game_state == "Normal":  
                 
-                choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9}
+                choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0}
                 number = choices.get(entry, None) 
                 if number != None:      #it got a value number
                     #update cell value
                     # print(board['r%dc%d' % (row,col)].inner)
                     #add the current cell and its CURRENT vaue to the undo_array
+                    
                     undo_pair = ('r%dc%d' % (row,col),board['r%dc%d' % (row,col)].guess)
                     undo_array.append(undo_pair)
 
-                    board['r%dc%d' % (row,col)].guess = number
+                    #if user enters 0, blank out the value
+                    if number == 0:
+                        board['r%dc%d' % (row,col)].guess = None
+                    else:
+                        board['r%dc%d' % (row,col)].guess = number
                     
                     print(undo_array)
                     board['r%dc%d' % (row,col)].change_cell_image()
@@ -369,7 +374,7 @@ def main():
            
 
         #general message...add press P for pencil??
-        gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
+        gen_text = font.render('Press N, then Click on a blank square to enter value', True, (pitch_blue_color))
         gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
         gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
         
