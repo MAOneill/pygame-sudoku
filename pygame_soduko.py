@@ -8,7 +8,7 @@ class Tcell():
     def __init__(self,tinycell):
         self.set = False
         # self.image = None
-        self.image = pygame.image.load('numbers/%d_pencil.png' % tinycell).convert_alpha()
+        self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
 
         
 
