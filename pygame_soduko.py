@@ -5,12 +5,14 @@ import pygame
 from board1_raw import rawboard
 
 class Tcell():
-    def __init__(self,tinycell):
+    def __init__(self,tinycell,x,y):
         self.set = False
         # self.image = None
         self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
         #default blank
         self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
+        self.xpos = x + ((tinycell-1) //3) * 27
+        self.ypos = y + ((tinycell-1) % 3) * 27
 
         
 
@@ -57,7 +59,7 @@ class Unknown_cell(Cell):
         self.value = 0
         self.pencils ={}
         for tinycell in range(1,10):
-            self.pencils[tinycell] = Tcell(tinycell)
+            self.pencils[tinycell] = Tcell(tinycell,self.x_position,self.y_position)
         #change this to a null image
         self.image = None
     def change_cell_image(self):
