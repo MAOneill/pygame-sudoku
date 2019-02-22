@@ -211,8 +211,7 @@ def main():
     stop_game = False
 
     pencil = False  #state at which to enter pencil values
-    # solving = True   #state at which to enter value.  You havce to click to get to that state   
-
+    game_state = "Normal"  #default mode
     board_clicked = False
 
 
@@ -246,12 +245,24 @@ def main():
                 entry = event.key
 
                 #pressing P toggles between pencil mode or not
-                if entry == 112:     #this is for P for pencil
-                    pencil = not pencil
+                # if entry == 112:     #this is for P for pencil
+                #     pencil = not pencil
+                    
                 
-                #if
-                 #we are in the solving state and a key has been pressed
-                if board_clicked == True and pencil == False:     
+                # if entry in range():
+                letter_choices = {104:"Hint",101:"Error",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame",27:"Esc"}
+                # Y is 121, ESC is 27  115:"Solved"
+                game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
+                print("game state is %s" % game_state)
+                # if game_state == "Normal":
+                #     game_state == "Pencil"
+                # elif game_state == "Pencil":
+                #     game_state == "Normal"
+
+                 #we are in the "Normal" state and a key has been pressed
+                # if board_clicked == True and pencil == False:    
+                if board_clicked == True and game_state == "Normal":  
+                 
                     choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9}
                     number = choices.get(entry, None) 
                     if number != None:      #it got a value number
@@ -275,10 +286,11 @@ def main():
 
         #set the blits for all known numbers
         for cell in board.values():
-            if pencil == False:     #fill images based only on values
+            # if pencil == False:     #fill images based only on values
+            if game_state == "Normal":
                 if cell.image != None :
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
-            else:               #in pencil mode
+            elif game_state == "Pencil":               #in pencil mode
                 if type(cell) == Known_cell:    #use cell value
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
                 else:       #unknown cells
