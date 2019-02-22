@@ -161,7 +161,7 @@ def main():
 
     # declare the size of the canvas
     width = 850
-    height = 790
+    height = 810
 
     #set some colores
     blue_color = (97, 159, 182)  #background color
@@ -340,9 +340,11 @@ def main():
         #general message...add press P for pencil??
         gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
         gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
+        gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
         
         screen.blit(gen_text, (3, 750))
         screen.blit(gen_text2, (3, 765))
+        screen.blit(gen_text3, (3,780))
 
         #display menu buttons
         screen.blit(new_button_image, (740,20))
