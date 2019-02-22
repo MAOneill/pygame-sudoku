@@ -258,13 +258,20 @@ def main():
                 print('key down %r. game state is %s' % (event.key,game_state))
                 entry = event.key
                 
-                # if entry in range():
+                
+
+
                 # letter_choices = {104:"Hint",121:"Y",101:"Error",115:"Solved",110:"Normal",112:"Pencil",98:"Blank",103:"Newgame"}
                 letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo"}
-                game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
+                # game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
+                game_state = letter_choices.get(entry,game_state)  #don't change the state unless a valid state
                 if game_state == "Esc":  #this will end the game
                     stop_game = True
                 print("game state is %s" % game_state)
+
+                # if game_state not "Normal", a key press should reset board_clicked to false
+                if game_state != "Normal":
+                    board_clicked = False
 
 
             #state evaluations
@@ -293,6 +300,7 @@ def main():
 
                 else:
                     message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
+            
             if game_state == "Pencil":
                 message_text = font.render("click on the tiny cell to toggle-in your possible options" , True, (orange_color))
 
