@@ -69,8 +69,10 @@ class Unknown_cell(Cell):
         self.image = None
     def change_cell_image(self):
         #changes the display image based on the GUESS value
-        #not tested yet
-        self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
+        if self.guess == 0:
+            self.image = None       #undo can set it back to zero
+        else:
+            self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
         # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
 
 def create_cell(row,col,tuple,known):
@@ -256,13 +258,15 @@ def main():
                 entry = event.key
                 
                 # if entry in range():
-                # letter_choices = {104:"Hint",121:"Y",101:"Error",115:"Solved",110:"Normal",112:"Pencil",117:"Undo",98:"Blank",103:"Newgame"}
-                letter_choices = {110:"Normal",112:"Pencil",27:"Esc"}
+                # letter_choices = {104:"Hint",121:"Y",101:"Error",115:"Solved",110:"Normal",112:"Pencil",98:"Blank",103:"Newgame"}
+                letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo"}
                 game_state = letter_choices.get(entry, "Normal")  #default is "Normal"
                 if game_state == "Esc":  #this will end the game
                     stop_game = True
                 print("game state is %s" % game_state)
 
+
+            #state evaluations
             #we are in the "Normal" state and a key has been pressed
             # if board_clicked == True and pencil == False:    
             if board_clicked == True and game_state == "Normal":  
@@ -278,7 +282,7 @@ def main():
 
                     board['r%dc%d' % (row,col)].guess = number
                     
-                    print(undo_array, "\n")
+                    print(undo_array)
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
@@ -299,6 +303,24 @@ def main():
                         #board_clicked goes back to false till a new click happens
                         board_clicked = False
 
+            if game_state == "Undo":
+                message_text = font.render("Press Undo again to revert your changes one by one." , True, (orange_color))
+                
+                if len(undo_array) > 0:
+                    to_remove = undo_array.pop()
+                    print (to_remove)
+                    #the cell is changed back to its old value
+                    board[to_remove[0]].guess = to_remove[1]
+                    #update the image for the cell
+                    board[to_remove[0]].change_cell_image()
+                
+
+                else:
+                    game_state = "Normal"
+                    message_text = font.render("There are no more changes to Undo." , True, (orange_color))
+                #revert screen display to Normal
+                game_state = "Normal"
+ 
         # Draw background
         screen.fill(background_color)
 
