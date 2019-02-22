@@ -207,8 +207,9 @@ def main():
 
     #message text
     #this is for when a user does something - the message changes
-    font = pygame.font.Font(None, 25)
-    message_text = font.render('', True, (orange_color))    
+    font = pygame.font.Font(None, 25)                           #set sytem font.  (filename, size)
+    print(pygame.font.get_fonts())
+    message_text = font.render('', True, (orange_color))        #initial value
     #set initial values to be used throughout        
     row = 0
     col = 0
@@ -241,6 +242,7 @@ def main():
                     if type(board[cell]) == Known_cell:    #if known:
                         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
                     else:       #Unknown value, changeable
+                        entry = 0  #clear out entry values
                         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
             
             if event.type == pygame.KEYDOWN:            #get game_state
@@ -268,6 +270,7 @@ def main():
                     board['r%dc%d' % (row,col)].change_cell_image()
                     #flip switches:
                     board_clicked = False
+                    entry = 0  #reset entry
                     #change message
                     message_text = font.render("", True, (orange_color))  
 
@@ -300,7 +303,6 @@ def main():
                     screen.blit(cell.image, (cell.x_position,cell.y_position))
                 else:       #unknown cells
                     for z in range(1,10):
-                        # screen.blit(cell.pencils[z].image, (cell.x_position, cell.y_position))
                         screen.blit(cell.pencils[z].image, (cell.pencils[z].xpos,cell.pencils[z].ypos))
                         screen.blit(pencil_grid_image, (cell.x_position,cell.y_position))
                     
@@ -324,7 +326,7 @@ def main():
            
 
         #general message...add press P for pencil??
-        font = pygame.font.Font(None, 25)
+        # font = pygame.font.Font(None, 25)       #(filename, size)
         gen_text = font.render('Click on a blank square to enter value', True, (pitch_blue_color))
         gen_text2 = font.render('Press P to toggle between pencil values or Solving', True, (pitch_blue_color))
         screen.blit(gen_text, (3, 750))
