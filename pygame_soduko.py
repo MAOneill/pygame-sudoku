@@ -68,8 +68,9 @@ class Unknown_cell(Cell):
         #change this to a null image
         self.image = None
     def change_cell_image(self):
+        print(self.guess)
         #changes the display image based on the GUESS value
-        if self.guess == 0:
+        if self.guess == None or self.guess == 0:
             self.image = None       #undo can set it back to zero
         else:
             self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
