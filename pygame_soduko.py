@@ -184,7 +184,7 @@ def clear_coordinates():
 def main():
 
     # declare the size of the canvas
-    width = 850
+    width = 900
     height = 810
 
     #set some colores
@@ -412,9 +412,23 @@ def main():
         gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
         gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
         
+        side_text1 = font.render('N - Normal', True, (pitch_blue_color))
+        screen.blit(side_text1, (730,0))
+        side_text2 = font.render('P - Pencil', True, (pitch_blue_color))
+        screen.blit(side_text2, (730,40))
+        side_text3 = font.render('U - Undo', True, (pitch_blue_color))
+        screen.blit(side_text3, (730,80))
+        side_text4 = font.render('E - Errors', True, (pitch_blue_color))
+        screen.blit(side_text4, (730,120))
+        side_text5 = font.render('U - Undo', True, (pitch_blue_color))
+        screen.blit(side_text5, (730,160))
+        side_text6 = font.render('ESC - Quit', True, (pitch_blue_color))
+        screen.blit(side_text6, (730,200))
+
         screen.blit(gen_text, (3, 750))
         screen.blit(gen_text2, (3, 765))
         screen.blit(gen_text3, (3,780))
+        
 
         pygame.display.update()     #internal function
 
