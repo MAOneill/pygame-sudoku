@@ -171,6 +171,14 @@ def set_coordinates_from_click(event):
         cell = ""
         pencilplacement = 0
     return row,col,cell,board_clicked,pencilplacement
+    
+def clear_coordinates():
+    r = 0
+    c = 0
+    cl = ""
+    penc = 0
+    board_clicked = False
+    return r,c,cl,board_clicked,penc
 
 def main():
 
