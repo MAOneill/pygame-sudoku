@@ -5,12 +5,16 @@ import random
 
 random = random.randint(1, 3)   
 
-if random == 1:
-    from board1_raw import rawboard
-elif random == 2:
-    from board2_raw import rawboard
-else:
-    from board3_raw import rawboard
+#is there anyway to automate this???
+# if random == 1:
+#     from board1_raw import rawboard
+# elif random == 2:
+#     from board2_raw import rawboard
+# else:
+#     from board3_raw import rawboard
+
+#this works...but some of the documentation says not to use it....
+exec('from board%d_raw import rawboard' % random)
 
 class Tcell():
     def __init__(self,tinycell,x,y):
