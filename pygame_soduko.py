@@ -311,10 +311,8 @@ def main():
                 number = choices.get(entry, None) 
                 if number != None:      #it got a value number
                     #update cell value
-                    # print(board['r%dc%d' % (row,col)].inner)
                     #add the current cell and its CURRENT vaue to the undo_array
                     
-                    # undo_pair = ('r%dc%d' % (row,col),board['r%dc%d' % (row,col)].guess)
                     undo_pair = (cell,board[cell].guess)
                     undo_array.append(undo_pair)
 
@@ -340,10 +338,8 @@ def main():
 
                 if board_clicked == True : 
                         #update  pencil cell value (true/false) - flip its value
-                        # board['r%dc%d' % (row,col)].pencils[pencil_box].set = not board['r%dc%d' % (row,col)].pencils[pencil_box].set
                         board[cell].pencils[pencil_box].set = not board[cell].pencils[pencil_box].set
                         #updae pencil cell image
-                        # board['r%dc%d' % (row,col)].pencils[pencil_box].update_pencil_image()  #self.value work?
                         board[cell].pencils[pencil_box].update_pencil_image()  #self.value work?
                         #board_clicked goes back to false till a new click happens
                         board_clicked = False
@@ -372,15 +368,11 @@ def main():
                 if board_clicked == True:
                     print("my cell is within hint")
                     print(cell)
-                    #its not selecting the cell correctly - i get a key error
-                    #what is my cell value
                     if board[cell].answer == 0:
                         message_text = font.render("No Hint available", True, (orange_color))
                     else :
                         
                         board[cell].guess = board[cell].answer
-                        print("the answer better not be blank:")
-                        # print(board[cell].answer)
                         board[cell].change_cell_image()
                 
                     entry = 0        
@@ -395,7 +387,6 @@ def main():
 
         #set the blits for all known numbers
         for thecell in board.values():
-            # if pencil == False:     #fill images based only on values
             if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
                 if thecell.image != None :
                     screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
@@ -404,26 +395,20 @@ def main():
                         screen.blit(big_x_image, (thecell.x_position,thecell.y_position))
 
             elif game_state == "Pencil":               #in pencil mode
+                        #while we are in pencil mode,the cells that are blank (guess = None and value = None)  
+                        # have their image updated with their possible values
+
                 if type(thecell) == Known_cell:    #use cell value
                     screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
                 else:       #unknown cells
                     for z in range(1,10):
+                        # this requires 9 blit values and a grid
                         screen.blit(thecell.pencils[z].image, (thecell.pencils[z].xpos,thecell.pencils[z].ypos))
                         screen.blit(pencil_grid_image, (thecell.x_position,thecell.y_position))
                     
 
-        #while we are in pencil mode,
-        # the cells that are blank (guess = None and value = None)  
-        # have their image updated with their possible values
-        # this requires 9 blit values and a grid
-        #       
-        # while pencil == True:
-        #     pass
-
 
         screen.blit(grid_image, (0,0))
-        # screen.blit(image6, (250, 250))
-        # screen.blit(pencil_image9, (600,600))
 
 
         # update the message_text
