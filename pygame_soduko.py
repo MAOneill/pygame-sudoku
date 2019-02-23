@@ -1,11 +1,16 @@
 import pygame
-
+import random 
 #this is the functiont that can read in the raw board settings
 #raw board is an array of 9 arrays with 9 tuples each
 
-# from board1_raw import rawboard
-# from board2_raw import rawboard
-from board3_raw import rawboard
+random = random.randint(1, 3)   
+
+if random == 1:
+    from board1_raw import rawboard
+elif random == 2:
+    from board2_raw import rawboard
+else:
+    from board3_raw import rawboard
 
 class Tcell():
     def __init__(self,tinycell,x,y):
@@ -203,6 +208,7 @@ def main():
     error_button_image = pygame.image.load('numbers/error_but.png').convert_alpha()
 
     #create data
+    
     board = create_board(rawboard)
     
     # for each in board.values():
