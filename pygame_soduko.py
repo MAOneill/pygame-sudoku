@@ -181,8 +181,8 @@ def main():
 
     #set some colores
     blue_color = (97, 159, 182)  #background color
-    background_color = (244,237,221)
-    background_color = (159,209,204)
+    background_color = (244,237,221)  #cream
+    # background_color = (159,209,204)   #blue
     blue_color = (97, 159, 182)  #sky_blue
     red_color = (255,0,0)
     pitch_blue_color = (83,94,126)
@@ -207,7 +207,8 @@ def main():
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
-    big_x_image = pygame.image.load('numbers/x.png').convert_alpha()
+    # big_x_image = pygame.image.load('numbers/x.png').convert_alpha()
+    big_x_image = pygame.image.load('numbers/x_diffuse.png').convert_alpha()
 
     #create data
     board = create_board(rawboard)
@@ -238,34 +239,21 @@ def main():
             if event.type == pygame.QUIT:
                 stop_game = True
 
-            # Game logic
+            # GET USER INPUT VALUES FROM KEYBOARD AND MOUSE
             if event.type == pygame.MOUSEBUTTONDOWN:            #get board_coordinates
 
                 # if in game board return coordinates. 
                 # a click outside of the soduko board does NOTHING
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
-                
-                #change the value of the message text
-
-                # if board_clicked == True:
-                #     if type(board[cell]) == Known_cell:    #if known:
-                #         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
-                #         board_clicked = False  #change this b/c its not a valid square
-                #         entry = 0
-                #     else:       #Unknown value, changeable
-                #         entry = 0  #clear out entry values
-                #         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+                entry = 0
             
             if event.type == pygame.KEYDOWN:            #get game_state
                 print('key down %r. game state is %s' % (event.key,game_state))
                 entry = event.key
-                
-                
-
-
                 # letter_choices = {121:"Y",115:"Solved",98:"Blank",103:"Newgame"}
                 letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint",101:"Error"}
                 game_state = letter_choices.get(entry,game_state)  #don't change the state unless a valid state
+                
                 if game_state == "Esc":  #this will end the game
                     stop_game = True
                 print("game state is %s" % game_state)
@@ -275,7 +263,7 @@ def main():
                     board_clicked = False
 
 
-            #state evaluations
+            #state evaluations and GAME LOGIC
             if game_state == "Normal":
                 message_text =  font.render('Click on a blank square to enter value', True, (orange_color))
             if game_state == "Error":
@@ -283,7 +271,6 @@ def main():
 
 
             #we are in the "Normal" state and a key has been pressed
-            # if board_clicked == True and pencil == False:    
             if board_clicked == True and game_state == "Normal":  
                 
                 choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0}
@@ -401,6 +388,9 @@ def main():
                 entry = 0  #clear out entry values
                 message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
         
+        if game_state == "Undo":
+            message_text = font.render("Press Undo again to revert your changes one by one." , True, (orange_color))
+
         gen_text = font.render('Press N, then Click on a blank square to enter value', True, (pitch_blue_color))
         gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
         gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
