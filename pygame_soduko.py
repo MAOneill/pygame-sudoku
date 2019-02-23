@@ -171,15 +171,16 @@ def set_coordinates_from_click(event):
         cell = ""
         pencilplacement = 0
     return row,col,cell,board_clicked,pencilplacement
-    
+
 def clear_coordinates():
     r = 0
     c = 0
     cl = ""
     penc = 0
     board_clicked = False
+    # entry = 0   #should this be here??
     return r,c,cl,board_clicked,penc
-
+    
 def main():
 
     # declare the size of the canvas
@@ -236,19 +237,21 @@ def main():
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           #set sytem font.  (filename, size)
     # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           #set sytem font.  (filename, size)
     message_text = font.render('', True, (orange_color))        #initial value
-    #set initial values to be used throughout        
-    row = 0
-    col = 0
-    cell = ""
-    pencil_box = 0
+    #set initial values to be used throughout  
+
+    row,col,cell,pencil_box,board_clicked = clear_coordinates()      
+    # row = 0
+    # col = 0
+    # cell = ""
+    # pencil_box = 0
+    # board_clicked = False
 
     undo_array = []     #this holds the cells that have had value changed.  in order.  it can hold duplicates
 
     stop_game = False
-    pencil = False  #state at which to enter pencil values
+    # pencil = False  #state at which to enter pencil values.  NOT USED
     game_state = "Normal"  #default mode
     entry = 0
-    board_clicked = False
 
 
     while not stop_game:
