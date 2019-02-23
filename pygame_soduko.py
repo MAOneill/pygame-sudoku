@@ -5,14 +5,6 @@ import random
 
 random = random.randint(1, 3)   
 
-#is there anyway to automate this???
-# if random == 1:
-#     from board1_raw import rawboard
-# elif random == 2:
-#     from board2_raw import rawboard
-# else:
-#     from board3_raw import rawboard
-
 #this works...but some of the documentation says not to use it....
 exec('from board%d_raw import rawboard' % random)
 
@@ -199,7 +191,6 @@ def main():
     orange_color = (224,95,20)
     sea_foam_color = (159,209,204)
 
-    #set some fonts
 
     #initalize pygame and playing window
     pygame.init()
@@ -207,13 +198,18 @@ def main():
     pygame.display.set_caption('Soduko')
     clock = pygame.time.Clock()
 
+    #set some fonts - do AFTER pygame.init
+    # font = pygame.font.Font(None, 25)                 
+    # #set sytem font.  (filename, size)
+    font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           
+    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           #set sytem font.  (filename, size)
+
     # Game initialization
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
     big_x_image = pygame.image.load('numbers/x.png').convert_alpha()
 
     #create data
-    
     board = create_board(rawboard)
     
     # for each in board.values():
@@ -225,25 +221,15 @@ def main():
 
     #message text
     #this is for when a user does something - the message changes
-    # font = pygame.font.Font(None, 25)                           #set sytem font.  (filename, size)
-    font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           #set sytem font.  (filename, size)
-    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           #set sytem font.  (filename, size)
-    message_text = font.render('', True, (orange_color))        #initial value
+    message_text = font.render('', True, (orange_color))        
+    
     #set initial values to be used throughout  
-
     row,col,cell,pencil_box,board_clicked = clear_coordinates()      
-    # row = 0
-    # col = 0
-    # cell = ""
-    # pencil_box = 0
-    # board_clicked = False
 
     undo_array = []     #this holds the cells that have had value changed.  in order.  it can hold duplicates
-
     stop_game = False
-    # pencil = False  #state at which to enter pencil values.  NOT USED
     game_state = "Normal"  #default mode
-    entry = 0
+    entry = 0       #where and why do I need this????
 
 
     while not stop_game:
@@ -254,20 +240,21 @@ def main():
 
             # Game logic
             if event.type == pygame.MOUSEBUTTONDOWN:            #get board_coordinates
+
                 # if in game board return coordinates. 
-                # print('mouse down at %d, %d' % event.pos)  #to terminal
+                # a click outside of the soduko board does NOTHING
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
                 
                 #change the value of the message text
 
-                if board_clicked == True:
-                    if type(board[cell]) == Known_cell:    #if known:
-                        message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
-                        board_clicked = False  #change this b/c its not a valid square
-                        entry = 0
-                    else:       #Unknown value, changeable
-                        entry = 0  #clear out entry values
-                        message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+                # if board_clicked == True:
+                #     if type(board[cell]) == Known_cell:    #if known:
+                #         message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
+                #         board_clicked = False  #change this b/c its not a valid square
+                #         entry = 0
+                #     else:       #Unknown value, changeable
+                #         entry = 0  #clear out entry values
+                #         message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
             
             if event.type == pygame.KEYDOWN:            #get game_state
                 print('key down %r. game state is %s' % (event.key,game_state))
@@ -402,15 +389,28 @@ def main():
 
         screen.blit(grid_image, (0,0))
 
-
-        # update the message_text
-        screen.blit(message_text, (3,731))
-           
-
-        #general message...add press P for pencil??
+        # update the message_text based on state values
+                
+        if board_clicked == True and game_state == 'Normal':
+            if type(board[cell]) == Known_cell:    #if known:
+                message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
+                row,col,cell,board_clicked,pencil_box = clear_coordinates()
+                # board_clicked = False  #change this b/c its not a valid square
+                entry = 0   #need???
+            else:       #Unknown value, changeable
+                entry = 0  #clear out entry values
+                message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+        
         gen_text = font.render('Press N, then Click on a blank square to enter value', True, (pitch_blue_color))
         gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
         gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
+       
+        screen.blit(message_text, (3,731))
+        screen.blit(gen_text, (3, 750))
+        screen.blit(gen_text2, (3, 765))
+        screen.blit(gen_text3, (3,780))
+
+
         
         side_text1 = font.render('N - Normal', True, (pitch_blue_color))
         screen.blit(side_text1, (730,0))
@@ -425,9 +425,6 @@ def main():
         side_text6 = font.render('ESC - Quit', True, (pitch_blue_color))
         screen.blit(side_text6, (730,200))
 
-        screen.blit(gen_text, (3, 750))
-        screen.blit(gen_text2, (3, 765))
-        screen.blit(gen_text3, (3,780))
         
 
         pygame.display.update()     #internal function
