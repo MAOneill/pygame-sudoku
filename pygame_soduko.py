@@ -14,16 +14,17 @@ class Tcell():
         # self.image = None
         # self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
         #default blank
-        self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
+        # self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
+        self.image = pygame.image.load('numbers/pencil_blank_diff.png' ).convert_alpha()
         self.xpos = x + ((tinycell-1) % 3) * 27
         self.ypos = y + ((tinycell-1) // 3) * 27
         self.number = tinycell
     def update_pencil_image(self):
         if self.set == True:
             # print("the pencil cell is %d" % self.number)
-            self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % self.number).convert_alpha()
+            self.image = pygame.image.load('numbers/%d_pencil_diff.png' % self.number).convert_alpha()
         else:  #use blank
-            self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
+            self.image = pygame.image.load('numbers/pencil_blank_diff.png' ).convert_alpha()
 
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
@@ -182,6 +183,7 @@ def main():
     #set some colores
     blue_color = (97, 159, 182)  #background color
     background_color = (244,237,221)  #cream
+    background_color = (216,212,182)
     # background_color = (159,209,204)   #blue
     blue_color = (97, 159, 182)  #sky_blue
     red_color = (255,0,0)
@@ -353,25 +355,27 @@ def main():
 
         #set the blits for all known numbers
         for thecell in board.values():
-            if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
-                if thecell.image != None :
-                    screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
-                if game_state == "Error":  #overlay the x if guess is wrong
-                    if type(thecell) == Unknown_cell and thecell.guess != thecell.answer and thecell.guess != None:
-                        screen.blit(big_x_image, (thecell.x_position,thecell.y_position))
+            # if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
+            if thecell.image != None :
+                screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+            if game_state == "Error":  #overlay the x if guess is wrong
+                if type(thecell) == Unknown_cell and thecell.guess != thecell.answer and thecell.guess != None:
+                    screen.blit(big_x_image, (thecell.x_position,thecell.y_position))
 
             elif game_state == "Pencil":               #in pencil mode
+                        # this is OVERLAYED over the guesses
                         #while we are in pencil mode,the cells that are blank (guess = None and value = None)  
                         # have their image updated with their possible values
-
-                if type(thecell) == Known_cell:    #use cell value
-                    screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
-                else:       #unknown cells
+                if type(thecell) == Unknown_cell:
                     for z in range(1,10):
                         # this requires 9 blit values and a grid
                         screen.blit(thecell.pencils[z].image, (thecell.pencils[z].xpos,thecell.pencils[z].ypos))
                         screen.blit(pencil_grid_image, (thecell.x_position,thecell.y_position))
-                    
+                   
+                # if type(thecell) == Known_cell:    #use cell value
+                #     screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+                # else:       #unknown cells
+                     
 
 
         screen.blit(grid_image, (0,0))
