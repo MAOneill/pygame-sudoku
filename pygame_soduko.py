@@ -234,6 +234,7 @@ def main():
     game_state = "Normal"  #default mode
     entry = 0       #where and why do I need this????
 
+    any_change = True
 
     while not stop_game:
         for event in pygame.event.get():
@@ -351,77 +352,79 @@ def main():
         # Draw background
         screen.fill(background_color)
 
-        # Game display
+        # Game display 
+        #only do this if there has been a change (any_change)
 
-        #set the blits for all known numbers
-        for thecell in board.values():
-            # if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
-            if thecell.image != None :
-                screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
-            if game_state == "Error":  #overlay the x if guess is wrong
-                if type(thecell) == Unknown_cell and thecell.guess != thecell.answer and thecell.guess != None:
-                    screen.blit(big_x_image, (thecell.x_position,thecell.y_position))
+        if any_change == True:
+            #set the blits for all known numbers
+            for thecell in board.values():
+                # if game_state == "Normal" or game_state == "Hint" or game_state == "Error":
+                if thecell.image != None :
+                    screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+                if game_state == "Error":  #overlay the x if guess is wrong
+                    if type(thecell) == Unknown_cell and thecell.guess != thecell.answer and thecell.guess != None:
+                        screen.blit(big_x_image, (thecell.x_position,thecell.y_position))
 
-            elif game_state == "Pencil":               #in pencil mode
-                        # this is OVERLAYED over the guesses
-                        #while we are in pencil mode,the cells that are blank (guess = None and value = None)  
-                        # have their image updated with their possible values
-                if type(thecell) == Unknown_cell:
-                    for z in range(1,10):
-                        # this requires 9 blit values and a grid
-                        screen.blit(thecell.pencils[z].image, (thecell.pencils[z].xpos,thecell.pencils[z].ypos))
-                        screen.blit(pencil_grid_image, (thecell.x_position,thecell.y_position))
-                   
-                # if type(thecell) == Known_cell:    #use cell value
-                #     screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
-                # else:       #unknown cells
-                     
+                elif game_state == "Pencil":               #in pencil mode
+                            # this is OVERLAYED over the guesses
+                            #while we are in pencil mode,the cells that are blank (guess = None and value = None)  
+                            # have their image updated with their possible values
+                    if type(thecell) == Unknown_cell:
+                        for z in range(1,10):
+                            # this requires 9 blit values and a grid
+                            screen.blit(thecell.pencils[z].image, (thecell.pencils[z].xpos,thecell.pencils[z].ypos))
+                            screen.blit(pencil_grid_image, (thecell.x_position,thecell.y_position))
+                    
+                    # if type(thecell) == Known_cell:    #use cell value
+                    #     screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+                    # else:       #unknown cells
+                        
 
 
-        screen.blit(grid_image, (0,0))
+            screen.blit(grid_image, (0,0))
 
-        # update the message_text based on state values
-                
-        if board_clicked == True and game_state == 'Normal':
-            if type(board[cell]) == Known_cell:    #if known:
-                message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
-                row,col,cell,board_clicked,pencil_box = clear_coordinates()
-                # board_clicked = False  #change this b/c its not a valid square
-                entry = 0   #need???
-            else:       #Unknown value, changeable
-                entry = 0  #clear out entry values
-                message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+            # update the message_text based on state values
+                    
+            if board_clicked == True and game_state == 'Normal':
+                if type(board[cell]) == Known_cell:    #if known:
+                    message_text = font.render('You cannot change this cell.  Try another', True, (orange_color))
+                    row,col,cell,board_clicked,pencil_box = clear_coordinates()
+                    # board_clicked = False  #change this b/c its not a valid square
+                    entry = 0   #need???
+                else:       #Unknown value, changeable
+                    entry = 0  #clear out entry values
+                    message_text = font.render('You are changing the cell at row: %d / column: %d.  Enter a number from 1 t0 9' % (row,col), True, (orange_color))
+            
+            if game_state == "Undo":
+                message_text = font.render("Press Undo again to revert your changes one by one." , True, (orange_color))
+
+            gen_text = font.render('Press N, then Click on a blank square to enter value', True, (pitch_blue_color))
+            gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
+            gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
         
-        if game_state == "Undo":
-            message_text = font.render("Press Undo again to revert your changes one by one." , True, (orange_color))
-
-        gen_text = font.render('Press N, then Click on a blank square to enter value', True, (pitch_blue_color))
-        gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
-        gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
-       
-        screen.blit(message_text, (3,731))
-        screen.blit(gen_text, (3, 750))
-        screen.blit(gen_text2, (3, 765))
-        screen.blit(gen_text3, (3,780))
+            screen.blit(message_text, (3,731))
+            screen.blit(gen_text, (3, 750))
+            screen.blit(gen_text2, (3, 765))
+            screen.blit(gen_text3, (3,780))
 
 
-        
-        side_text1 = font.render('N - Normal', True, (pitch_blue_color))
-        screen.blit(side_text1, (730,0))
-        side_text2 = font.render('P - Pencil', True, (pitch_blue_color))
-        screen.blit(side_text2, (730,40))
-        side_text3 = font.render('U - Undo', True, (pitch_blue_color))
-        screen.blit(side_text3, (730,80))
-        side_text4 = font.render('E - Errors', True, (pitch_blue_color))
-        screen.blit(side_text4, (730,120))
-        side_text5 = font.render('U - Undo', True, (pitch_blue_color))
-        screen.blit(side_text5, (730,160))
-        side_text6 = font.render('ESC - Quit', True, (pitch_blue_color))
-        screen.blit(side_text6, (730,200))
+            
+            side_text1 = font.render('N - Normal', True, (pitch_blue_color))
+            screen.blit(side_text1, (730,0))
+            side_text2 = font.render('P - Pencil', True, (pitch_blue_color))
+            screen.blit(side_text2, (730,40))
+            side_text3 = font.render('U - Undo', True, (pitch_blue_color))
+            screen.blit(side_text3, (730,80))
+            side_text4 = font.render('E - Errors', True, (pitch_blue_color))
+            screen.blit(side_text4, (730,120))
+            side_text5 = font.render('U - Undo', True, (pitch_blue_color))
+            screen.blit(side_text5, (730,160))
+            side_text6 = font.render('ESC - Quit', True, (pitch_blue_color))
+            screen.blit(side_text6, (730,200))
 
-        
+            
 
-        pygame.display.update()     #internal function
+            pygame.display.update()     #internal function
 
         clock.tick(60)  #600 makes the fan go crazy
 
