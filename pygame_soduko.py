@@ -55,7 +55,7 @@ class Cell():
         self.x_position = (col-1) * 81
         self.y_position = (row-1) * 81    
 
-        #you can only change the image for an unknown cell:
+        #you can only change the image for an unknown cell or blank:
     def change_cell_image(self):
         pass
 
@@ -86,13 +86,13 @@ class Unknown_cell(Cell):
         else:
             self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
 
-#used in the SOLVING part of the program, not the game play
 class Blank_cell(Cell):
-    def __init__(self,row,col,value=None,answer=None):
+    #used in the SOLVING part of the program, not the game play
+    def __init__(self,row,col,value=0,answer=0):
         super().__init__(row,col,value,answer)
         self.possibles = {}
-        for tinycell in range(1,10):
-            self.possibles[tinycell] = Tcell(tinycell)
+        for p in range(1,10):
+            self.possibles[p] = Pcell(p)
         self.image = None
 
         def change_cell_image(self):
@@ -142,9 +142,18 @@ def create_board(input_board):
             # print(cell['data'].value)
             # allcells.append(cell)   #append my object into the row array
     return allcells
-    
+
 def create_blank_board():
-    pass
+        # returns an array of all 81 cells, NOT IN ROWS
+    allcells = {}  #dictionary not array
+    cell = {}    
+    for r in range(1,10) : 
+        for c in range(1,10):
+            cellname = "r%dc%d" % (r,c)
+            allcells[cellname] = Blank_cell(r,c)
+    return allcells
+
+
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
@@ -237,7 +246,8 @@ def main_menu():
                     main_answer = True
                 elif game_state == "Play":
                     main_answer = True
-                # else game_state = "Solve":
+                elif game_state == "Solve":
+                    main_answer = True
                 
 
 
@@ -257,7 +267,9 @@ def main_menu():
     # pygame.quit()   #change to return  #quit when you are out of while loop
 
 def solve():
-    pass
+    board = create_blank_board()
+    print_grid(board,"value")
+    pygame.quit()
 
 def play():     #or rename this "Play"
 
@@ -538,4 +550,4 @@ if __name__ == '__main__':
     if main_state == "Play":
         play()
     else:
-        pygame.quit()
+        solve()
