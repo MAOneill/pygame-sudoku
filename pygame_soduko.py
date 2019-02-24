@@ -26,6 +26,12 @@ class Tcell():
         else:  #use blank
             self.image = pygame.image.load('numbers/pencil_blank_diff.png' ).convert_alpha()
 
+#for the possibles
+class Pcell():
+    def __init__(self,possible):
+        self.possible = possible        #one through nine
+        self.value = 0                  #can be 0 or 1
+
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
     def __init__(self,row,col,value,answer=None):
@@ -79,8 +85,26 @@ class Unknown_cell(Cell):
             self.image = None       #undo can set it back to zero
         else:
             self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
-        # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
 
+#used in the SOLVING part of the program, not the game play
+class Blank_cell(Cell):
+    def __init__(self,row,col,value=None,answer=None):
+        super().__init__(row,col,value,answer)
+        self.possibles = {}
+        for tinycell in range(1,10):
+            self.possibles[tinycell] = Tcell(tinycell)
+        self.image = None
+
+        def change_cell_image(self):
+        #changes the display image based on the "value"
+        # if answer not none, use that.  otherwise, use value:
+            if self.value == None or self.answer == None:
+                self.image = None       #undo can set it back to zero
+            elif self.answer != None:
+                self.image = pygame.image.load('numbers/%d_guess.png' % self.answer).convert_alpha()
+            elif self.value != None:
+                self.image = pygame.image.load('numbers/%d_guess.png' % self.value).convert_alpha()
+    
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
     #I didn't not put this inside a function because I need the individual
@@ -118,7 +142,9 @@ def create_board(input_board):
             # print(cell['data'].value)
             # allcells.append(cell)   #append my object into the row array
     return allcells
-
+    
+def create_blank_board():
+    pass
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
