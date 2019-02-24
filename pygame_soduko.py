@@ -90,10 +90,10 @@ class Blank_cell(Cell):
     #used in the SOLVING part of the program, not the game play
     def __init__(self,row,col,value=0,answer=0):
         super().__init__(row,col,value,answer)
-        self.possibles = {}
-        for p in range(1,10):
-            self.possibles[p] = Pcell(p)
-        self.image = None
+        self.possibles = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}
+        # for p in range(1,10):
+        #     self.possibles[p] = Pcell(p)
+        # self.image = None
 
         def change_cell_image(self):
         #changes the display image based on the "value"
@@ -269,6 +269,7 @@ def main_menu():
 def solve():
     board = create_blank_board()
     print_grid(board,"value")
+    # print(board['r4c8'].possibles[8])
     pygame.quit()
 
 def play():     #or rename this "Play"
