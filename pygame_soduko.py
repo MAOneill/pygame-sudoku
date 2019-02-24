@@ -58,7 +58,7 @@ class Known_cell(Cell):
         super().__init__(row,col,value,answer)
         self.answer = answer  
         #known cells don't need pencils or possibles
-        self.possibles = {}  #empty    
+        # self.possibles = {}  #empty    
         self.image = pygame.image.load('numbers/%d_background_transparent.png' % answer).convert_alpha()
         # self.image = pygame.image.load('numbers/%d_transparent_number.png' % value).convert_alpha()
     
