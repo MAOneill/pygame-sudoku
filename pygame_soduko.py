@@ -104,8 +104,7 @@ class Blank_cell(Cell):
             self.image = pygame.image.load('numbers/%d_guess.png' % self.answer).convert_alpha()
         else:
             self.image = pygame.image.load('numbers/%d_guess.png' % self.value).convert_alpha()
-    
-    
+      
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
     #I didn't not put this inside a function because I need the individual
@@ -268,21 +267,23 @@ def main_menu():
 
 def solve():
     board = create_blank_board()
+    
+    #testing
     # print(board['r4c8'].possibles[8])
-    board['r8c3'].value = 7
-    board['r3c5'].answer = 5
+    # board['r8c3'].value = 7
+    # board['r3c5'].answer = 5
 
-    print_grid(board,"answer")
-    print_grid(board,"value")
+    # print_grid(board,"answer")
+    # print_grid(board,"value")
 
     # if type(board['r8c3']) == Blank_cell:
     #     print("blank")
     # else:
     #     print("waht?")
-    print(board['r8c3'].value)
+    # print(board['r8c3'].value)
 
-    board['r8c3'].change_cell_image()
-    print (board['r8c3'].image)
+    # board['r8c3'].change_cell_image()
+    # print (board['r8c3'].image)
 
     # declare the size of the canvas
     width = 730
