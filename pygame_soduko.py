@@ -173,8 +173,48 @@ def clear_coordinates():
     board_clicked = False
     # entry = 0   #should this be here??
     return r,c,cl,board_clicked,penc
-    
-def main():
+
+def main_menu():
+    width = 400
+    height = 400
+
+    #set some colores
+    background_color = (159,209,204)   #blue
+    pitch_blue_color = (83,94,126)
+
+    main_answer = False
+
+    pygame.init()       #should this be in each module??
+
+    font = pygame.font.Font('fonts/cmtt10.ttf', 22)    #must be after init                        
+
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption('Soduko - Choose game play mode')
+    clock = pygame.time.Clock()
+
+    while not main_answer:
+        for event in pygame.event.get():
+            # Event handling
+            if event.type == pygame.QUIT:
+                main_answer = True
+
+        screen.fill(background_color)
+
+        window_text = font.render('Enter A or B', True, (pitch_blue_color))
+        
+        screen.blit(window_text, (100,100))
+
+        pygame.display.update()     #internal function
+
+        clock.tick(60)  #600 makes the fan go crazy
+
+
+    pygame.quit()   #change to return  #quit when you are out of while loop
+
+def solve():
+    pass
+
+def main():     #or rename this "Play"
 
     # declare the size of the canvas
     width = 900
@@ -204,13 +244,20 @@ def main():
     # font = pygame.font.Font(None, 25)                 
     # #set sytem font.  (filename, size)
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           
-    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           #set sytem font.  (filename, size)
+    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           
 
-    # Game initialization
+    #default images used throughout
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
     # big_x_image = pygame.image.load('numbers/x.png').convert_alpha()
     big_x_image = pygame.image.load('numbers/x_diffuse.png').convert_alpha()
+
+
+##################################################################################################
+###everything below here is for the game play mode. ##############################################
+##################################################################################################
+
+    # Game initialization
 
     #create data
     board = create_board(rawboard)
@@ -222,8 +269,8 @@ def main():
     # print_grid(board,"answer")
     # print_grid(board,"inner")
 
+
     #message text
-    #this is for when a user does something - the message changes
     message_text = font.render('', True, (orange_color))        
     
     #set initial values to be used throughout  
@@ -233,7 +280,6 @@ def main():
     stop_game = False
     game_state = "Normal"  #default mode
     entry = 0       #where and why do I need this????
-
     any_change = True
 
     while not stop_game:
@@ -431,4 +477,5 @@ def main():
     pygame.quit()
 
 if __name__ == '__main__':
-    main()
+    # main()
+    main_menu()
