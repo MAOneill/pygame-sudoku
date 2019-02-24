@@ -381,7 +381,7 @@ def play():     #or rename this "Play"
 
                 message_text = font.render("click on the tiny cell to toggle-in your possible options" , True, (orange_color))
 
-                if board_clicked == True : 
+                if board_clicked == True and type(board[cell]) == Unknown_cell: 
                         #update  pencil cell value (true/false) - flip its value
                         board[cell].pencils[pencil_box].set = not board[cell].pencils[pencil_box].set
                         #updae pencil cell image
