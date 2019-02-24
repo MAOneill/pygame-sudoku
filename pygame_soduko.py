@@ -198,6 +198,19 @@ def main_menu():
             if event.type == pygame.QUIT:
                 main_answer = True
 
+            if event.type == pygame.KEYDOWN:   
+                # myentry = event.key
+                choices = {97:"Play",98:"Solve",27:"Esc"}
+                game_state = choices.get(event.key,None)  #don't change the state unless a valid state
+                print ("game state is %s" % game_state)
+                if game_state == "Esc":  #this will end the game
+                    main_answer = True
+                elif game_state == "Play":
+                    main_answer = True
+                # else game_state = "Solve":
+                
+
+
         screen.fill(background_color)
 
         window_text = font.render('Enter A or B', True, (pitch_blue_color))
@@ -207,9 +220,11 @@ def main_menu():
         pygame.display.update()     #internal function
 
         clock.tick(60)  #600 makes the fan go crazy
+    
+    print(__name__)
+    return game_state
 
-
-    pygame.quit()   #change to return  #quit when you are out of while loop
+    # pygame.quit()   #change to return  #quit when you are out of while loop
 
 def solve():
     pass
@@ -298,7 +313,7 @@ def main():     #or rename this "Play"
                 any_change = True
             
             if event.type == pygame.KEYDOWN:            #get game_state
-                print('key down %r. game state is %s' % (event.key,game_state))
+                # print('key down %r. game state is %s' % (event.key,game_state))
                 entry = event.key
                 # letter_choices = {121:"Y",115:"Solved",98:"Blank",103:"Newgame"}
                 letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint",101:"Error"}
@@ -476,6 +491,14 @@ def main():     #or rename this "Play"
 
     pygame.quit()
 
+main_state = None
+print(__name__)
+
 if __name__ == '__main__':
     # main()
-    main_menu()
+    main_state = main_menu()
+    print (main_state)
+    if main_state == "Play":
+        main()
+    else:
+        pygame.quit()
