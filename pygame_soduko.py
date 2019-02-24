@@ -249,6 +249,7 @@ def main():
                 # a click outside of the soduko board does NOTHING
                 row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
                 entry = 0
+                any_change = True
             
             if event.type == pygame.KEYDOWN:            #get game_state
                 print('key down %r. game state is %s' % (event.key,game_state))
@@ -256,7 +257,7 @@ def main():
                 # letter_choices = {121:"Y",115:"Solved",98:"Blank",103:"Newgame"}
                 letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint",101:"Error"}
                 game_state = letter_choices.get(entry,game_state)  #don't change the state unless a valid state
-                
+                any_change = True
                 if game_state == "Esc":  #this will end the game
                     stop_game = True
                 print("game state is %s" % game_state)
@@ -275,7 +276,6 @@ def main():
 
             #we are in the "Normal" state and a key has been pressed
             if board_clicked == True and game_state == "Normal":  
-                
                 choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0}
                 number = choices.get(entry, None) 
                 if number != None:      #it got a value number
@@ -413,7 +413,7 @@ def main():
             screen.blit(side_text1, (730,0))
             side_text2 = font.render('P - Pencil', True, (pitch_blue_color))
             screen.blit(side_text2, (730,40))
-            side_text3 = font.render('U - Undo', True, (pitch_blue_color))
+            side_text3 = font.render('H - Hint', True, (pitch_blue_color))
             screen.blit(side_text3, (730,80))
             side_text4 = font.render('E - Errors', True, (pitch_blue_color))
             screen.blit(side_text4, (730,120))
@@ -422,7 +422,7 @@ def main():
             side_text6 = font.render('ESC - Quit', True, (pitch_blue_color))
             screen.blit(side_text6, (730,200))
 
-            
+            any_change = False  #after update, flip back
 
             pygame.display.update()     #internal function
 
