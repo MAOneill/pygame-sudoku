@@ -95,15 +95,16 @@ class Blank_cell(Cell):
         #     self.possibles[p] = Pcell(p)
         # self.image = None
         self.image = None
-        def change_cell_image(self):
-        #changes the display image based on the "value"
-        # if answer not none, use that.  otherwise, use value:
-            if self.value == None or self.answer == None:
-                self.image = None       #undo can set it back to zero
-            elif self.answer != None:
-                self.image = pygame.image.load('numbers/%d_guess.png' % self.answer).convert_alpha()
-            elif self.value != None:
-                self.image = pygame.image.load('numbers/%d_guess.png' % self.value).convert_alpha()
+    def change_cell_image(self):
+    #changes the display image based on the "value"
+    # if answer not none, use that.  otherwise, use value:
+        if self.value == None or self.answer == None:
+            self.image = None       #undo can set it back to zero
+        elif self.answer != 0:
+            self.image = pygame.image.load('numbers/%d_guess.png' % self.answer).convert_alpha()
+        else:
+            self.image = pygame.image.load('numbers/%d_guess.png' % self.value).convert_alpha()
+    
     
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -267,8 +268,21 @@ def main_menu():
 
 def solve():
     board = create_blank_board()
-    print_grid(board,"value")
     # print(board['r4c8'].possibles[8])
+    board['r8c3'].value = 7
+    board['r3c5'].answer = 5
+
+    print_grid(board,"answer")
+    print_grid(board,"value")
+
+    # if type(board['r8c3']) == Blank_cell:
+    #     print("blank")
+    # else:
+    #     print("waht?")
+    print(board['r8c3'].value)
+
+    board['r8c3'].change_cell_image()
+    print (board['r8c3'].image)
 
     # declare the size of the canvas
     width = 730
@@ -306,6 +320,17 @@ def solve():
             if event.type == pygame.QUIT:
                 stop_game = True
 
+        #get events from user - clicks, keyboard
+        if event.type == pygame.KEYDOWN:   
+                # myentry = event.key
+                choices = {27:"Esc"}
+                game_state = choices.get(event.key,None)  #don't change the state unless a valid state
+                print ("game state is %s" % game_state)
+                if game_state == "Esc":  #this will end the game
+                    stop_game = True
+
+        # update the display
+        # should only be done if there were changes....add this
         for thecell in board.values():
             if thecell.image != None :
                 screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
