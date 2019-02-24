@@ -15,10 +15,6 @@ exec('from board%d_raw import rawboard' % random)
 class Tcell():
     def __init__(self,tinycell,x,y):
         self.set = False
-        # self.image = None
-        # self.image = pygame.image.load('numbers/%d_pencil_marks_27.png' % tinycell).convert_alpha()
-        #default blank
-        # self.image = pygame.image.load('numbers/pencil_marks_27.png' ).convert_alpha()
         self.image = pygame.image.load('numbers/pencil_blank_diff.png' ).convert_alpha()
         self.xpos = x + ((tinycell-1) % 3) * 27
         self.ypos = y + ((tinycell-1) // 3) * 27
@@ -38,7 +34,7 @@ class Cell():
         self.row = row
         self.col = col
         #  self.inner = 0  #compute thie
-        self.pencils = {}  #{} will object create this and set here
+        # self.pencils = {}  #{} will object create this and set here
 
         self.guess = None       #blank to start
         self.value = value      #given in start cube
