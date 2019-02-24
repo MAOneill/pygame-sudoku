@@ -27,10 +27,10 @@ class Tcell():
             self.image = pygame.image.load('numbers/pencil_blank_diff.png' ).convert_alpha()
 
 #for the possibles
-class Pcell():
-    def __init__(self,possible):
-        self.possible = possible        #one through nine
-        self.value = 0                  #can be 0 or 1
+# class Pcell():
+#     def __init__(self,possible):
+#         self.possible = possible        #one through nine
+#         self.value = 0                  #can be 0 or 1
 
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
@@ -94,7 +94,7 @@ class Blank_cell(Cell):
         # for p in range(1,10):
         #     self.possibles[p] = Pcell(p)
         # self.image = None
-
+        self.image = None
         def change_cell_image(self):
         #changes the display image based on the "value"
         # if answer not none, use that.  otherwise, use value:
@@ -152,7 +152,6 @@ def create_blank_board():
             cellname = "r%dc%d" % (r,c)
             allcells[cellname] = Blank_cell(r,c)
     return allcells
-
 
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
@@ -270,6 +269,51 @@ def solve():
     board = create_blank_board()
     print_grid(board,"value")
     # print(board['r4c8'].possibles[8])
+
+    # declare the size of the canvas
+    width = 730
+    height = 730
+
+    #set some colores
+    blue_color = (97, 159, 182)  
+    background_color = (244,237,221)  #cream
+    # background_color = (216,212,182)
+    # background_color = (159,209,204)   #blue
+
+
+    #initalize pygame and playing window
+    pygame.init()
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption('Soduko Solver')
+    clock = pygame.time.Clock()
+
+    #set some fonts - do AFTER pygame.init
+    # font = pygame.font.Font(None, 25)                 
+    # #set sytem font.  (filename, size)
+    font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           
+    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           
+
+    #default images used throughout
+    grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
+
+    # Draw background
+    screen.fill(background_color)
+    stop_game = False
+
+    while not stop_game:
+        for event in pygame.event.get():
+            # Event handling
+            if event.type == pygame.QUIT:
+                stop_game = True
+
+        for thecell in board.values():
+            if thecell.image != None :
+                screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+
+        screen.blit(grid_image, (0,0))
+        pygame.display.update()     #internal function
+        clock.tick(60)  #600 makes the fan go crazy
+
     pygame.quit()
 
 def play():     #or rename this "Play"
