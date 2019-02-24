@@ -186,8 +186,12 @@ def main_menu():
 
     pygame.init()       #should this be in each module??
 
+    #try to change cursor
+    
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)    #must be after init                        
-
+    #default cursor
+    pygame.mouse.set_cursor(*pygame.cursors.arrow)
+    
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Soduko - Choose game play mode')
     clock = pygame.time.Clock()
@@ -229,7 +233,7 @@ def main_menu():
 def solve():
     pass
 
-def main():     #or rename this "Play"
+def play():     #or rename this "Play"
 
     # declare the size of the canvas
     width = 900
@@ -499,6 +503,6 @@ if __name__ == '__main__':
     main_state = main_menu()
     print (main_state)
     if main_state == "Play":
-        main()
+        play()
     else:
         pygame.quit()
