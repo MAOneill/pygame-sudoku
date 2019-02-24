@@ -1,5 +1,9 @@
 import pygame
 import random 
+
+#this includes the strings to draw a custom cursor that kind of looks like a pencil
+from pencil_strings import pencil_strings
+
 #this is the functiont that can read in the raw board settings
 #raw board is an array of 9 arrays with 9 tuples each
 
@@ -190,8 +194,8 @@ def main_menu():
     
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)    #must be after init                        
     #default cursor
-    pygame.mouse.set_cursor(*pygame.cursors.arrow)
-    
+    # pygame.mouse.set_cursor(*pygame.cursors.arrow)
+
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Soduko - Choose game play mode')
     clock = pygame.time.Clock()
@@ -331,6 +335,12 @@ def play():     #or rename this "Play"
                 if game_state != "Normal":
                     board_clicked = False
 
+            if game_state == "Pencil":
+                datatuple, masktuple = pygame.cursors.compile( pencil_strings,black='.', white='X', xor='o' )
+                pygame.mouse.set_cursor( (24,24), (0,0), datatuple, masktuple )
+            else:
+                pygame.mouse.set_cursor(*pygame.cursors.arrow)
+
 
             #state evaluations and GAME LOGIC
             if game_state == "Normal":
@@ -368,6 +378,7 @@ def play():     #or rename this "Play"
                     message_text = font.render('You are editing row: %d / column: %d.  You can only enter numbers' % (row,col), True, (orange_color))  
             
             if game_state == "Pencil":
+
                 message_text = font.render("click on the tiny cell to toggle-in your possible options" , True, (orange_color))
 
                 if board_clicked == True : 

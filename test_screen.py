@@ -1,6 +1,6 @@
 import pygame
 from upside_down_arrow_strings import upside_down_arrow_strings
-
+from pencil_strings import pencil_strings
 
 def main_menu():
     
@@ -17,10 +17,13 @@ def main_menu():
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)    #must be after init   
 
     # pygame.mouse.set_cursor(compile(thickarrow_strings, black='X', white='.', xor='o'))
-    datatuple, masktuple = pygame.cursors.compile( upside_down_arrow_strings,
+    # datatuple, masktuple = pygame.cursors.compile( upside_down_arrow_strings,
+    #                               black='X', white='.', xor='o' )
+    # pygame.mouse.set_cursor( (24,24), (0,0), datatuple, masktuple )
+
+    datatuple, masktuple = pygame.cursors.compile( pencil_strings,
                                   black='.', white='X', xor='o' )
     pygame.mouse.set_cursor( (24,24), (0,0), datatuple, masktuple )
-
 
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption('Soduko - Choose game play mode')
