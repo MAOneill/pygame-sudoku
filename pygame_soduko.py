@@ -90,7 +90,8 @@ class Blank_cell(Cell):
     #used in the SOLVING part of the program, not the game play
     def __init__(self,row,col,value=0,answer=0):
         super().__init__(row,col,value,answer)
-        self.possibles = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}
+        # self.possibles = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}
+        self.possibles = {}
         # for p in range(1,10):
         #     self.possibles[p] = Pcell(p)
         # self.image = None
@@ -455,8 +456,10 @@ def play():     #or rename this "Play"
 
 
             #we are in the "Normal" state and a key has been pressed
+            #added delete key (8) to be set to zero
             if board_clicked == True and game_state == "Normal":  
-                choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0}
+                # print (entry)
+                choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0,8:0}
                 number = choices.get(entry, None) 
                 if number != None:      #it got a value number
                     #update cell value
