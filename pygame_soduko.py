@@ -253,9 +253,11 @@ def main_menu():
 
         screen.fill(background_color)
 
-        window_text = font.render('Enter A or B', True, (pitch_blue_color))
+        window_text = font.render('Enter A for Play mode.', True, (pitch_blue_color))
+        window_text2 = font.render('Or B for solving mode.', True, (pitch_blue_color))
         
         screen.blit(window_text, (100,100))
+        screen.blit(window_text2, (100,250))
 
         pygame.display.update()     #internal function
 
