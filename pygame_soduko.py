@@ -178,6 +178,33 @@ def print_grid(cube,what):
         print (" ") #new line
         print("----"*9 + "-") #separator lines and bottom border
 
+def output_data(cube,newfile):
+    #if a user uses the solve method, and enters a new board...then this can be used to save the output to a file
+    randomfilenum = random.randint(1, 3)   
+    newfile = newfile + randomfilenum
+    f = open(newfile,"w+")
+    answerstring = "rawboard=["
+
+    for i in range(1,10):
+        answerstring = answerstring + "["
+        for j in range(1,10):
+            location = ('r%dc%d' % (i,j))
+            aa =  (cube[location].value)    #user entered starting point
+            if aa == " ":
+                aa = '0'
+            bb =  (cube[location].answer)    #computer generated answer
+            if j == 9:
+                answerstring = answerstring +  ("(%s,%s)" % (aa,bb))
+            else:
+                answerstring = answerstring +  ("(%s,%s)," % (aa,bb))
+        if i == 9:
+            answerstring = answerstring + ("]")
+        else:
+            answerstring = answerstring + ("],\n")
+    answerstring = answerstring + ("]")
+    print(answerstring)
+    f.write(answerstring)
+
 def set_coordinates_from_click(event):
     x = event.pos[0]
     y = event.pos[1]
@@ -384,15 +411,16 @@ def play():     #or rename this "Play"
     big_x_image = pygame.image.load('numbers/x_diffuse.png').convert_alpha()
 
 
-##################################################################################################
-###everything below here is for the game play mode. ##############################################
-##################################################################################################
+    ##################################################################################################
+    ###everything below here is for the game play mode. ##############################################
+    ##################################################################################################
 
     # Game initialization
 
     #create data
     board = create_board(rawboard)
-    
+    output_data(board,"newfile123.py")
+
     # for each in board.values():
     #     print(each.answer)
     #these print to the terminalo
