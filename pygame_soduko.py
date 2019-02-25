@@ -203,7 +203,6 @@ def output_data(cube,newfile):
         else:
             answerstring = answerstring + ("],\n")
     answerstring = answerstring + ("]")
-    print(answerstring)
     f.write(answerstring)
 
 def set_coordinates_from_click(event):
@@ -256,7 +255,7 @@ def main_menu():
     # pygame.mouse.set_cursor(*pygame.cursors.arrow)
 
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption('Soduko - Choose game play mode')
+    pygame.display.set_caption('Sudoku - Choose game play mode')
     clock = pygame.time.Clock()
 
     while not main_answer:
@@ -330,7 +329,7 @@ def solve():
     #initalize pygame and playing window
     pygame.init()
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption('Soduko Solver')
+    pygame.display.set_caption('Sudoku Solver')
     clock = pygame.time.Clock()
 
     #set some fonts - do AFTER pygame.init
@@ -396,7 +395,7 @@ def play():     #or rename this "Play"
     #initalize pygame and playing window
     pygame.init()
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption('Soduko')
+    pygame.display.set_caption('Sudoku')
     clock = pygame.time.Clock()
 
     #set some fonts - do AFTER pygame.init
