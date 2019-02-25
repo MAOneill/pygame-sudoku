@@ -7,10 +7,10 @@ from pencil_strings import pencil_strings
 #this is the functiont that can read in the raw board settings
 #raw board is an array of 9 arrays with 9 tuples each
 
-random = random.randint(1, 3)   
+myrandom = random.randint(1, 3)   
 
 #this works...but some of the documentation says not to use it....
-exec('from board%d_raw import rawboard' % random)
+exec('from board%d_raw import rawboard' % myrandom)
 
 class Tcell():
     def __init__(self,tinycell,x,y):
@@ -180,8 +180,9 @@ def print_grid(cube,what):
 
 def output_data(cube,newfile):
     #if a user uses the solve method, and enters a new board...then this can be used to save the output to a file
-    randomfilenum = random.randint(1, 3)   
-    newfile = newfile + randomfilenum
+    randomfilenum = random.randint(1, 3000)   
+    print(randomfilenum)
+    newfile = newfile + str(randomfilenum) + ".py"
     f = open(newfile,"w+")
     answerstring = "rawboard=["
 
@@ -419,7 +420,7 @@ def play():     #or rename this "Play"
 
     #create data
     board = create_board(rawboard)
-    output_data(board,"newfile123.py")
+    output_data(board,"newrawboard")
 
     # for each in board.values():
     #     print(each.answer)
