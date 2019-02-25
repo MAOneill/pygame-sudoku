@@ -583,8 +583,8 @@ def play():     #or rename this "Play"
                 message_text = font.render("Press Undo again to revert your changes one by one." , True, (orange_color))
 
             gen_text = font.render('Press N, then Click on a blank square to enter value', True, (pitch_blue_color))
-            gen_text2 = font.render('Press P to add Pencil Values -- N to change cell values -- ESC to quit', True, (pitch_blue_color))
-            gen_text3 = font.render('Press U to reverse the last change ...', True, (pitch_blue_color))
+            gen_text2 = font.render('Press P to add Pencil Values -- U to Undo your guesses -- ESC to quit', True, (pitch_blue_color))
+            gen_text3 = font.render('enter 1-9 for values.  0/delete clear guesses ...', True, (pitch_blue_color))
         
             screen.blit(message_text, (3,731))
             screen.blit(gen_text, (3, 750))
