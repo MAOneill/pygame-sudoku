@@ -29,7 +29,6 @@ class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
     def __init__(self,row,col,value,answer=None):
         # self.start = value  #or is this in the subclass...
-        # self.anser = 
         self.row = row
         self.col = col
         #  self.inner = 0  #compute thie
@@ -81,14 +80,13 @@ class Unknown_cell(Cell):
 
 class Blank_cell(Cell):
     #used in the SOLVING part of the program, not the game play
+    #.value is the STARTING value.  .guess is the computed answer
+    #.answer - holds BOTH - either starting and/or value
     def __init__(self,row,col,value=None,answer=None):
         super().__init__(row,col,value,answer)
         self.guess = None
-        # self.possibles = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}
-        self.possibles = {}
-        # for p in range(1,10):
-        #     self.possibles[p] = Pcell(p)
-        # self.image = None
+        self.possibles = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}
+        # self.possibles = {}
         self.image = None
     def change_cell_image(self):
     #changes the display image based on the "value"
@@ -99,6 +97,14 @@ class Blank_cell(Cell):
             self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
         else:  #value is not none
             self.image = pygame.image.load('numbers/%d_background_transparent.png' % self.value).convert_alpha()
+    def solve_clear_possibles(self):
+    # based on the known values/guesses (which are both stored in answers)
+    # remove the appropriate key in possibles
+    # every cell begins with all 9 possbiles.
+        if self.answer != None:
+            self.possibles ={}  #there are no possibles if known
+        
+
       
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -139,7 +145,8 @@ def create_board(input_board):
     return allcells
 
 def create_blank_board():
-        # returns an array of all 81 cells, NOT IN ROWS
+    #this is used for the solving side of the game
+    # returns an array of all 81 cells, NOT IN ROWS
     allcells = {}  #dictionary not array
     cell = {}    
     for r in range(1,10) : 
@@ -187,7 +194,28 @@ def fill_blank_board(theboard,inputdata):
                 theboard[curr_cell].value = None
             theboard[curr_cell].answer = theboard[curr_cell].value
             theboard[curr_cell].change_cell_image()
-            
+            #initialize possbiles
+            theboard[curr_cell].solve_clear_possibles
+
+def solve_remove_possibles(f_board):
+    for f_cell in f_board.values():      #cycle through each cell
+        if f_cell.answer != None:    #if an answer known
+            for f_cell2 in f_board.values():  
+                #cycle through each cell again and clear out the row, col, and inner possibles for that value
+                if (f_cell2.row == f_cell.row) or (f_cell2.col == f_cell.col) or (f_cell2.inner == f_cell.inner):  
+                    if f_cell.answer in f_cell2.possibles.keys():
+                        del f_cell2.possibles[f_cell.answer]
+        print(f_cell.row,f_cell.col,f_cell.possibles)
+
+def solve_only():
+    #if a cell only has ONE possible value, then that must be the answer
+    pass
+    
+def solve_unique():
+    pass
+    #if a cell within a row, or column, or inner cube is the only cell that can
+    #be of a certain value, then that is the answer
+
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
@@ -214,6 +242,7 @@ def print_grid(cube,what):
 
 def output_data(cube,newfile):
     #if a user uses the solve method, and enters a new board...then this can be used to save the output to a file
+    #this function will be used to save a user input board, and its computed solution.  this data set can then be used in the game play side of the program.
     randomfilenum = random.randint(1, 3000)   
     print(randomfilenum)
     newfile = newfile + str(randomfilenum) + ".py"
@@ -335,12 +364,10 @@ def solve():
     #this is only used when testing my solve logic
     #otherwise the user will manually enter the board
     fill_blank_board(board,dummyboard)
+    print_grid(board,"answer")
 
+    solve_remove_possibles(board)
     #testing
-    # print(board['r4c8'].possibles[8])
-    # board['r8c3'].value = 7
-    # board['r3c5'].answer = 5
-    # print_grid(board,"answer")
     # print_grid(board,"value")
 
 
@@ -351,8 +378,6 @@ def solve():
     #set some colores
     blue_color = (97, 159, 182)  
     background_color = (244,237,221)  #cream
-    # background_color = (216,212,182)
-    # background_color = (159,209,204)   #blue
 
 
     #initalize pygame and playing window
@@ -365,7 +390,6 @@ def solve():
     # font = pygame.font.Font(None, 25)                 
     # #set sytem font.  (filename, size)
     font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           
-    # font = pygame.font.Font('fonts/futurachapro-Regular.ttf', 25)                           
 
     #default images used throughout
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
@@ -448,7 +472,10 @@ def play():     #or rename this "Play"
 
     #create data
     board = create_board(rawboard)
-    output_data(board,"newrawboard")
+
+    #this is a test
+    #this will be moved to the solve portion
+    output_data(board,"newrawboard")  
 
     # for each in board.values():
     #     print(each.answer)
