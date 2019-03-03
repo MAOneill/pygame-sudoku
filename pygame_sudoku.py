@@ -587,6 +587,7 @@ def solve():
                 number = choices.get(entry, None) 
                 if number != None:      #it got a value number
                     #update cell value
+                    screen.fill(background_color)  # you need this to overwrite
 
                     #if user enters 0, blank out the value
                     if number == 0:
@@ -595,6 +596,7 @@ def solve():
                         board[cell].value = number
                     board[cell].answer = board[cell].value
                     board[cell].change_cell_image()
+                    board[cell].possibles = {}  #probably won't need this
 
         # update the display
         # should only be done if there were changes....add this
