@@ -319,6 +319,8 @@ def is_it_solved(f_board):
     for f_each_cell in f_board.values():
         if f_each_cell.answer == None:
             return False
+        else:
+            return True
 
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
@@ -518,7 +520,7 @@ def solve():
 
     # declare the size of the canvas
     width = 730
-    height = 730
+    height = 780
 
     #set some colores
     blue_color = (97, 159, 182)  
@@ -544,6 +546,7 @@ def solve():
     stop_game = False
 
     while not stop_game:
+
         for event in pygame.event.get():
             # Event handling
             if event.type == pygame.QUIT:
@@ -559,13 +562,9 @@ def solve():
                 stop_game = True
             elif game_state == "Solve":
                 solve_input()
-                game_state = None  #so solve only runs once
-        #testing
-    # print_grid(board,"value")
-    # s = True            #just for testing
-    # if s :      #S button pressed
-    #     solve_input()
+                screen.fill(background_color)  # you need this to overwrite
 
+                game_state = None  #so solve only runs once
 
 
         #get user input
@@ -580,18 +579,19 @@ def solve():
                 screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
     
         solved = is_it_solved(board)
-
+        # print("the puzzle is %r" % solved)
         if solved == False:
             solved_text = font.render("unable to solve puzzle" , True, (orange_color))
-        else:
+        elif solved == True:
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
 
- 
+        instruction_text = font.render("press S to solve", True ,(orange_color))
+        screen.blit(instruction_text, (2,731))
         screen.blit(grid_image, (0,0))
         screen.blit(solved_text, (50,50))
 
         pygame.display.update()     #internal function
-        clock.tick(60)  #600 makes the fan go crazy
+        clock.tick(60)  
 
     if solved != False:
         output_data(board,"newrawboard")
