@@ -155,25 +155,25 @@ def create_blank_board():
             allcells[cellname] = Blank_cell(r,c)
     return allcells
 
-# row1 = '061007003'
-# row2 = '092003000'
-# row3 = '000000000'
-# row4 = '008530000'
-# row5 = '000000504'
-# row6 = '500008000'
-# row7 = '040000001'
-# row8 = '000160800'
-# row9 = '600000000'
+row1 = '061007003'
+row2 = '092003000'
+row3 = '000000000'
+row4 = '008530000'
+row5 = '000000504'
+row6 = '500008000'
+row7 = '040000001'
+row8 = '000160800'
+row9 = '600000000'
 
-row1 = '000000680'
-row2 = '000073009'
-row3 = '309000045'
-row4 = '490000000'
-row5 = '803050902'
-row6 = '000000036'
-row7 = '960000308'
-row8 = '700680000'
-row9 = '028000000'
+# row1 = '000000680'
+# row2 = '000073009'
+# row3 = '309000045'
+# row4 = '490000000'
+# row5 = '803050902'
+# row6 = '000000036'
+# row7 = '960000308'
+# row8 = '700680000'
+# row9 = '028000000'
 
 dummyboard = []
 
@@ -520,7 +520,7 @@ def solve():
 
     #testing
     # print_grid(board,"value")
-    s = True
+    s = True            #just for testing
     if s :      #S button pressed
         solve_input()
 
@@ -578,7 +578,6 @@ def solve():
             solved_text = font.render("unable to solve puzzle" , True, (orange_color))
         else:
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
-            output_data(board,"newrawboard")
     
  
         screen.blit(grid_image, (0,0))
@@ -586,6 +585,9 @@ def solve():
 
         pygame.display.update()     #internal function
         clock.tick(60)  #600 makes the fan go crazy
+
+    if solved != False:
+        output_data(board,"newrawboard")
 
     pygame.quit()
 
