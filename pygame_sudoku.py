@@ -88,8 +88,9 @@ class Unknown_cell(Cell):
 
 class Blank_cell(Cell):
     #used in the SOLVING part of the program, not the game play
-    def __init__(self,row,col,value=0,answer=0):
+    def __init__(self,row,col,value=None,answer=None):
         super().__init__(row,col,value,answer)
+        self.guess = None
         # self.possibles = {1:1,2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9}
         self.possibles = {}
         # for p in range(1,10):
@@ -99,12 +100,12 @@ class Blank_cell(Cell):
     def change_cell_image(self):
     #changes the display image based on the "value"
     # if answer not none, use that.  otherwise, use value:
-        if self.value == None or self.answer == None:
+        if self.value == None and self.guess == None:
             self.image = None       #undo can set it back to zero
-        elif self.answer != 0:
-            self.image = pygame.image.load('numbers/%d_guess.png' % self.answer).convert_alpha()
-        else:
-            self.image = pygame.image.load('numbers/%d_guess.png' % self.value).convert_alpha()
+        elif self.guess != 0 and self.guess != None:
+            self.image = pygame.image.load('numbers/%d_guess.png' % self.guess).convert_alpha()
+        else:  #value is not none
+            self.image = pygame.image.load('numbers/%d_background_transparent.png' % self.value).convert_alpha()
       
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -154,6 +155,47 @@ def create_blank_board():
             allcells[cellname] = Blank_cell(r,c)
     return allcells
 
+#easy solve in 11 iterations of sole
+row1 = '530070000'
+row2 = '600195000'
+row3 = '098000060'
+row4 = '800060003'
+row5 = '400803001'
+row6 = '700020006'
+row7 = '060000280'
+row8 = '000419005'
+row9 = '000080079'
+
+dummyboard = []
+
+dummyboard.append(list(row1))
+dummyboard.append(list(row2))
+dummyboard.append(list(row3))
+dummyboard.append(list(row4))
+dummyboard.append(list(row5))
+dummyboard.append(list(row6))
+dummyboard.append(list(row7))
+dummyboard.append(list(row8))
+dummyboard.append(list(row9))
+print(dummyboard)
+print (dummyboard[2][4])
+
+
+def fill_blank_board(theboard,inputdata):
+    #this is used for testing the SOLVE portion of the game
+    #i don't want to have to type in a new playing board everytime for 
+    #testing.
+    
+    #easy solve in 11 iterations of sole
+    for r in range(9):
+        for c in range(9):
+            curr_cell = "r%dc%d" % (r+1,c+1)
+            theboard[curr_cell].value = int(inputdata[r][c])
+            if theboard[curr_cell].value == 0:
+                theboard[curr_cell].value = None
+            theboard[curr_cell].answer = theboard[curr_cell].value
+            theboard[curr_cell].change_cell_image()
+            
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
@@ -298,11 +340,14 @@ def main_menu():
 def solve():
     board = create_blank_board()
     
+    #this is only used when testing my solve logic
+    #otherwise the user will manually enter the board
+    fill_blank_board(board,dummyboard)
+
     #testing
     # print(board['r4c8'].possibles[8])
     # board['r8c3'].value = 7
     # board['r3c5'].answer = 5
-
     # print_grid(board,"answer")
     # print_grid(board,"value")
 
