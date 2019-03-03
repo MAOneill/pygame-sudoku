@@ -8,7 +8,6 @@ from pencil_strings import pencil_strings
 #raw board is an array of 9 arrays with 9 tuples each
 
 myrandom = random.randint(1, 3)   
-
 #this works...but some of the documentation says not to use it....
 exec('from board%d_raw import rawboard' % myrandom)
 
@@ -25,12 +24,6 @@ class Tcell():
             self.image = pygame.image.load('numbers/%d_pencil_diff.png' % self.number).convert_alpha()
         else:  #use blank
             self.image = pygame.image.load('numbers/pencil_blank_diff.png' ).convert_alpha()
-
-#for the possibles
-# class Pcell():
-#     def __init__(self,possible):
-#         self.possible = possible        #one through nine
-#         self.value = 0                  #can be 0 or 1
 
 class Cell():
     #define the playing cell.  there are 81 of these in an 9x9 soduko board
@@ -177,8 +170,7 @@ dummyboard.append(list(row6))
 dummyboard.append(list(row7))
 dummyboard.append(list(row8))
 dummyboard.append(list(row9))
-print(dummyboard)
-print (dummyboard[2][4])
+# print(dummyboard)
 
 
 def fill_blank_board(theboard,inputdata):
@@ -325,8 +317,8 @@ def main_menu():
         window_text = font.render('Enter A for Play mode.', True, (pitch_blue_color))
         window_text2 = font.render('Or B for solving mode.', True, (pitch_blue_color))
         
-        screen.blit(window_text, (100,100))
-        screen.blit(window_text2, (100,250))
+        screen.blit(window_text, (75,100))
+        screen.blit(window_text2, (75,250))
 
         pygame.display.update()     #internal function
 
@@ -351,14 +343,6 @@ def solve():
     # print_grid(board,"answer")
     # print_grid(board,"value")
 
-    # if type(board['r8c3']) == Blank_cell:
-    #     print("blank")
-    # else:
-    #     print("waht?")
-    # print(board['r8c3'].value)
-
-    # board['r8c3'].change_cell_image()
-    # print (board['r8c3'].image)
 
     # declare the size of the canvas
     width = 730
