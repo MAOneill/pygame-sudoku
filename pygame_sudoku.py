@@ -104,7 +104,6 @@ class Blank_cell(Cell):
         if self.answer != None:
             self.possibles ={}  #there are no possibles if known
         
-
       
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
@@ -195,7 +194,7 @@ def fill_blank_board(theboard,inputdata):
             theboard[curr_cell].answer = theboard[curr_cell].value
             theboard[curr_cell].change_cell_image()
             #initialize possbiles
-            theboard[curr_cell].solve_clear_possibles
+            theboard[curr_cell].solve_clear_possibles()
 
 def solve_remove_possibles(f_board):
     for f_cell in f_board.values():      #cycle through each cell
@@ -205,7 +204,7 @@ def solve_remove_possibles(f_board):
                 if (f_cell2.row == f_cell.row) or (f_cell2.col == f_cell.col) or (f_cell2.inner == f_cell.inner):  
                     if f_cell.answer in f_cell2.possibles.keys():
                         del f_cell2.possibles[f_cell.answer]
-        print(f_cell.row,f_cell.col,f_cell.possibles)
+        print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
 
 def solve_only():
     #if a cell only has ONE possible value, then that must be the answer
