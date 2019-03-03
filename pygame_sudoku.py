@@ -154,16 +154,16 @@ def create_blank_board():
             allcells[cellname] = Blank_cell(r,c)
     return allcells
 
-#easy solve in 11 iterations of sole
-row1 = '530070000'
-row2 = '600195000'
-row3 = '098000060'
-row4 = '800060003'
-row5 = '400803001'
-row6 = '700020006'
-row7 = '060000280'
-row8 = '000419005'
-row9 = '000080079'
+
+row1 = '061007003'
+row2 = '092003000'
+row3 = '000000000'
+row4 = '008530000'
+row5 = '000000504'
+row6 = '500008000'
+row7 = '040000001'
+row8 = '000160800'
+row9 = '600000000'
 
 dummyboard = []
 
@@ -231,12 +231,76 @@ def solve_only(f_board):
                 f_changed = True
     return f_changed
 
-def solve_unique(board):
+def solve_unique(f_board):
     f_change = False
     #if a cell within a row, or column, or inner cube is the only cell that can
     #be of a certain value, then that is the answer
+    f_unique_byrow = True
+    f_unique_bycol = True
+    f_unique_byinn = True
+    for f_cell in f_board.values():
+        #look at each possible value.  Is it a possible value in any other cell in that row?  is it a possbile in any other cell in that column?  Finally, is it a possibile value in any other cell in the inner cube?
+        for f_each_poss in f_cell.possibles.keys():
+            f_unique_byrow = True #reset for each possbile in each cell
+            f_unique_bycol = True #reset for each possbile in each cell
+            f_unique_byinn = True #reset for each possbile in each cell
+            for f_cell2 in f_board.values() :  #cycle through each 81 again
+                if f_cell.row == f_cell2.row and f_cell != f_cell2 :       #same row, but exclude same cell
+                    if f_each_poss in f_cell2.possibles.keys():
+                        f_unique_byrow = False
+                if f_cell.col == f_cell2.col and f_cell != f_cell2 :       #same column, but exclude same cell
+                    if f_each_poss in f_cell2.possibles.keys():
+                        f_unique_bycol = False
+                if f_cell.inner == f_cell2.inner and f_cell != f_cell2 :       #same row, but exclude same cell
+                    if f_each_poss in f_cell2.possibles.keys():
+                        f_unique_byinn = False
+            if f_unique_byrow or f_unique_bycol or f_unique_byinn:      #if any true:
+                #set the value of the cell equal to the possible value
+                f_cell.guess = f_each_poss
+                f_cell.answer = f_each_poss
+                f_cell.change_cell_image()            #update image
+                f_cell.solve_clear_possibles()
+                solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_each_poss,f_board)
+                f_change = True
+                return f_change
     return f_change
+
+    #for each row 1-9
+    #create dictionary to count the possibles
+
     
+    # for f_location in range(1,10):      #go through 1 to 9
+    #     f_temp_r_dict = {}
+    #     f_temp_c_dict = {}
+    #     f_temp_i_dict = {}
+    #     print(f_location)
+    #     for f_cell in f_board.values():   #go through all 81
+    #         #test rows first
+    #         if f_cell.row == f_location:
+    #             for f_each_key in f_cell.possibles.keys():
+    #                 if f_each_key in f_temp_r_dict.keys():
+    #                     f_temp_r_dict[f_each_key] +=1 
+    #                 else:
+    #                     f_temp_r_dict[f_each_key] = 1
+    #         #test columns next
+    #         if f_cell.col == f_location:
+    #             for f_each_key in f_cell.possibles.keys():
+    #                 if f_each_key in f_temp_c_dict.keys():
+    #                     f_temp_c_dict[f_each_key] +=1 
+    #                 else:
+    #                     f_temp_c_dict[f_each_key] = 1
+    #         #test rows first
+    #         if f_cell.inner == f_location:
+    #             for f_each_key in f_cell.possibles.keys():
+    #                 if f_each_key in f_temp_i_dict.keys():
+    #                     f_temp_i_dict[f_each_key] +=1 
+    #                 else:
+    #                     f_temp_i_dict[f_each_key] = 1
+    #     # print (f_location,f_temp_r_dict)
+    #     #then cycle through the filled dictionaries for r,c and i and look for the value of 1:
+
+    return f_change
+
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
@@ -275,9 +339,12 @@ def output_data(cube,newfile):
         for j in range(1,10):
             location = ('r%dc%d' % (i,j))
             aa =  (cube[location].value)    #user entered starting point
-            if aa == " ":
+            if aa == " " or aa == None:
                 aa = '0'
             bb =  (cube[location].answer)    #computer generated answer
+            if bb == " " or bb == None:
+                bb = '0'
+
             if j == 9:
                 answerstring = answerstring +  ("(%s,%s)" % (aa,bb))
             else:
@@ -388,6 +455,7 @@ def solve():
     print_grid(board,"answer")
 
     solve_remove_possibles(board)
+    
     changed = True
 
     while changed :     
@@ -395,7 +463,10 @@ def solve():
 
         if changed == False:
             changed = solve_unique(board)
-
+    
+    #take this out till end
+    # output_data(board,"newrawboard")
+    
     #testing
     # print_grid(board,"value")
 
