@@ -488,7 +488,9 @@ def solve():
 
     #this is only used when testing my solve logic
     #otherwise the user will manually enter the board
-    fill_blank_board(board,dummyboard)
+
+    # fill_blank_board(board,dummyboard)
+    
     # print_grid(board,"answer")
 
 
@@ -596,7 +598,8 @@ def solve():
                         board[cell].value = number
                     board[cell].answer = board[cell].value
                     board[cell].change_cell_image()
-                    board[cell].possibles = {}  #probably won't need this
+                    # board[cell].solve_update_possibles()
+                    # board[cell].possibles = {}  #probably won't need this
 
         # update the display
         # should only be done if there were changes....add this
