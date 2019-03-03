@@ -490,8 +490,6 @@ def solve():
     fill_blank_board(board,dummyboard)
     # print_grid(board,"answer")
 
-    #get user input
-    #when they press S - run solve program
 
     def solve_input():
         solve_remove_possibles(board)
@@ -517,12 +515,6 @@ def solve():
             if changed == False:
                 print("%r - running solved naked inner" % changed)
                 changed = solve_naked_subset(innboard)
-
-    #testing
-    # print_grid(board,"value")
-    s = True            #just for testing
-    if s :      #S button pressed
-        solve_input()
 
     # declare the size of the canvas
     width = 730
@@ -559,12 +551,27 @@ def solve():
 
         #get events from user - clicks, keyboard
         if event.type == pygame.KEYDOWN:   
-                # myentry = event.key
-                choices = {27:"Esc"}
-                game_state = choices.get(event.key,None)  #don't change the state unless a valid state
-                print ("game state is %s" % game_state)
-                if game_state == "Esc":  #this will end the game
-                    stop_game = True
+            # myentry = event.key
+            choices = {27:"Esc",115:"Solve",9:"Tab"}
+            game_state = choices.get(event.key,None)  #don't change the state unless a valid state
+            print ("game state is %s" % game_state)
+            if game_state == "Esc":  #this will end the game
+                stop_game = True
+            elif game_state == "Solve":
+                solve_input()
+                game_state = None  #so solve only runs once
+        #testing
+    # print_grid(board,"value")
+    # s = True            #just for testing
+    # if s :      #S button pressed
+    #     solve_input()
+
+
+
+        #get user input
+        #get mouse coordinates and 
+        #get number entered
+        #when they press S - run solve program
 
         # update the display
         # should only be done if there were changes....add this
@@ -578,7 +585,7 @@ def solve():
             solved_text = font.render("unable to solve puzzle" , True, (orange_color))
         else:
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
-    
+
  
         screen.blit(grid_image, (0,0))
         screen.blit(solved_text, (50,50))
@@ -607,7 +614,7 @@ def play():     #or rename this "Play"
     pitch_blue_color = (83,94,126)
     red_color = (255,0,0)
     green_color = (89,162,134)
-    orunningge_color = (224,95,20)
+    orange_color = (224,95,20)
     sea_foam_color = (159,209,204)
 
 
@@ -681,6 +688,7 @@ def play():     #or rename this "Play"
             if event.type == pygame.KEYDOWN:            #get game_state
                 # print('key down %r. game state is %s' % (event.key,game_state))
                 entry = event.key
+                print(entry)
                 # letter_choices = {121:"Y",115:"Solved",98:"Blank",103:"Newgame"}
                 letter_choices = {110:"Normal",112:"Pencil",27:"Esc",117:"Undo",104:"Hint",101:"Error"}
                 game_state = letter_choices.get(entry,game_state)  #don't change the state unless a valid state
