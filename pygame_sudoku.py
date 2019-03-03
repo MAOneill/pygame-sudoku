@@ -544,7 +544,7 @@ def solve():
     #set some fonts - do AFTER pygame.init
     # font = pygame.font.Font(None, 25)                 
     # #set sytem font.  (filename, size)
-    font = pygame.font.Font('fonts/cmtt10.ttf', 22)                           
+    font = pygame.font.Font('fonts/cmtt10.ttf', 48)                           
 
     #default images used throughout
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
@@ -582,7 +582,7 @@ def solve():
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
  
         screen.blit(grid_image, (0,0))
-        screen.blit(solved_text, (200,200))
+        screen.blit(solved_text, (50,50))
 
         pygame.display.update()     #internal function
         clock.tick(60)  #600 makes the fan go crazy
