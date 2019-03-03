@@ -197,6 +197,8 @@ def fill_blank_board(theboard,inputdata):
             theboard[curr_cell].solve_clear_possibles()
 
 def solve_remove_possibles(f_board):
+    print("setting initial possibles")
+
     for f_cell in f_board.values():      #cycle through each cell
         if f_cell.answer != None:    #if an answer known
             for f_cell2 in f_board.values():  
@@ -206,15 +208,35 @@ def solve_remove_possibles(f_board):
                         del f_cell2.possibles[f_cell.answer]
         print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
 
-def solve_only():
+def solve_update_possibles(f_r,f_c,f_inn,f_value,f_board):
+    print("updating possibles")
+
+    for f_cell in f_board.values():
+        if (f_r == f_cell.row) or (f_c == f_cell.col) or (f_inn == f_cell.inner):
+            if f_value in f_cell.possibles.keys():
+                del f_cell.possibles[f_value]
+        print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
+
+def solve_only(f_board):
+    f_changed = False
     #if a cell only has ONE possible value, then that must be the answer
-    pass
-    
-def solve_unique():
-    pass
+    for f_cell in f_board.values():
+        if len(f_cell.possibles) == 1:  #there is only one value
+            for f_thekey in f_cell.possibles.keys():  #there will only be one
+                f_cell.guess = f_thekey
+                f_cell.answer = f_thekey
+                f_cell.change_cell_image()
+                f_cell.solve_clear_possibles()
+                solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_thekey,f_board)
+                f_changed = True
+    return f_changed
+
+def solve_unique(board):
+    f_change = False
     #if a cell within a row, or column, or inner cube is the only cell that can
     #be of a certain value, then that is the answer
-
+    return f_change
+    
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
     #used for testing
@@ -366,6 +388,14 @@ def solve():
     print_grid(board,"answer")
 
     solve_remove_possibles(board)
+    changed = True
+
+    while changed :     
+        changed = solve_only(board)
+
+        if changed == False:
+            changed = solve_unique(board)
+
     #testing
     # print_grid(board,"value")
 
