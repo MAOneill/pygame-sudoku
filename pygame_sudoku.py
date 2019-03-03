@@ -155,15 +155,15 @@ def create_blank_board():
     return allcells
 
 
-row1 = '061007003'
-row2 = '092003000'
-row3 = '000000000'
-row4 = '008530000'
-row5 = '000000504'
-row6 = '500008000'
-row7 = '040000001'
-row8 = '000160800'
-row9 = '600000000'
+row1 = '046005700'
+row2 = '000900000'
+row3 = '090001006'
+row4 = '000000900'
+row5 = '030000000'
+row6 = '400520008'
+row7 = '080000070'
+row8 = '570300082'
+row9 = '200000300'
 
 dummyboard = []
 
@@ -259,8 +259,10 @@ def solve_unique(f_board):
                 f_cell.guess = f_each_poss
                 f_cell.answer = f_each_poss
                 f_cell.change_cell_image()            #update image
+                #clear the possibles in the current cell
                 f_cell.solve_clear_possibles()
                 # print("cell r%d c%d got value %d because row unique: %r or col unique %r or inner unique %r" % (f_cell.row,f_cell.col,f_each_poss,f_unique_byrow,f_unique_bycol,f_unique_byinn))
+                #update the possbiles in related cells
                 solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_each_poss,f_board)
                 f_change = True
                 return f_change
@@ -268,6 +270,11 @@ def solve_unique(f_board):
 
 
     return f_change
+
+def solve_naked_subset(f_board):
+    f_change = True
+    #
+    return False
 
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
@@ -417,10 +424,30 @@ def main_menu():
 def solve():
     board = create_blank_board()
     
+    # create 3 different dictionaries that have sub dictionaries by row, column, and inner  
+    # but they point to the exact same cell references
+
+    rowboard = {}
+    colboard = {}
+    innboard = {}
+    for i in range (1,10):
+        # initialze dictionaries
+        rowboard[i] = {}
+        colboard[i] = {}
+        innboard[i] = {}
+
+    for each_cell in board.values():
+        rowboard[each_cell.row]["r%dc%d" % (each_cell.row,each_cell.col)] = each_cell
+        colboard[each_cell.col]["r%dc%d" % (each_cell.row,each_cell.col)] = each_cell
+        innboard[each_cell.inner]["r%dc%d" % (each_cell.row,each_cell.col)] = each_cell
+        
     #this is only used when testing my solve logic
     #otherwise the user will manually enter the board
     fill_blank_board(board,dummyboard)
     print_grid(board,"answer")
+
+    # print("testing my newboards")
+    # print(rowboard[5]['r5c2'].answer)
 
     solve_remove_possibles(board)
     
@@ -432,6 +459,9 @@ def solve():
         if changed == False:
             changed = solve_unique(board)
     
+        if changed == False:
+            changed = solve_naked_subset(board)
+
     #take this out till end
     # output_data(board,"newrawboard")
     
