@@ -488,43 +488,41 @@ def solve():
     #this is only used when testing my solve logic
     #otherwise the user will manually enter the board
     fill_blank_board(board,dummyboard)
-    print_grid(board,"answer")
+    # print_grid(board,"answer")
 
-    # print("testing my newboards")
-    # print(rowboard[5]['r5c2'].answer)
+    #get user input
+    #when they press S - run solve program
 
-    solve_remove_possibles(board)
-    
-    changed = True
+    def solve_input():
+        solve_remove_possibles(board)
+        
+        changed = True
 
-    while changed :     
-        print("%r - running solve only" % changed)
-        changed = solve_only(board)
+        while changed :     
+            print("%r - running solve only" % changed)
+            changed = solve_only(board)
 
-        if changed == False:
-            print("%r - running unique" % changed)
-            changed = solve_unique(board)
-    
-        if changed == False:
-            print("%r - running solvd nakeed row" % changed )
-            changed = solve_naked_subset(rowboard)
+            if changed == False:
+                print("%r - running unique" % changed)
+                changed = solve_unique(board)
+        
+            if changed == False:
+                print("%r - running solvd nakeed row" % changed )
+                changed = solve_naked_subset(rowboard)
 
-        if changed == False:
-            print("%r - running solvd nakeed col" % changed)
-            changed = solve_naked_subset(colboard)
+            if changed == False:
+                print("%r - running solvd nakeed col" % changed)
+                changed = solve_naked_subset(colboard)
 
-        if changed == False:
-            print("%r - running solved naked inner" % changed)
-            changed = solve_naked_subset(innboard)
+            if changed == False:
+                print("%r - running solved naked inner" % changed)
+                changed = solve_naked_subset(innboard)
 
-
-
-    #take this out till end
-    # output_data(board,"newrawboard")
-    
     #testing
     # print_grid(board,"value")
-
+    s = True
+    if s :      #S button pressed
+        solve_input()
 
     # declare the size of the canvas
     width = 730
@@ -580,6 +578,8 @@ def solve():
             solved_text = font.render("unable to solve puzzle" , True, (orange_color))
         else:
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
+            output_data(board,"newrawboard")
+    
  
         screen.blit(grid_image, (0,0))
         screen.blit(solved_text, (50,50))
