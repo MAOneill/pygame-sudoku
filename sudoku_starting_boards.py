@@ -52,6 +52,7 @@ row9 = '500009001'
 #from http://apollon.issp.u-tokyo.ac.jp/~watanabe/sample/sudoku/index.html  (1)
 #the first two methods get you no where with this one...
 #will be good to test the other methods
+#first nake pair method won't solve this either - its gets you one value
 row1 = '046005700'
 row2 = '000900000'
 row3 = '090001006'
@@ -80,6 +81,7 @@ row9 = '600000000'
 #another one to test:
 #not solvable with sole and unique:
 # from https://www.websudoku.com/images/example-steps.html
+# i get furher with sole,unique and naked pair, but still not solvable
 row1 = '000000680'
 row2 = '000073009'
 row3 = '309000045'

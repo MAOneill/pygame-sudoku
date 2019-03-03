@@ -1,6 +1,8 @@
 import pygame
 import random 
 
+#note - I started prefixing all function scoped variables with an 'f'
+
 #this includes the strings to draw a custom cursor that kind of looks like a pencil
 from pencil_strings import pencil_strings
 
@@ -100,11 +102,10 @@ class Blank_cell(Cell):
     def solve_clear_possibles(self):
     # based on the known values/guesses (which are both stored in answers)
     # remove the appropriate key in possibles
-    # every cell begins with all 9 possbiles.
+    # every cell begins with all 9 possibles.
         if self.answer != None:
             self.possibles ={}  #there are no possibles if known
         
-      
 def create_cell(row,col,tuple,known):
     #process to create all 81 objects AND load them into an array
     #I didn't not put this inside a function because I need the individual
@@ -154,16 +155,25 @@ def create_blank_board():
             allcells[cellname] = Blank_cell(r,c)
     return allcells
 
+# row1 = '061007003'
+# row2 = '092003000'
+# row3 = '000000000'
+# row4 = '008530000'
+# row5 = '000000504'
+# row6 = '500008000'
+# row7 = '040000001'
+# row8 = '000160800'
+# row9 = '600000000'
 
-row1 = '046005700'
-row2 = '000900000'
-row3 = '090001006'
-row4 = '000000900'
-row5 = '030000000'
-row6 = '400520008'
-row7 = '080000070'
-row8 = '570300082'
-row9 = '200000300'
+row1 = '000000680'
+row2 = '000073009'
+row3 = '309000045'
+row4 = '490000000'
+row5 = '803050902'
+row6 = '000000036'
+row7 = '960000308'
+row8 = '700680000'
+row9 = '028000000'
 
 dummyboard = []
 
@@ -193,7 +203,7 @@ def fill_blank_board(theboard,inputdata):
                 theboard[curr_cell].value = None
             theboard[curr_cell].answer = theboard[curr_cell].value
             theboard[curr_cell].change_cell_image()
-            #initialize possbiles
+            #initialize possibles
             theboard[curr_cell].solve_clear_possibles()
 
 def solve_remove_possibles(f_board):
@@ -209,13 +219,13 @@ def solve_remove_possibles(f_board):
         print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
 
 def solve_update_possibles(f_r,f_c,f_inn,f_value,f_board):
-    # print("updating possibles")
+    print("updating possibles")
 
     for f_cell in f_board.values():
         if (f_r == f_cell.row) or (f_c == f_cell.col) or (f_inn == f_cell.inner):
             if f_value in f_cell.possibles.keys():
                 del f_cell.possibles[f_value]
-        # print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
+        print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
 
 def solve_only(f_board):
     f_changed = False
@@ -239,11 +249,11 @@ def solve_unique(f_board):
     f_unique_bycol = True
     f_unique_byinn = True
     for f_cell in f_board.values():
-        #look at each possible value.  Is it a possible value in any other cell in that row?  is it a possbile in any other cell in that column?  Finally, is it a possibile value in any other cell in the inner cube?
+        #look at each possible value.  Is it a possible value in any other cell in that row?  is it a possible in any other cell in that column?  Finally, is it a possibile value in any other cell in the inner cube?
         for f_each_poss in f_cell.possibles.keys():
-            f_unique_byrow = True #reset for each possbile in each cell
-            f_unique_bycol = True #reset for each possbile in each cell
-            f_unique_byinn = True #reset for each possbile in each cell
+            f_unique_byrow = True #reset for each possible in each cell
+            f_unique_bycol = True #reset for each possible in each cell
+            f_unique_byinn = True #reset for each possible in each cell
             for f_cell2 in f_board.values() :  #cycle through each 81 again
                 if f_cell.row == f_cell2.row and f_cell != f_cell2 :       #same row, but exclude same cell
                     if f_each_poss in f_cell2.possibles.keys():
@@ -262,7 +272,7 @@ def solve_unique(f_board):
                 #clear the possibles in the current cell
                 f_cell.solve_clear_possibles()
                 # print("cell r%d c%d got value %d because row unique: %r or col unique %r or inner unique %r" % (f_cell.row,f_cell.col,f_each_poss,f_unique_byrow,f_unique_bycol,f_unique_byinn))
-                #update the possbiles in related cells
+                #update the Possible in related cells
                 solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_each_poss,f_board)
                 f_change = True
                 return f_change
@@ -271,10 +281,44 @@ def solve_unique(f_board):
 
     return f_change
 
-def solve_naked_subset(f_board):
-    f_change = True
-    #
-    return False
+def remove_possible(f_value,f_special_board,fi,f_name1,f_name2):
+    f_change = False
+    for f_each_cell in f_special_board[fi].values():
+        if f_each_cell.name != f_name1 and f_each_cell.name != f_name2:
+            if f_value in f_each_cell.possibles.keys():
+                del f_each_cell.possibles[f_value]
+                f_change = True     #only set this to true if a possible was deleted
+                print("possibles for %s are %s" % (f_each_cell.name,f_each_cell.possibles.values()))
+    return f_change
+
+def solve_naked_subset(f_group_board):
+    #this finds cells where there are only 2 possibles
+    #for instance if 2 cells ONLY have two possible values, then those values can't be possibles in any other cells in that row /column/inner
+    f_change = False
+    # this uses
+    # rowboard[i] = {}
+    # colboard[i] = {}
+    # innboard[i] = {}
+
+    #for rows
+    for fi in range(1,10):
+        for f_each_cell in f_group_board[fi].values():
+            if len(f_each_cell.possibles) == 2: #only 2 possible values
+                    for f_each_cell2 in f_group_board[fi].values():
+                        if f_each_cell != f_each_cell2 and f_each_cell.possibles == f_each_cell2.possibles:
+                            #different cell, but the possible pairs are equal
+                            #then remove the possible values from all other cells in tht row
+                            for f_poss in f_each_cell.possibles.values():  #this will run twice
+                                print("removing %d because pair in %s and %s" %(f_poss, f_each_cell.name,f_each_cell2.name))
+                                f_change = f_change or remove_possible(f_poss,f_group_board,fi,f_each_cell.name,f_each_cell2.name)  #this could be true on one and false on another.  so if it is ever true, return true
+                            if f_change == True:
+                                return f_change     # as soon as there is a change, go back to top
+    return f_change
+
+def is_it_solved(f_board):
+    for f_each_cell in f_board.values():
+        if f_each_cell.answer == None:
+            return False
 
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
@@ -440,7 +484,7 @@ def solve():
         rowboard[each_cell.row]["r%dc%d" % (each_cell.row,each_cell.col)] = each_cell
         colboard[each_cell.col]["r%dc%d" % (each_cell.row,each_cell.col)] = each_cell
         innboard[each_cell.inner]["r%dc%d" % (each_cell.row,each_cell.col)] = each_cell
-        
+
     #this is only used when testing my solve logic
     #otherwise the user will manually enter the board
     fill_blank_board(board,dummyboard)
@@ -454,13 +498,26 @@ def solve():
     changed = True
 
     while changed :     
+        print("%r - running solve only" % changed)
         changed = solve_only(board)
 
         if changed == False:
+            print("%r - running unique" % changed)
             changed = solve_unique(board)
     
         if changed == False:
-            changed = solve_naked_subset(board)
+            print("%r - running solvd nakeed row" % changed )
+            changed = solve_naked_subset(rowboard)
+
+        if changed == False:
+            print("%r - running solvd nakeed col" % changed)
+            changed = solve_naked_subset(colboard)
+
+        if changed == False:
+            print("%r - running solved naked inner" % changed)
+            changed = solve_naked_subset(innboard)
+
+
 
     #take this out till end
     # output_data(board,"newrawboard")
@@ -476,7 +533,7 @@ def solve():
     #set some colores
     blue_color = (97, 159, 182)  
     background_color = (244,237,221)  #cream
-
+    orange_color = (192, 83, 64)
 
     #initalize pygame and playing window
     pygame.init()
@@ -516,8 +573,17 @@ def solve():
         for thecell in board.values():
             if thecell.image != None :
                 screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+    
+        solved = is_it_solved(board)
 
+        if solved == False:
+            solved_text = font.render("unable to solve puzzle" , True, (orange_color))
+        else:
+            solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
+ 
         screen.blit(grid_image, (0,0))
+        screen.blit(solved_text, (200,200))
+
         pygame.display.update()     #internal function
         clock.tick(60)  #600 makes the fan go crazy
 
@@ -539,7 +605,7 @@ def play():     #or rename this "Play"
     pitch_blue_color = (83,94,126)
     red_color = (255,0,0)
     green_color = (89,162,134)
-    orange_color = (224,95,20)
+    orunningge_color = (224,95,20)
     sea_foam_color = (159,209,204)
 
 
