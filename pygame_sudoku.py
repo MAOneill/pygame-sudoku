@@ -317,10 +317,9 @@ def solve_naked_subset(f_group_board):
 
 def is_it_solved(f_board):
     for f_each_cell in f_board.values():
-        if f_each_cell.answer == None:
+        if f_each_cell.answer == None or f_each_cell.answer == 0:
             return False
-        else:
-            return True
+    return True
 
 def print_grid(cube,what):  
     #function for printing my grid in python terminal
@@ -522,6 +521,8 @@ def solve():
     width = 730
     height = 780
 
+    row,col,cell,pencil_box,board_clicked = clear_coordinates()      
+
     #set some colores
     blue_color = (97, 159, 182)  
     background_color = (244,237,221)  #cream
@@ -568,9 +569,32 @@ def solve():
 
 
         #get user input
+#WORKING HERE RIGHT  NOW
         #get mouse coordinates and 
+        if event.type == pygame.MOUSEBUTTONDOWN:            #get board_coordinates
+                # if in game board return coordinates. 
+                # a click outside of the soduko board does NOTHING
+            row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
+            # entry = 0
+
         #get number entered
-        #when they press S - run solve program
+###not tested
+        if board_clicked == True :
+            if event.type == pygame.KEYDOWN:            #get game_state
+            # print('key down %r. game state is %s' % (event.key,game_state))
+                entry = event.key
+                choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0,8:0}
+                number = choices.get(entry, None) 
+                if number != None:      #it got a value number
+                    #update cell value
+
+                    #if user enters 0, blank out the value
+                    if number == 0:
+                        board[cell].value = None
+                    else:
+                        board[cell].value = number
+                    board[cell].answer = board[cell].value
+                    board[cell].change_cell_image()
 
         # update the display
         # should only be done if there were changes....add this
@@ -586,6 +610,8 @@ def solve():
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
 
         instruction_text = font.render("press S to solve", True ,(orange_color))
+        
+
         screen.blit(instruction_text, (2,731))
         screen.blit(grid_image, (0,0))
         screen.blit(solved_text, (50,50))
@@ -794,7 +820,7 @@ def play():     #or rename this "Play"
                     board_clicked = False
 
         # Draw background
-        screen.fill(background_color)
+        screen.fill(background_color)   # this does not overlay everything!!
 
         # Game display 
         #only do this if there has been a change (any_change)
