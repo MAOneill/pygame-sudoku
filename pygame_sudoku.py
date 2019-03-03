@@ -209,13 +209,13 @@ def solve_remove_possibles(f_board):
         print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
 
 def solve_update_possibles(f_r,f_c,f_inn,f_value,f_board):
-    print("updating possibles")
+    # print("updating possibles")
 
     for f_cell in f_board.values():
         if (f_r == f_cell.row) or (f_c == f_cell.col) or (f_inn == f_cell.inner):
             if f_value in f_cell.possibles.keys():
                 del f_cell.possibles[f_value]
-        print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
+        # print(f_cell.row,f_cell.col,f_cell.answer,f_cell.possibles)
 
 def solve_only(f_board):
     f_changed = False
@@ -260,44 +260,12 @@ def solve_unique(f_board):
                 f_cell.answer = f_each_poss
                 f_cell.change_cell_image()            #update image
                 f_cell.solve_clear_possibles()
+                # print("cell r%d c%d got value %d because row unique: %r or col unique %r or inner unique %r" % (f_cell.row,f_cell.col,f_each_poss,f_unique_byrow,f_unique_bycol,f_unique_byinn))
                 solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_each_poss,f_board)
                 f_change = True
                 return f_change
     return f_change
 
-    #for each row 1-9
-    #create dictionary to count the possibles
-
-    
-    # for f_location in range(1,10):      #go through 1 to 9
-    #     f_temp_r_dict = {}
-    #     f_temp_c_dict = {}
-    #     f_temp_i_dict = {}
-    #     print(f_location)
-    #     for f_cell in f_board.values():   #go through all 81
-    #         #test rows first
-    #         if f_cell.row == f_location:
-    #             for f_each_key in f_cell.possibles.keys():
-    #                 if f_each_key in f_temp_r_dict.keys():
-    #                     f_temp_r_dict[f_each_key] +=1 
-    #                 else:
-    #                     f_temp_r_dict[f_each_key] = 1
-    #         #test columns next
-    #         if f_cell.col == f_location:
-    #             for f_each_key in f_cell.possibles.keys():
-    #                 if f_each_key in f_temp_c_dict.keys():
-    #                     f_temp_c_dict[f_each_key] +=1 
-    #                 else:
-    #                     f_temp_c_dict[f_each_key] = 1
-    #         #test rows first
-    #         if f_cell.inner == f_location:
-    #             for f_each_key in f_cell.possibles.keys():
-    #                 if f_each_key in f_temp_i_dict.keys():
-    #                     f_temp_i_dict[f_each_key] +=1 
-    #                 else:
-    #                     f_temp_i_dict[f_each_key] = 1
-    #     # print (f_location,f_temp_r_dict)
-    #     #then cycle through the filled dictionaries for r,c and i and look for the value of 1:
 
     return f_change
 
