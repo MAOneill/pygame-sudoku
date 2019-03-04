@@ -211,6 +211,7 @@ def solve_remove_possibles(f_board):
 
     for f_cell in f_board.values():      #cycle through each cell
         if f_cell.answer != None:    #if an answer known
+            f_cell.solve_clear_possibles()
             for f_cell2 in f_board.values():  
                 #cycle through each cell again and clear out the row, col, and inner possibles for that value
                 if (f_cell2.row == f_cell.row) or (f_cell2.col == f_cell.col) or (f_cell2.inner == f_cell.inner):  
@@ -276,9 +277,6 @@ def solve_unique(f_board):
                 solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_each_poss,f_board)
                 f_change = True
                 return f_change
-    return f_change
-
-
     return f_change
 
 def remove_possible(f_value,f_special_board,fi,f_name1,f_name2):
@@ -567,6 +565,7 @@ def solve():
                 stop_game = True
             elif game_state == "Solve":
                 solve_input()
+                # print_grid(board,"answers")
                 screen.fill(background_color)  # you need this to overwrite
 
                 game_state = None  #so solve only runs once
@@ -576,6 +575,18 @@ def solve():
                     solved_text = font.render("unable to solve puzzle" , True, (orange_color))
                 elif solved == True:
                     solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
+            elif game_state == "Tab" and cell != 0:
+                #increase row by 1
+
+                if col == 9 and row == 9:
+                    row = 1
+                    col = 1
+                elif col == 9:
+                    col = 1
+                    row += 1
+                else:
+                    col += 1
+                cell = "r%dc%d" % (row,col)
 
 
         #get user input
