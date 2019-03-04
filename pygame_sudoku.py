@@ -543,6 +543,7 @@ def solve():
 
     #default images used throughout
     grid_image = pygame.image.load('numbers/big_grid_lines.png').convert_alpha()
+    outline_image = pygame.image.load('numbers/outline.png').convert_alpha()
 
     # Draw background
     screen.fill(background_color)
@@ -571,21 +572,23 @@ def solve():
 
 
         #get user input
-#WORKING HERE RIGHT  NOW
         #get mouse coordinates and 
         if event.type == pygame.MOUSEBUTTONDOWN:            #get board_coordinates
                 # if in game board return coordinates. 
                 # a click outside of the soduko board does NOTHING
             row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
             # entry = 0
+            # if cell != 0:    #Meaning we have a cell selected
+            # screen.blit(outline_image, (((col-1)*81),((row-1)*81)))
+
 
         #get number entered
-###not tested
         if board_clicked == True :
             if event.type == pygame.KEYDOWN:            #get game_state
             # print('key down %r. game state is %s' % (event.key,game_state))
                 entry = event.key
                 choices = {49:1,50:2,51:3,52:4,53:5,54:6,55:7,56:8,57:9,48:0,8:0}
+
                 number = choices.get(entry, None) 
                 if number != None:      #it got a value number
                     #update cell value
@@ -600,12 +603,16 @@ def solve():
                     board[cell].change_cell_image()
                     # board[cell].solve_update_possibles()
                     # board[cell].possibles = {}  #probably won't need this
+        
+        screen.fill(background_color)  # you need this to overwrite
 
         # update the display
         # should only be done if there were changes....add this
         for thecell in board.values():
             if thecell.image != None :
                 screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
+                # screen.blit(outline_image, (((col-1)*81),((row-1)*81)))
+
     
         solved = is_it_solved(board)
         # print("the puzzle is %r" % solved)
@@ -613,13 +620,16 @@ def solve():
             solved_text = font.render("unable to solve puzzle" , True, (orange_color))
         elif solved == True:
             solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
-
+        
+     
         instruction_text = font.render("press S to solve", True ,(orange_color))
         
 
         screen.blit(instruction_text, (2,731))
         screen.blit(grid_image, (0,0))
         screen.blit(solved_text, (50,50))
+        if cell != 0:
+            screen.blit(outline_image, (((col-1)*81),((row-1)*81)))
 
         pygame.display.update()     #internal function
         clock.tick(60)  
@@ -666,6 +676,7 @@ def play():     #or rename this "Play"
     pencil_grid_image = pygame.image.load('numbers/litte_grid_lines.png').convert_alpha()
     # big_x_image = pygame.image.load('numbers/x.png').convert_alpha()
     big_x_image = pygame.image.load('numbers/x_diffuse.png').convert_alpha()
+    
 
 
     ##################################################################################################
