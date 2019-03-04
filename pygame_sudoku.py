@@ -408,6 +408,16 @@ def clear_coordinates():
     # entry = 0   #should this be here??
     return r,c,cl,board_clicked,penc
 
+def sanity_check(f_special_board):
+    for fi in range(1,10):
+        f_dict = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0}
+        for f_cell in f_special_board[fi].values():
+            if f_cell.answer in range (1,10):
+                f_dict[f_cell.answer] += 1  #add one to the counter
+                if f_dict[f_cell.answer] > 1:
+                    return False
+    return True  
+        
 def main_menu():
     width = 400
     height = 400
@@ -567,17 +577,21 @@ def solve():
             if game_state == "Esc":  #this will end the game
                 stop_game = True
             elif game_state == "Solve":
-                solve_input()
-                # print_grid(board,"answers")
-                screen.fill(background_color)  # you need this to overwrite
+                if sanity_check(rowboard) and sanity_check(colboard) and sanity_check(innboard):
+                    solve_input()
+                    # print_grid(board,"answers")
+                    screen.fill(background_color)  # you need this to overwrite
 
-                game_state = None  #so solve only runs once
-                solved = is_it_solved(board)
-                # print("the puzzle is %r" % solved)
-                if solved == False:
-                    solved_text = font.render("unable to solve puzzle" , True, (orange_color))
-                elif solved == True:
-                    solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
+                    game_state = None  #so solve only runs once
+                    solved = is_it_solved(board)
+                    # print("the puzzle is %r" % solved)
+                    if solved == False:
+                        solved_text = font.render("unable to solve puzzle" , True, (orange_color))
+                    elif solved == True:
+                        solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
+                else:
+                    print("can not solve this board - does not pass the mustard")
+
             elif game_state == "Tab" and cell != 0:
                 #increase row by 1
 
