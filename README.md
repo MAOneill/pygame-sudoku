@@ -11,3 +11,6 @@ Logic steps are formalized here: https://www.kristanix.com/sudokuepic/sudoku-sol
 
 This project also incoproates pygame so that the entire game is visual and interactive.
 
+Fun extras:
+The pencil space includes a custome pencil shaped mouse pointer
+All graphics were created using illustrator
