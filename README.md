@@ -14,3 +14,6 @@ This project also incoproates pygame so that the entire game is visual and inter
 Fun extras:
 The pencil space includes a custome pencil shaped mouse pointer
 All graphics were created using illustrator
+
+if you want to play this, make sure pygame is installed.
+Then run the pygame_sudoku.py file
