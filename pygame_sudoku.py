@@ -9,7 +9,7 @@ from pencil_strings import pencil_strings
 #this is the functiont that can read in the raw board settings
 #raw board is an array of 9 arrays with 9 tuples each
 
-myrandom = random.randint(1, 4)   
+myrandom = random.randint(1, 5)   
 #this works...but some of the documentation says not to use it....
 exec('from board%d_raw import rawboard' % myrandom)
 
@@ -518,17 +518,17 @@ def solve():
                 print("%r - running unique" % changed)
                 changed = solve_unique(board)
         
-            # if changed == False:
-            #     print("%r - running solvd nakeed row" % changed )
-            #     changed = solve_naked_subset(rowboard)
+            if changed == False:
+                print("%r - running solvd nakeed row" % changed )
+                changed = solve_naked_subset(rowboard)
 
-            # if changed == False:
-            #     print("%r - running solvd nakeed col" % changed)
-            #     changed = solve_naked_subset(colboard)
+            if changed == False:
+                print("%r - running solvd nakeed col" % changed)
+                changed = solve_naked_subset(colboard)
 
-            # if changed == False:
-            #     print("%r - running solved naked inner" % changed)
-            #     changed = solve_naked_subset(innboard)
+            if changed == False:
+                print("%r - running solved naked inner" % changed)
+                changed = solve_naked_subset(innboard)
 
     # declare the size of the canvas
     width = 730
