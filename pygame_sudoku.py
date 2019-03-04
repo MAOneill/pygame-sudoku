@@ -9,7 +9,7 @@ from pencil_strings import pencil_strings
 #this is the functiont that can read in the raw board settings
 #raw board is an array of 9 arrays with 9 tuples each
 
-myrandom = random.randint(1, 3)   
+myrandom = random.randint(1, 4)   
 #this works...but some of the documentation says not to use it....
 exec('from board%d_raw import rawboard' % myrandom)
 
@@ -236,6 +236,9 @@ def solve_only(f_board):
             for f_thekey in f_cell.possibles.keys():  #there will only be one
                 f_cell.guess = f_thekey
                 f_cell.answer = f_thekey
+                
+                print("changing %s to %d" % (f_cell.name,f_thekey))
+
                 f_cell.change_cell_image()
                 f_cell.solve_clear_possibles()
                 solve_update_possibles(f_cell.row,f_cell.col,f_cell.inner,f_thekey,f_board)
@@ -505,17 +508,17 @@ def solve():
                 print("%r - running unique" % changed)
                 changed = solve_unique(board)
         
-            if changed == False:
-                print("%r - running solvd nakeed row" % changed )
-                changed = solve_naked_subset(rowboard)
+            # if changed == False:
+            #     print("%r - running solvd nakeed row" % changed )
+            #     changed = solve_naked_subset(rowboard)
 
-            if changed == False:
-                print("%r - running solvd nakeed col" % changed)
-                changed = solve_naked_subset(colboard)
+            # if changed == False:
+            #     print("%r - running solvd nakeed col" % changed)
+            #     changed = solve_naked_subset(colboard)
 
-            if changed == False:
-                print("%r - running solved naked inner" % changed)
-                changed = solve_naked_subset(innboard)
+            # if changed == False:
+            #     print("%r - running solved naked inner" % changed)
+            #     changed = solve_naked_subset(innboard)
 
     # declare the size of the canvas
     width = 730
