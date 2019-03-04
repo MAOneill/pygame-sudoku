@@ -548,6 +548,7 @@ def solve():
     # Draw background
     screen.fill(background_color)
     stop_game = False
+    solved_text = font.render("" , True, (orange_color))
 
     while not stop_game:
 
@@ -569,6 +570,12 @@ def solve():
                 screen.fill(background_color)  # you need this to overwrite
 
                 game_state = None  #so solve only runs once
+                solved = is_it_solved(board)
+                # print("the puzzle is %r" % solved)
+                if solved == False:
+                    solved_text = font.render("unable to solve puzzle" , True, (orange_color))
+                elif solved == True:
+                    solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
 
 
         #get user input
@@ -578,8 +585,6 @@ def solve():
                 # a click outside of the soduko board does NOTHING
             row,col,cell,board_clicked,pencil_box = set_coordinates_from_click(event)
             # entry = 0
-            # if cell != 0:    #Meaning we have a cell selected
-            # screen.blit(outline_image, (((col-1)*81),((row-1)*81)))
 
 
         #get number entered
@@ -611,15 +616,9 @@ def solve():
         for thecell in board.values():
             if thecell.image != None :
                 screen.blit(thecell.image, (thecell.x_position,thecell.y_position))
-                # screen.blit(outline_image, (((col-1)*81),((row-1)*81)))
 
     
-        solved = is_it_solved(board)
-        # print("the puzzle is %r" % solved)
-        if solved == False:
-            solved_text = font.render("unable to solve puzzle" , True, (orange_color))
-        elif solved == True:
-            solved_text = font.render("Puzzle Solved!!" , True, (orange_color))
+
         
      
         instruction_text = font.render("press S to solve", True ,(orange_color))
