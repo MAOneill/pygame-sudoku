@@ -659,7 +659,11 @@ def solve():
             screen.blit(outline_image, (((col-1)*81),((row-1)*81)))
 
         pygame.display.update()     #internal function
-        clock.tick(60)  
+        #i turned the fps down to 10 from 60...i don't need 
+        #fast graphics AND this slowed my tabbing function
+        #to a reasonable speed so that it is useable.
+        clock.tick(10)  #this is frames per second, i think
+
 
     if solved != False:
         output_data(board,"newrawboard")
